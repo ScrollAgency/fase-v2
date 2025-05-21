@@ -1,0 +1,513 @@
+.dataGridWrapper {
+  width: 100%;
+  overflow: hidden;
+  /* background: white; */
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  border-radius: 12px;
+  /* border: 1px solid #E5E7EB; */
+  position: relative;
+}
+
+.dataGridWrapper[data-sticky-header="true"] .dataGridHeader {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.dataGridWrapper[data-overflow-x="auto"],
+.dataGridWrapper[data-overflow-x="scroll"] {
+  overflow-x: auto;
+}
+
+.dataGridWrapper[data-overflow-y="auto"],
+.dataGridWrapper[data-overflow-y="scroll"] {
+  overflow-y: auto;
+}
+
+.dataGridTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: var(--table-min-width, 100%);
+  max-width: var(--table-max-width, none);
+}
+
+.dataGridHeader {
+  background-color: white;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.headerCell {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 500;
+  color: #666666;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+  font-family: 'Manrope', sans-serif;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dataGridRow {
+  border-bottom: 1px solid #E5E7EB;
+  transition: background-color 0.2s;
+}
+
+.dataGridRow:hover {
+  background-color: #F9FAFB;
+}
+
+.dataGridCell {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #131013;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Manrope', sans-serif;
+}
+
+.statusTag {
+  display: inline-flex;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  align-items: center;
+  justify-content: center;
+}
+
+.statusTag[data-status="Non catégorisé"] {
+  background-color: #EAEAEC;
+  color: #43454D;
+}
+
+.statusTag[data-status="À planifier"] {
+  background-color: #FDF9EB;
+  color: #AD5B2B;
+}
+
+.statusTag[data-status="À engager"] {
+  background-color: #FCF1F1;
+  color: #AB3832;
+}
+
+.statusTag[data-status="En cours"] {
+  background-color: #F1FBF3;
+  color: #387C39;
+}
+
+.statusTag[data-status="Classé"] {
+  background-color: #8B7355;
+  color: #FFFFFF;
+}
+
+.typeTag {
+  display: inline-flex;
+  padding: 4px 12px;
+  border-radius: 16px;
+  background-color: #E9D5FF;
+  color: #6B21A8;
+  font-size: 14px;
+  font-weight: 500;
+  align-items: center;
+  justify-content: center;
+}
+
+.dataGridActions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.actionButton:hover {
+  opacity: 0.7;
+}
+
+.edit {
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.5 14.375V17.5H5.625L14.8417 8.28334L11.7167 5.15834L2.5 14.375ZM17.2583 5.86667C17.5833 5.54167 17.5833 5.01667 17.2583 4.69167L15.3083 2.74167C14.9833 2.41667 14.4583 2.41667 14.1333 2.74167L12.6083 4.26667L15.7333 7.39167L17.2583 5.86667Z' fill='%23666666'/%3E%3C/svg%3E");
+}
+
+.delete {
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 15.8333C5 16.75 5.75 17.5 6.66667 17.5H13.3333C14.25 17.5 15 16.75 15 15.8333V5.83333H5V15.8333ZM15.8333 3.33333H12.9167L12.0833 2.5H7.91667L7.08333 3.33333H4.16667V5H15.8333V3.33333Z' fill='%23666666'/%3E%3C/svg%3E");
+}
+
+.dataGridPagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-top: 1px solid #E5E7EB;
+  font-family: 'Manrope', sans-serif;
+}
+
+.paginationInfo {
+  font-size: 14px;
+  color: #666666;
+}
+
+.paginationControls {
+  display: flex;
+  gap: 8px;
+}
+
+.paginationButton {
+  padding: 6px 12px;
+  border-radius: 4px;
+  background-color: white;
+  color: #666666;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border: 1px solid #E5E7EB;
+}
+
+.paginationButton:hover:not([aria-disabled="true"]) {
+  background-color: #F9FAFB;
+}
+
+.paginationButton[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sortIcon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+}
+
+.dataGridEmpty {
+  padding: 24px;
+  text-align: center;
+  color: #666666;
+  font-family: 'Manrope', sans-serif;
+}
+
+.dataGridError {
+  padding: 24px;
+  text-align: center;
+  color: #DC2626;
+  font-family: 'Manrope', sans-serif;
+}
+
+.dataGridLoading {
+  padding: 24px;
+  text-align: center;
+  color: #666666;
+  font-family: 'Manrope', sans-serif;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.data-grid-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.data-grid-container {
+  min-width: 1000px;
+  font-family: 'Manrope', sans-serif;
+}
+
+.data-grid-header {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  background-color: #f6f3ef;
+  border-bottom: 1px solid #d9cdbf;
+}
+
+.data-grid-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  border-bottom: 1px solid #ece6df;
+  transition: background-color 0.2s ease;
+}
+
+.data-grid-row:hover {
+  background-color: #f9f5ff;
+}
+
+.data-grid-cell {
+  padding: 16px;
+  font-size: 14px;
+  color: #333333;
+}
+
+.header-cell {
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-icon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  position: relative;
+}
+
+.sort-icon.asc::after {
+  content: '▲';
+  font-size: 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.sort-icon.desc::after {
+  content: '▼';
+  font-size: 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.data-grid-toolbar {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.data-grid-export {
+  display: flex;
+  gap: 8px;
+}
+
+.data-grid-button {
+  padding: 8px 16px;
+  border: 1px solid #d9cdbf;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.data-grid-button:hover {
+  background-color: #f6f3ef;
+}
+
+.data-grid-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 16px;
+}
+
+.action-button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  transition: background-color 0.2s ease;
+}
+
+.action-button:hover {
+  background-color: #f6f3ef;
+}
+
+.action-button.edit {
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'/%3E%3Cpath d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'/%3E%3C/svg%3E");
+}
+
+.action-button.delete {
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'/%3E%3C/svg%3E");
+}
+
+.data-grid-error {
+  padding: 16px;
+  color: #dc2626;
+  background-color: #fef2f2;
+  border-radius: 4px;
+}
+
+.data-grid-error h3 {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.data-grid-loading {
+  padding: 16px;
+  text-align: center;
+}
+
+.data-grid-spinner {
+  width: 32px;
+  height: 32px;
+  margin: 0 auto 8px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.data-grid-empty {
+  padding: 16px;
+  text-align: center;
+  color: #666666;
+}
+
+.data-grid-pagination {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pagination-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.pagination-button {
+  padding: 8px 16px;
+  border: 1px solid #d9cdbf;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #f6f3ef;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Status colors */
+.status-badge.non-categorise {
+  background-color: #eaeaec;
+  color: #43454d;
+}
+
+.status-badge.a-planifier {
+  background-color: #fdf9eb;
+  color: #ad5b2b;
+}
+
+.status-badge.a-engager {
+  background-color: #fcf1f1;
+  color: #ab3832;
+}
+
+.status-badge.en-cours {
+  background-color: #f1fbf3;
+  color: #387c39;
+}
+
+@media (max-width: 768px) {
+  .dataGridWrapper[data-compact="true"] {
+    font-size: 12px;
+  }
+
+  .dataGridWrapper[data-compact="true"] .dataGridCell {
+    padding: 8px 12px;
+  }
+
+  .dataGridWrapper[data-compact="true"] .headerCell {
+    padding: 8px 12px;
+  }
+
+  .dataGridWrapper[data-compact="true"] .statusTag,
+  .dataGridWrapper[data-compact="true"] .typeTag {
+    padding: 2px 8px;
+    font-size: 12px;
+  }
+
+  .dataGridWrapper[data-compact="true"] .dataGridActions {
+    gap: 8px;
+  }
+
+  .dataGridWrapper[data-compact="true"] .actionButton {
+    width: 16px;
+    height: 16px;
+  }
+
+  .dataGridPagination {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .paginationControls {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* Add border radius to first and last header cells */
+.dataGridHeader th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.dataGridHeader th:last-child {
+  border-top-right-radius: 12px;
+}
+
+/* Add border radius to first and last cells of the last row */
+.dataGridRow:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+.dataGridRow:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+} 

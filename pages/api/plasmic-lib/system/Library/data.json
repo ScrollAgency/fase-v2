@@ -1,0 +1,244 @@
+{
+  "components": [
+    {
+      "id": 1,
+      "name": "ForgotPassword",
+      "category": "authentication",
+      "version": "0.0.1"
+    },
+    {
+      "id": 2,
+      "name": "Login",
+      "category": "authentication",
+      "version": "0.0.1"
+    },
+    {
+      "id": 3,
+      "name": "ResetPassword",
+      "category": "authentication",
+      "version": "0.0.1"
+    },
+    {
+      "id": 4,
+      "name": "SignUp",
+      "category": "authentication",
+      "version": "0.0.2"
+    },
+    {
+      "id": 5,
+      "name": "JamBadge",
+      "category": "badges",
+      "version": "0.0.1"
+    },
+    {
+      "id": 6,
+      "name": "ProfileBadge",
+      "category": "badges",
+      "version": "0.0.1"
+    },
+    {
+      "id": 7,
+      "name": "ButtonApple",
+      "category": "buttons",
+      "version": "0.0.1"
+    },
+    {
+      "id": 8,
+      "name": "ButtonGoogle",
+      "category": "buttons",
+      "version": "0.0.1"
+    },
+    {
+      "id": 9,
+      "name": "ButtonWalk",
+      "category": "buttons",
+      "version": "0.0.1"
+    },
+    {
+      "id": 10,
+      "name": "JamButton",
+      "category": "buttons",
+      "version": "0.0.1"
+    },
+    {
+      "id": 11,
+      "name": "SitexButton",
+      "category": "buttons",
+      "version": "0.0.1"
+    },
+    {
+      "id": 12,
+      "name": "CardComplex",
+      "category": "cards",
+      "version": "0.0.2"
+    },
+    {
+      "id": 13,
+      "name": "CardSimple",
+      "category": "cards",
+      "version": "0.0.1"
+    },
+    {
+      "id": 14,
+      "name": "HeroCard",
+      "category": "cards",
+      "version": "0.0.1"
+    },
+    {
+      "id": 15,
+      "name": "JobCard",
+      "category": "cards",
+      "version": "0.0.1"
+    },
+    {
+      "id": 16,
+      "name": "LibraryCard",
+      "category": "cards",
+      "version": "0.0.1"
+    },
+    {
+      "id": 17,
+      "name": "Checkbox",
+      "category": "forms",
+      "version": "0.0.1"
+    },
+    {
+      "id": 18,
+      "name": "DropDown",
+      "category": "forms",
+      "version": "0.0.1"
+    },
+    {
+      "id": 19,
+      "name": "DropdownMultiSelect",
+      "category": "forms",
+      "version": "0.0.1"
+    },
+    {
+      "id": 20,
+      "name": "JamCheckbox",
+      "category": "forms",
+      "version": "0.0.1"
+    },
+    {
+      "id": 21,
+      "name": "JamDropdown",
+      "category": "forms",
+      "version": "0.0.1"
+    },
+    {
+      "id": 22,
+      "name": "JamTextInput",
+      "category": "forms",
+      "version": "0.0.1"
+    },
+    {
+      "id": 23,
+      "name": "Option",
+      "category": "forms",
+      "version": "0.0.1"
+    },
+    {
+      "id": 24,
+      "name": "PasswordCheckIndicator",
+      "category": "forms",
+      "version": "0.0.1"
+    },
+    {
+      "id": 25,
+      "name": "PhoneSelector",
+      "category": "forms",
+      "version": "0.0.1"
+    },
+    {
+      "id": 26,
+      "name": "SitexForm",
+      "category": "forms",
+      "version": "0.0.1"
+    },
+    {
+      "id": 27,
+      "name": "SitexFormv2",
+      "category": "forms",
+      "version": "0.0.1"
+    },
+    {
+      "id": 28,
+      "name": "SitexTextInput",
+      "category": "forms",
+      "version": "0.0.1"
+    },
+    {
+      "id": 29,
+      "name": "TextInput",
+      "category": "forms",
+      "version": "0.0.1"
+    },
+    {
+      "id": 30,
+      "name": "FileUploader",
+      "category": "others",
+      "version": "0.0.1"
+    },
+    {
+      "id": 31,
+      "name": "Map",
+      "category": "others",
+      "version": "0.0.1"
+    },
+    {
+      "id": 32,
+      "name": "ProgressBar",
+      "category": "others",
+      "version": "0.0.1"
+    },
+    {
+      "id": 33,
+      "name": "TextLink",
+      "category": "others",
+      "version": "0.0.1"
+    },
+    {
+      "id": 34,
+      "name": "Toast",
+      "category": "others",
+      "version": "0.0.1"
+    },
+    {
+      "id": 35,
+      "name": "Toggle",
+      "category": "others",
+      "version": "0.0.1"
+    },
+    {
+      "id": 36,
+      "name": "UserTable",
+      "category": "others",
+      "version": "0.0.1"
+    },
+    {
+      "id": 397,
+      "name": "AlertManager",
+      "category": "alerts",
+      "version": "unknown"
+    },
+    {
+      "id": 434,
+      "name": "Library",
+      "category": "system",
+      "version": "0.0.1"
+    },
+    {
+      "id": 472,
+      "name": "Library-old",
+      "category": "system",
+      "version": "0.0.1"
+    }
+  ],
+  "settings": [
+    {
+      "key": "version",
+      "value": "v0.2.10"
+    }
+  ]
+}

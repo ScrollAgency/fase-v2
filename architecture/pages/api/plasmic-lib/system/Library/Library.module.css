@@ -1,0 +1,230 @@
+.library {
+  display: flex;
+  flex-direction: row;
+align-items: center;
+}
+
+.heroImage {
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  margin-top: -30px; /* Ajuste selon le besoin */
+}
+
+.cardDefaultWidth {
+  width: 450px;
+}
+
+.cardHeader {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.cardTitle {
+  font-weight: bold;
+  font-size: 1.125rem; /* text-large */
+}
+
+.cardSubtitle {
+  font-size: 0.75rem; /* text-tiny */
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.cardDescription {
+  color: #6b7280; /* text-default-500 */
+}
+
+.cardFooter {
+  position: absolute; /* Positionnement absolu pour superposer au-dessus de l'image */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.1); /* Avant : bg-white/10 */
+  border-color: rgba(255, 255, 255, 0.2); /* Avant : border-white/20 */
+  border-width: 1px;
+  border-radius: 1rem; /* rounded-xl */
+  z-index: 10; /* Assurez-vous qu'il soit au-dessus de l'image */
+}
+
+
+.cardFooterText {
+  font-size: 0.75rem; /* text-tiny */
+  color: #6b7280; /* text-default-500 */
+}
+
+.cardButton {
+  font-size: 0.75rem; /* text-tiny */
+  color: white;
+  background-color: rgba(0, 0, 0, 0.2); /* bg-black/20 */
+  border-radius: 1rem; /* rounded-lg */
+  padding: 0.25rem 0.5rem;
+  width: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 20;
+}
+
+.overlayInner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+
+.parametersContainer {
+  width: 90%;
+  height: 75%;
+  margin-top: 75px;
+  background-color: white;
+  opacity: 0.9;
+  padding: 24px;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #4b5563;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.headerTitle {
+  font-weight: bold;
+  font-size: 1.125rem;
+  margin-bottom: 16px;
+}
+
+.statusMessage {
+  margin-top: 16px;
+  padding: 8px;
+  border-left-width: 4px;
+  border-radius: 8px;
+  background-color: #bfdbfe;
+  border-color: #60a5fa;
+  color: #2563eb;
+}
+
+.versionInfo {
+  margin-top: 16px;
+  color: #4b5563;
+}
+
+.updateButton {
+  margin-top: 16px;
+  background-color: #3b82f6;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.updateButton:hover {
+  background-color: #2563eb;
+}
+
+.menuSection {
+  margin-top: 24px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  border-bottom: 1px solid #d1d5db;
+  padding-bottom: 8px;
+}
+
+.parametersContainer ul {
+  padding-left: 24px;
+}
+.menuItem {
+  cursor: pointer;
+  color: #4b5563;
+  list-style-type: disc;
+}
+
+.menuItem:hover {
+  color: #1f2937;
+}
+
+
+.detailsWrapper {
+  /* Styles personnalisés pour le composant Details */
+  margin-left: -20px;
+  height: 450px;
+  padding: 16px 16px 16px 36px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.detailsHeader {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #1f2937;
+}
+
+.statusMessage {
+  margin-top: 16px;
+  padding: 8px;
+  border-left-width: 4px;
+  border-radius: 8px;
+  background-color: #bfdbfe;
+  border-color: #60a5fa;
+  color: #2563eb;
+}
+
+.versionInfo {
+  margin-top: 16px;
+  color: #4b5563;
+}
+
+.updateButton {
+  margin-top: 16px;
+  background-color: #3b82f6;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.updateButton:hover {
+  background-color: #2563eb;
+}
+
+.componentList {
+  padding: 12px;
+}
+.componentList ul {
+  padding-left: 24px;
+  font-size: 14px;
+}
+.componentButtons {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  row-gap: 12px;
+  padding-top: 24px;
+}

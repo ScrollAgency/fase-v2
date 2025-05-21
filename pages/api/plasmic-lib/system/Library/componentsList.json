@@ -1,0 +1,218 @@
+{
+  "AlertManager": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "alerts"
+  },
+  "AccountParameters": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "authentication"
+  },
+  "ForgotPassword": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "authentication"
+  },
+  "Login": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "authentication"
+  },
+  "ResetPassword": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "authentication"
+  },
+  "SignUp": {
+    "localVersion": "0.0.2",
+    "remoteVersion": "0.0.2",
+    "status": "uptodate",
+    "category": "authentication"
+  },
+  "JamBadge": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "badges"
+  },
+  "ProfileBadge": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "badges"
+  },
+  "ButtonWalk": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "buttons"
+  },
+  "JamButton": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "buttons"
+  },
+  "SitexButton": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "buttons"
+  },
+  "CardComplex": {
+    "localVersion": "0.0.2",
+    "remoteVersion": "0.0.2",
+    "status": "uptodate",
+    "category": "cards"
+  },
+  "CardSimple": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "cards"
+  },
+  "HeroCard": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "cards"
+  },
+  "JobCard": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "cards"
+  },
+  "LibraryCard": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "cards"
+  },
+  "OperationCard": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "cards"
+  },
+  "Checkbox": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "forms"
+  },
+  "DropDown": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "forms"
+  },
+  "DropdownMultiSelect": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "forms"
+  },
+  "JamCheckbox": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "forms"
+  },
+  "JamDropdown": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "forms"
+  },
+  "JamTextInput": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "forms"
+  },
+  "Option": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "forms"
+  },
+  "PasswordCheckIndicator": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "forms"
+  },
+  "PhoneSelector": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "forms"
+  },
+  "SitexForm": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "forms"
+  },
+  "SitexFormv2": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "forms"
+  },
+  "SitexTextInput": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "forms"
+  },
+  "TextInput": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "forms"
+  },
+  "FileUploader": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "others"
+  },
+  "Map": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "others"
+  },
+  "ProgressBar": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "others"
+  },
+  "TextLink": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "others"
+  },
+  "Toast": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "others"
+  },
+  "Toggle": {
+    "localVersion": "0.0.1",
+    "remoteVersion": "0.0.1",
+    "status": "uptodate",
+    "category": "others"
+  }
+}
