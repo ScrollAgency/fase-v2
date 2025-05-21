@@ -13,6 +13,7 @@ export const presets = {
       rowGap: "32px",
     },
     card: {
+      position: "relative",
       padding: "48px",
       backgroundColor: getTokenValue("white"),
       borderRadius: "24px",
@@ -21,6 +22,7 @@ export const presets = {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
+      alignItems: "center",
       boxShadow: getTokenValue("shadow-medium"),
       border: `1px solid ${getTokenValue("sand-200-borders")}`,
       width: "100%",
@@ -40,8 +42,22 @@ export const presets = {
         rowGap: "16px",
       }
     },
+    overlay: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      backgroundColor: "rgba(0, 0, 0, 0.4)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 100,
+      margin: 0,
+    },
     custom: {
       padding: "48px",
+      width: "100%",
       borderRadius: "16px",
       backgroundColor: getTokenValue("secondary"),
       boxShadow: getTokenValue("shadow-small"),
@@ -88,6 +104,14 @@ export const presets = {
       fontSize: "32px",
       lineHeight: "140%",
       color: getTokenValue("primary"),
+      paddingBottom: "18px",
+    },
+    heading4: {
+      fontFamily: "Manrope",
+      fontWeight: "bold",
+      fontSize: "20px",
+      lineHeight: "150%",
+      color: getTokenValue("brand-black"),
     },
 
   passwordInputWrapper: {
@@ -98,6 +122,18 @@ export const presets = {
     marginBottom: "24px",
   },
 
+  alerts: {
+    error: {
+      backgroundColor: getTokenValue("warning-background"),
+      color: getTokenValue("warning-text"),
+      border: `1px solid ${getTokenValue("warning-border")}`,
+      padding: "12px",
+      borderRadius: "4px",
+      marginBottom: "10px",
+      fontSize: "14px"
+    }
+  },
+  
   // à ranger
   togglePasswordVisibility: {
     position: "absolute",
@@ -289,6 +325,7 @@ export const presets = {
     display: "flex",
     flexDirection: "column",
     rowGap: "16px",
+    width: "100%",
   },
 
   formLabel: {

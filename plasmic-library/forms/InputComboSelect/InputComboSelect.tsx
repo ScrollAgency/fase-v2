@@ -9,10 +9,10 @@ export interface InputComboSelectProps {
   className?: string;
 }
 
-function InputComboSelect_(
+const InputComboSelect_ = (
   props: InputComboSelectProps,
-  ref: HTMLElementRefOf<"div">
-) {
+  ref: React.Ref<HTMLDivElement | null>
+) => {
   const { value = 0, onChange, className } = props;
   const [open, setOpen] = React.useState(false);
 
@@ -35,6 +35,8 @@ function InputComboSelect_(
 
   const options = Array.from({ length: 20 }, (_, i) => i + 1);
 
+  React.useImperativeHandle(ref, () => wrapperRef.current);
+
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -50,16 +52,9 @@ function InputComboSelect_(
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  
+
   return (
-    <div
-      ref={(node) => {
-        wrapperRef.current = node;
-        if (typeof ref === "function") ref(node);
-        else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
-      }}
-      className={`${styles.wrapper} ${className}`}
-    >
+    <div ref={wrapperRef} className={`${styles.wrapper} ${className}`}>
       <input
         type="number"
         value={value}
@@ -86,8 +81,7 @@ function InputComboSelect_(
       )}
     </div>
   );
-}
-
+};
 
 const InputComboSelect = React.forwardRef(InputComboSelect_);
 export default InputComboSelect;
