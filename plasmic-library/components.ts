@@ -149,5 +149,6 @@ export { default as PageLoaderMeta } from "./others/PageLoader/PageLoader.meta";
 //       SmartLoader
 export { default as SmartLoader } from "./others/SmartLoader/SmartLoader";
 export { default as SmartLoaderMeta } from "./others/SmartLoader/SmartLoader.meta";
-
-export { default as MapBoxSimple } from "./MapBoxSimple/MapBoxSimple.meta";
+//       MapBoxSimple
+export { default as MapBoxSimple } from "./MapBoxSimple/MapBoxSimple";
+export { default as MapBoxSimpleMeta } from "./MapBoxSimple/MapBoxSimple.meta";
