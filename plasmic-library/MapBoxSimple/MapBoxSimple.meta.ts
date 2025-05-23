@@ -1,10 +1,10 @@
-const MapBoxMeta = {
+const MapBoxSimpleMeta = {
     section: "Map",
-    displayName: "MapBox",
+    displayName: "MapBoxSimple",
     description: "carte avec adresse MapBox",
     thumbnailUrl: "https://plasmic-api.agence-scroll.com/mapbox.png",
     type: "component",
-    name: "MapBox",
+    name: "MapBoxSimple",
     props: {
         address: {
             type: "string",
@@ -47,6 +47,6 @@ const MapBoxMeta = {
             required: false
         }
     },
-    importPath: "./components/MapBox/MapBox",
+    importPath: "./components/MapBoxSimple/MapBoxSimple",
 }
-export default MapBoxMeta;
+export default MapBoxSimpleMeta;

@@ -7,10 +7,10 @@ import { IoMdPin } from "react-icons/io";
 
 import { geocodeAddress } from './geocoding';
 
-import styles from './MapBox.module.css';
+import styles from './MapBoxSimple.module.css';
 
 // Définir les props pour le composant MapBox
-interface MapBoxProps {
+interface MapBoxSimpleProps {
     address: string;
     mapStyle?: string;
     pin?: string;
@@ -19,7 +19,7 @@ interface MapBoxProps {
     initialZoom?: number;
 }
 
-export default function MapBox( props: MapBoxProps) {
+export default function MapBoxSimple( props: MapBoxSimpleProps) {
     const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
     const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
 
