@@ -1,4 +1,4 @@
-import { tokens } from "./tokens-sitex";
+import { tokens } from "./tokens-fase";
 
 export const getTokenValue = (name: string) => tokens.find((token) => token.name === name)?.value || name;
 
@@ -14,10 +14,10 @@ export const presets = {
     },
     card: {
       position: "relative",
-      padding: "48px",
+      padding: "0px",
       backgroundColor: getTokenValue("white"),
       borderRadius: "24px",
-      rowGap: "24px",
+      rowGap: "0px",
       textAlign: "left",
       display: "flex",
       flexDirection: "column",
@@ -31,13 +31,13 @@ export const presets = {
       boxSizing: "border-box",
     
       "@media (max-width: 768px)": {
-        padding: "24px",
+        padding: "0px",
         borderRadius: "16px",
         rowGap: "20px",
       },
 
       "@media (max-width: 480px)": {
-        padding: "20px",
+        padding: "0px",
         borderRadius: "12px",
         rowGap: "16px",
       }
@@ -119,7 +119,7 @@ export const presets = {
     display: "flex",
     flexDirection: "column",
     rowGap: "12px",
-    marginBottom: "24px",
+    marginBottom: "0px",
   },
 
   alerts: {
@@ -160,11 +160,13 @@ export const presets = {
   // Buttons
   buttons: {
     primary: {
-      backgroundColor: getTokenValue("primary"),
+      backgroundColor: getTokenValue("black-500"),
+      boxShadow: "0px 1px 2px 0px rgba(10, 13, 18, 0.05)",
+      padding: "16px 28px",
       color: getTokenValue("white"),
       fontFamily: "Manrope, sans-serif",
       width: "100%",
-      height: "48px",
+      /*height: "48px",*/
       fontWeight: "bold",
       fontSize: "16px",
       lineHeight: "24px",
@@ -239,7 +241,8 @@ export const presets = {
   inputGroup: {
     display: "flex",
     gap: "16px",
-    alignItems: "flex-start",
+    alignItems: "stretch",
+    flexDirection:"column-reverse",
     width: "100%",
   },
   inputGroupItem: {
@@ -251,7 +254,7 @@ export const presets = {
   inputs: {
     simple: {
       fontFamily: "Manrope, sans-serif",
-      padding: "12px",
+      padding: "12px 24px",
       width: "100%",
       height: "48px",
       color: getTokenValue("grey-400"),
