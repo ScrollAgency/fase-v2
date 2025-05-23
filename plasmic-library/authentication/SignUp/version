@@ -1,8 +1,1 @@
-1.0.1 : modification style - Marius - 22/05
-    - ⚙️ Ajouter un style paramétrable au composant Signup (padding, couleur de fond personnalisée pour le bouton d'inscription).
-
-1.0.2 : SignUp-  Masquer la case à cocher de politique de confidentialité lorsque le texte(label ) est vide
-        -Cette modification améliore l'expérience utilisateur en supprimant l'affichage de la case à cocher de politique de confidentialité quand la propriété privacyPolicyText est vide. Cela évite d'avoir un élément d'interface sans contexte explicatif associé.
-
-
-
+1.0.0
