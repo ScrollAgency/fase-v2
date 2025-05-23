@@ -1,1 +1,6 @@
-1.0.0
+1.0.1 : modification style - Marius - 22/05
+    - ⚙️ Ajouter un style paramétrable au composant Signup (padding, couleur de fond personnalisée pour le bouton d'inscription).
+
+
+
+
