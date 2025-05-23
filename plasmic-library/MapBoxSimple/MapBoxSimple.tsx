@@ -17,6 +17,7 @@ interface MapBoxSimpleProps {
     pinSize?: number;
     pinColor?: string;
     initialZoom?: number;
+    className?: string;
 }
 
 export default function MapBoxSimple( props: MapBoxSimpleProps) {
@@ -35,7 +36,7 @@ export default function MapBoxSimple( props: MapBoxSimpleProps) {
     setCoordinates();
 
     return (
-        <main className={styles.mainStyle}>
+        <main className={`${styles.mainStyle} ${props.className}`} >
             {coords &&
                 <Map
                     mapboxAccessToken={mapboxToken}
