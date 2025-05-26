@@ -606,12 +606,14 @@ function SignUp_(
           </div>
         </div>
 
-        <div style={presets.checkboxGroup}>
-          <input type="checkbox" id="termsCheckbox" required />
-          <label htmlFor="termsCheckbox" style={presets.checkboxLabel}>
-            {privacyPolicyText}
-          </label>
-        </div>
+        {privacyPolicyText && (
+          <div style={presets.checkboxGroup}>
+            <input type="checkbox" id="termsCheckbox" required />
+            <label htmlFor="termsCheckbox" style={presets.checkboxLabel}>
+              {privacyPolicyText}
+            </label>
+          </div>
+        )}
 
         <button
           type="submit"

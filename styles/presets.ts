@@ -26,7 +26,7 @@ export const presets = {
       boxShadow: getTokenValue("shadow-medium"),
       border: `1px solid ${getTokenValue("sand-200-borders")}`,
       width: "100%",
-      maxWidth: "630px",
+      /*maxWidth: "630px",*/
       minHeight: "auto",
       boxSizing: "border-box",
     
