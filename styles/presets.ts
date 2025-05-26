@@ -161,8 +161,9 @@ export const presets = {
   buttons: {
     primary: {
       backgroundColor: getTokenValue("black-500"),
-      boxShadow: "0px 1px 2px 0px rgba(10, 13, 18, 0.05)",
+      boxShadow: "0px 4px 10px 0px rgba(0, 0, 0, 0.25)",
       padding: "16px 28px",
+      marginTop:"8px",
       color: getTokenValue("white"),
       fontFamily: "Manrope, sans-serif",
       width: "100%",
@@ -172,6 +173,7 @@ export const presets = {
       lineHeight: "24px",
       borderRadius: "8px",
       cursor: "pointer",
+      
     },
     secondary: {
       backgroundColor: getTokenValue("sand"),

@@ -4,7 +4,6 @@ import { NextResponse, type NextRequest } from 'next/server'
 const loginPage = '/login'
 
 const publicRoutes = [
-    '/',
     '/plasmic-host',
 
     '/login',
