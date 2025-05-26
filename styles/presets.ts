@@ -259,7 +259,7 @@ export const presets = {
       padding: "12px 24px",
       width: "100%",
       height: "48px",
-      color: getTokenValue("grey-400"),
+      color: getTokenValue("black-500"),
       fontWeight: 600,
       borderRadius: "8px",
       borderColor: getTokenValue("grey-200"),
@@ -268,12 +268,12 @@ export const presets = {
       backgroundColor: getTokenValue("white"),
       focus: {
         outline: "none",
-        borderColor: getTokenValue("purple-500"),
+        /*borderColor: getTokenValue("purple-500"),*/
         boxShadow: getTokenValue("shadow-focus"),
       },
       placeholder: {
         opacity: "1",
-        color: "inherit",
+        color: getTokenValue("grey-400"),
         fontFamily: "Manrope, sans-serif",
       },
     },
