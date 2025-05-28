@@ -268,7 +268,7 @@ export const presets = {
       backgroundColor: getTokenValue("white"),
       focus: {
         outline: "none",
-        /*borderColor: getTokenValue("purple-500"),*/
+        borderColor: "none",
         boxShadow: getTokenValue("shadow-focus"),
       },
       placeholder: {

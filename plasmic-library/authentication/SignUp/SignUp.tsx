@@ -92,6 +92,7 @@ export interface SignUpProps {
   showPasswordToggle?: boolean;
   showOAuthButtons?: boolean;
   showPhone?: boolean;
+  showPrivacyPolicy?: boolean;
   showLoginLink?: boolean;
   showPasswordStrength?: boolean;
 
@@ -173,6 +174,7 @@ function SignUp_(
   showPasswordToggle = true,
   showOAuthButtons = true,
   showPhone = false,
+  showPrivacyPolicy = true,
   showLoginLink = true,
   showLabels = true,
   showPasswordStrength = true,
@@ -197,6 +199,8 @@ function SignUp_(
   const headingStyle = presets[headingKey] || presets.heading1;
   const Title = titleHeading as keyof JSX.IntrinsicElements;
   const [email, setEmail] = useState(props.email || "");
+  const [touched, setTouched] = useState({ email: false });
+  const [emailMatch, setEmailMatch] = useState(false);
   const [firstName, setFirstName] = useState(props.firstName || "");
   const [lastName, setLastName] = useState(props.lastName || "");
   const [password, setPassword] = useState(props.password || "");
@@ -215,11 +219,11 @@ function SignUp_(
   // Messages d'erreur par défaut
   const defaultErrorMessages = {
     invalidEmail: "L'adresse email n'est pas valide",
+    emailExists: "Cette adresse email est déjà utilisée",
     weakPassword: "Le mot de passe est trop faible. Utilisez au moins 8 caractères avec des lettres, chiffres et symboles.",
     passwordMismatch: "Les mots de passe ne correspondent pas",
     invalidPhone: "Veuillez entrer un numéro de téléphone valide",
     networkError: "Une erreur réseau s'est produite. Veuillez réessayer.",
-    emailExists: "Cette adresse email est déjà utilisée",
     signupSuccess: "Votre compte a été créé avec succès! Veuillez vérifier vos emails pour confirmer votre compte."
   };
 
@@ -246,9 +250,11 @@ function SignUp_(
 
   // Gestion du changement des inputs
   const handleEmailChange = useCallback((value: string) => {
-      setEmail(value);
-      if (onEmailChange) onEmailChange(value);
-    }, [onEmailChange]);
+    setEmail(value);
+    const isValid = validateEmail(value);
+    setEmailMatch(isValid || value.length <= 5); // Pas d'erreur avant 5 caractères
+    if (onEmailChange) onEmailChange(value);
+  }, [onEmailChange]);
 
   const handleFirstNameChange = useCallback((value: string) => {
     setFirstName(value);
@@ -348,13 +354,6 @@ function SignUp_(
     if (props.password) checkPasswordStrength(props.password);
   }, [props.email, props.firstName, props.lastName, props.password, props.confirmPassword, props.phone, checkPasswordStrength]);
 
-  // Nettoyage des alertes
-  useEffect(() => {
-    return () => {
-      setAlerts([]);
-    };
-  }, []);
-
   // Rendu des boutons OAuth
   const renderOAuthButtons = () => {
     if (!showOAuthButtons) return null;
@@ -395,15 +394,16 @@ function SignUp_(
   // Fonction de soumission du formulaire
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // Réinitialiser les alertes existantes
     setAlerts([]);
 
     const errors: string[] = [];
 
     // Validation de l'email
-    if (!validateEmail(email)) {
+    if (!validateEmail(email) && email.length > 5) {
+      setEmailMatch(false);
       errors.push(errorMessages.invalidEmail);
+    } else {
+      setEmailMatch(true);
     }
 
     // Validation des mots de passe
@@ -415,7 +415,7 @@ function SignUp_(
     }
 
     // Vérification de la force du mot de passe
-    if (passwordStrength < 2) {
+    if (passwordStrength < 3) {
       errors.push(errorMessages.weakPassword);
     }
 
@@ -447,7 +447,7 @@ function SignUp_(
     if (onSubmit) {
       try {
         await onSubmit(e, formData);
-        addAlert('success', "Votre compte a été créé avec succès! Veuillez vérifier vos emails pour confirmer votre compte.");
+        addAlert('success', errorMessages.signupSuccess);
 
         // Redirection après succès
         setTimeout(() => {
@@ -459,6 +459,22 @@ function SignUp_(
       }
     }
   };
+
+  useEffect(() => {
+    return () => {
+      setAlerts([]);
+    };
+  }, []);
+
+  useEffect(() => {
+    const pwd = props.password || "";
+    setPassword(pwd);
+    checkPasswordStrength(pwd);
+  }, [props.password, checkPasswordStrength]);
+  
+  useEffect(() => {
+    setConfirmPassword(props.confirmPassword || "");
+  },  [props.confirmPassword]);
 
   return (
     <div
@@ -524,9 +540,15 @@ function SignUp_(
             placeholder={placeholderEmail}
             value={email}
             onChange={(e) => handleEmailChange(e.target.value)}
+            onBlur={() => setTouched((prev) => ({ ...prev, email: true }))}
             required
             style={presets.inputs[inputStyle]}
           />
+          {touched.email && !emailMatch && (
+            <small style={{ color: 'red', marginTop: 4 }}>
+              {errorMessages.invalidEmail}
+            </small>
+          )}
         </div>
 
         {showPhone && (
@@ -549,7 +571,9 @@ function SignUp_(
           </div>
         )}
         <div style={presets.inputField}>
-          <label style={presets.formLabel as React.CSSProperties} htmlFor="passwordInput">{passwordLabel}</label>
+          {showLabels && (
+            <label style={presets.formLabel as React.CSSProperties} htmlFor="passwordInput">{passwordLabel}</label>
+          )}
           <div style={presets.passwordInputWrapper as React.CSSProperties}>
             <input
               type={showPassword ? "text" : "password"}
@@ -582,7 +606,9 @@ function SignUp_(
         </div>
 
         <div style={presets.inputField}>
-          <label style={presets.formLabel as React.CSSProperties} htmlFor="confirmPasswordInput">{confirmPasswordLabel}</label>
+          {showLabels && (
+            <label style={presets.formLabel as React.CSSProperties} htmlFor="confirmPasswordInput">{confirmPasswordLabel}</label>
+          )}
           <div style={presets.passwordInputWrapper as React.CSSProperties}>
             <input
               type={showConfirmPassword ? "text" : "password"}
@@ -604,11 +630,18 @@ function SignUp_(
               </button>
             )}
           </div>
+
+          {!passwordsMatch && (
+            <small style={{ color: 'red', marginTop: 4 }}>
+              {errorMessages.passwordMismatch}
+            </small>
+          )}
+
         </div>
 
-        {privacyPolicyText && (
+        {showPrivacyPolicy && (
           <div style={presets.checkboxGroup}>
-            <input type="checkbox" id="termsCheckbox" required />
+            <input type="checkbox" id="termsCheckbox" required={showPrivacyPolicy} />
             <label htmlFor="termsCheckbox" style={presets.checkboxLabel}>
               {privacyPolicyText}
             </label>
