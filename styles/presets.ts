@@ -85,7 +85,7 @@ export const presets = {
 
   // typography
     heading1: {
-      fontFamily: "Manrope, sans-serif",
+      fontFamily: "Poppins, sans-serif",
       fontWeight: "bold",
       fontSize: "48px",
       lineHeight: "120%",
@@ -107,7 +107,7 @@ export const presets = {
       paddingBottom: "18px",
     },
     heading4: {
-      fontFamily: "Manrope",
+      fontFamily: "Poppins",
       fontWeight: "bold",
       fontSize: "20px",
       lineHeight: "150%",
@@ -146,7 +146,7 @@ export const presets = {
   },
 
   checkPassword: {
-    fontFamily: "Manrope, sans-serif",
+    fontFamily: "Poppins, sans-serif",
     fontWeight: "500",
     fontSize: "14px",
     color: getTokenValue("grey-700"),
@@ -165,7 +165,7 @@ export const presets = {
       padding: "16px 28px",
       marginTop:"8px",
       color: getTokenValue("white"),
-      fontFamily: "Manrope, sans-serif",
+      fontFamily: "Poppins, sans-serif",
       width: "100%",
       /*height: "48px",*/
       fontWeight: "bold",
@@ -178,7 +178,7 @@ export const presets = {
     secondary: {
       backgroundColor: getTokenValue("sand"),
       color: getTokenValue("lavender"),
-      fontFamily: "Manrope, sans-serif",
+      fontFamily: "Poppins, sans-serif",
       fontWeight: "bold",
       fontSize: "16px",
       padding: "12px 20px",
@@ -190,7 +190,7 @@ export const presets = {
     tertiary: {
       backgroundColor: "transparent",
       color: getTokenValue("lavender-500"),
-      fontFamily: "Manrope, sans-serif",
+      fontFamily: "Poppins, sans-serif",
       fontWeight: "bold",
       fontSize: "16px",
       width: "100%",
@@ -255,7 +255,7 @@ export const presets = {
 
   inputs: {
     simple: {
-      fontFamily: "Manrope, sans-serif",
+      fontFamily: "Poppins, sans-serif",
       padding: "12px 24px",
       width: "100%",
       height: "48px",
@@ -274,7 +274,7 @@ export const presets = {
       placeholder: {
         opacity: "1",
         color: getTokenValue("grey-400"),
-        fontFamily: "Manrope, sans-serif",
+        fontFamily: "Poppins, sans-serif",
       },
     },
     advance: {
@@ -334,7 +334,7 @@ export const presets = {
   },
 
   formLabel: {
-    fontFamily: "Manrope, sans-serif",
+    fontFamily: "Poppins, sans-serif",
     fontSize: "14px",
     fontWeight: "bold",
     color: getTokenValue("grey-900"),
@@ -346,7 +346,7 @@ export const presets = {
   },
 
   formMessage: {
-    fontFamily: "Manrope, sans-serif",
+    fontFamily: "Poppins, sans-serif",
     fontWeight: "500",
     fontSize: "20px",
     color: getTokenValue("grey-900"),
@@ -405,7 +405,7 @@ export const presets = {
   },
 
   accountInfos: {
-    fontFamily: "Manrope, sans-serif",
+    fontFamily: "Poppins, sans-serif",
     fontWeight: "regular",
     fontSize: "12px",
     lineHeight: "130%",
