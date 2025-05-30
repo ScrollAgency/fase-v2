@@ -167,7 +167,7 @@ export const presets = {
 			fontFamily: "Poppins, sans-serif",
 			width: "100%",
 			/*height: "48px",*/
-			fontWeight: "bold",
+			fontWeight: "600",
 			fontSize: "16px",
 			lineHeight: "24px",
 			borderRadius: "8px",
@@ -257,7 +257,7 @@ export const presets = {
 			padding: "12px 24px",
 			width: "100%",
 			height: "48px",
-			color: getTokenValue("grey-700"),
+			color: getTokenValue("black-500"),
 			fontWeight: 400,
 			fontStyle: "normal",
 			lineHeight: "20px",
