@@ -10,7 +10,7 @@ const publicRoutes = [
     '/collections',
     '/parcours-groupe',
     '/collections/[id]',
-    '/events/id',
+    '/events/[id]',
     '/events',
     '/explorer',
     '/actualites',
@@ -77,6 +77,7 @@ export async function middleware(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser()
       
+    /*
     const isPublicRoute = publicRoutes.some(route => {
       if (route.includes('[recovery_token]')) {
           const regex = new RegExp(`^${route.replace('[recovery_token]', '(.*)')}$`)
@@ -84,6 +85,12 @@ export async function middleware(request: NextRequest) {
       }
       return route === request.nextUrl.pathname
     })
+    */
+   const isPublicRoute = publicRoutes.some(route => {
+      const pattern = '^' + route.replace(/\[.*?\]/g, '[^/]+') + '$';
+      const regex = new RegExp(pattern);
+      return regex.test(request.nextUrl.pathname);
+    });
   
     if (!isPublicRoute && !user) {
         const url = request.nextUrl.clone()
