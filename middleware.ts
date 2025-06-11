@@ -16,7 +16,6 @@ const publicRoutes = [
 	"/actualites",
 	"/news",
 	"/news/[id]",
-	"/parametres",
 	"/parcours/[id]",
 
 	"/login",
@@ -92,13 +91,9 @@ export async function middleware(request: NextRequest) {
 		}
 		// Routes avec paramètres dynamiques
 		if (route.includes("[") && route.includes("]")) {
-			// Convertir la route en regex
-			// /collections/[id] -> /collections/(.+)
-			// /reset-password/[recovery_token] -> /reset-password/(.+)
 			const regexPattern = route
 				.replace(/\[[\w-]+\]/g, "([^/]+)") 
-				.replace(/\//g, "\\/"); // Échappe les slashes
-
+				.replace(/\//g, "\\/"); 
 			const regex = new RegExp(`^${regexPattern}$`);
 			return regex.test(currentPath);
 		}
