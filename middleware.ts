@@ -8,8 +8,8 @@ const publicRoutes = [
 
 	"/",
 	"/collections",
-	"/parcours-groupe/[id]",
 	"/collections/[id]",
+	"/parcours-groupe/[id]",
 	"/events/[id]",
 	"/events",
 	"/explorer",
