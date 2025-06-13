@@ -1,15 +1,20 @@
-const MapBoxSimpleMeta = {
+const MapBoxMultipleMeta = {
     section: "Map",
-    displayName: "MapBoxSimple",
-    description: "carte avec adresse MapBox",
+    displayName: "MapBoxMultiple",
+    description: "carte avec plusieurs adresses MapBox",
     thumbnailUrl: "https://plasmic-api.agence-scroll.com/mapbox.png",
     type: "component",
-    name: "MapBoxSimple",
+    name: "MapBoxMultiple",
     props: {
-        address: {
-            type: "string",
+        locations: {
+            type: "array",
             section: "general",
             required: true
+        },
+        centerAddress: {
+            type: "string",
+            section: "general",
+            required: false
         },
         mapStyle: {
             type: "string",
@@ -47,6 +52,6 @@ const MapBoxSimpleMeta = {
             required: false
         }
     },
-    importPath: "./components/MapBoxSimple/MapBoxSimple",
+    importPath: "./components/MapBox/MapBoxMultiple/MapBoxMultiple",
 }
-export default MapBoxSimpleMeta;
+export default MapBoxMultipleMeta;
