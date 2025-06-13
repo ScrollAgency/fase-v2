@@ -150,5 +150,8 @@ export { default as PageLoaderMeta } from "./others/PageLoader/PageLoader.meta";
 export { default as SmartLoader } from "./others/SmartLoader/SmartLoader";
 export { default as SmartLoaderMeta } from "./others/SmartLoader/SmartLoader.meta";
 //       MapBoxSimple
-export { default as MapBoxSimple } from "./MapBoxSimple/MapBoxSimple";
-export { default as MapBoxSimpleMeta } from "./MapBoxSimple/MapBoxSimple.meta";
+export { default as MapBoxSimple } from "./MapBox/MapBoxSimple/MapBoxSimple";
+export { default as MapBoxSimpleMeta } from "./MapBox/MapBoxSimple/MapBoxSimple.meta";
+//       MapBoxMultiple
+export { default as MapBoxMultiple } from "./MapBox/MapBoxMultiple/MapBoxMultiple";
+export { default as MapBoxMultipleMeta } from "./MapBox/MapBoxMultiple/MapBoxMultiple.meta";

@@ -5,9 +5,9 @@ import Map, { Marker } from 'react-map-gl/mapbox';
 import "mapbox-gl/dist/mapbox-gl.css";
 import { IoMdPin } from "react-icons/io";
 
-import { geocodeAddress } from './geocoding';
+import { geocodeAddress } from '../geocoding';
 
-import styles from './MapBoxSimple.module.css';
+import styles from '../MapBox.module.css';
 
 // Définir les props pour le composant MapBox
 interface MapBoxSimpleProps {
@@ -26,7 +26,7 @@ export default function MapBoxSimple( props: MapBoxSimpleProps) {
 
     const setCoordinates = async () => {
         try {
-            const result = await geocodeAddress(props.address);
+            const result = await geocodeAddress(props.address.toString());
             setCoords(result);
         } catch (error) {
             console.error(error);
@@ -47,8 +47,7 @@ export default function MapBoxSimple( props: MapBoxSimpleProps) {
                     minZoom={3}
                 >
                     <Marker latitude={coords.latitude} longitude={coords.longitude}>
-                        <button
-                            type="button"
+                        <div
                             className="cursor-pointer"
                         >
                             {
@@ -62,7 +61,7 @@ export default function MapBoxSimple( props: MapBoxSimpleProps) {
                                 ||
                                 <IoMdPin size={props.pinSize || 30} color={props.pinColor || "tomato"} />
                             }
-                        </button>
+                        </div>
                     </Marker>
                 </Map>
             }
