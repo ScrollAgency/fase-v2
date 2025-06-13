@@ -1,374 +1,350 @@
 const SignUpMeta = {
-	name: "SignUp",
-	section: "🔑 Authentication",
-	displayName: "Sign Up",
-	description:
-		"Un formulaire d'inscription avec validation, contrôle de force du mot de passe, visibilité du mot de passe et système d'alertes intégré",
-	thumbnailUrl: "https://plasmic-api.agence-scroll.com/signup.png",
-	props: {
-		// Wrapper style
-		wrapperStyle: {
-			type: "choice",
-			defaultValue: "card",
-			options: ["simple", "card", "custom"],
-			description: "Style du conteneur du formulaire",
-		},
-		padding: {
-			type: "string",
-			defaultValue: "",
-			description:
-				"Padding personnalisé du formulaire (ex: '20px' ou '10px 20px')",
-		},
+  name: "SignUp",
+  section: "🔑 Authentication",
+  displayName: "Sign Up",
+  description: "Un formulaire d'inscription avec validation, contrôle de force du mot de passe, visibilité du mot de passe et système d'alertes intégré",
+  thumbnailUrl: "https://plasmic-api.agence-scroll.com/signup.png",
+  props: {
 
-		// Title
-		title: {
-			type: "string",
-			defaultValue: "Bienvenue !",
-		},
-		titleHeading: {
-			type: "choice",
-			defaultValue: "h1",
-			options: ["h1", "h2", "h3"],
-			description: "Niveau du titre",
-		},
+    // Wrapper style
+    wrapperStyle: {
+      type: "choice",
+      defaultValue: "card",
+      options: ["simple", "card", "custom"],
+      description: "Style du conteneur du formulaire",
+    },
 
-		// Input style
-		inputStyle: {
-			type: "choice",
-			defaultValue: "simple",
-			options: ["simple", "advance"],
-			description: "Style des champs de saisie",
-		},
+    // Title
+    title: {
+      type: "string",
+      defaultValue: "Bienvenue !",
+    },
+    titleHeading: {
+      type: "choice",
+      defaultValue: "h1",
+      options: ["h1", "h2", "h3"],
+      description: "Niveau du titre",
+    },
 
-		// Firstname
-		firstNameLabel: {
-			type: "string",
-			defaultValue: "Prénom",
-		},
-		firstName: {
-			type: "string",
-			defaultValue: "",
-			valueProp: "firstName",
-			onChangeProp: "onFirstNameChange",
-		},
+    // Input style
+    inputStyle: {
+      type: "choice",
+      defaultValue: "simple",
+      options: ["simple", "advance"],
+      description: "Style des champs de saisie",
+    },
+    
 
-		// Lastname
-		lastNameLabel: {
-			type: "string",
-			defaultValue: "Nom",
-		},
-		lastName: {
-			type: "string",
-			defaultValue: "",
-			valueProp: "lastName",
-			onChangeProp: "onLastNameChange",
-		},
+    // Firstname
+    firstNameLabel: {
+      type: "string",
+      defaultValue: "Prénom",
+    },
+    firstName: {
+      type: "string",
+      defaultValue: "",
+      valueProp: "firstName",
+      onChangeProp: "onFirstNameChange",
+    },
 
-		// Email
-		emailLabel: {
-			type: "string",
-			defaultValue: "Email",
-		},
-		placeholderEmail: {
-			type: "string",
-			defaultValue: "Entrez votre email",
-		},
-		email: {
-			type: "string",
-			defaultValue: "",
-			valueProp: "email",
-			onChangeProp: "onEmailChange",
-		},
+    // Lastname
+    lastNameLabel: {
+      type: "string",
+      defaultValue: "Nom",
+    },
+    lastName: {
+      type: "string",
+      defaultValue: "",
+      valueProp: "lastName",
+      onChangeProp: "onLastNameChange",
+    },
 
-		// Phone
-		phoneLabel: {
-			type: "string",
-			defaultValue: "Téléphone",
-			description: "Label du champ téléphone",
-		},
-		placeholderPhone: {
-			type: "string",
-			defaultValue: "060606060606",
-			description: "Placeholder du champ téléphone",
-		},
-		phone: {
-			type: "string",
-			defaultValue: "",
-			valueProp: "phone",
-			onChangeProp: "onPhoneChange",
-		},
-		countryCode: {
-			type: "string",
-			defaultValue: "+33",
-			valueProp: "countryCode",
-			onChangeProp: "onCountryCodeChange",
-			description: "Code pays pour le numéro de téléphone",
-		},
+    // Email
+    emailLabel: {
+      type: "string",
+      defaultValue: "Email",
+    },
+    placeholderEmail: {
+      type: "string",
+      defaultValue: "Entrez votre email",
+    },
+    email: {
+      type: "string",
+      defaultValue: "",
+      valueProp: "email",
+      onChangeProp: "onEmailChange",
+    },
 
-		// Password
-		passwordLabel: {
-			type: "string",
-			defaultValue: "Mot de passe",
-		},
-		placeholderPassword: {
-			type: "string",
-			defaultValue: "Entrez votre mot de passe",
-		},
-		password: {
-			type: "string",
-			defaultValue: "",
-			valueProp: "password",
-			onChangeProp: "onPasswordChange",
-		},
-		confirmPasswordLabel: {
-			type: "string",
-			defaultValue: "Répétez le mot de passe",
-		},
-		placeholderConfirmPassword: {
-			type: "string",
-			defaultValue: "Confirmez votre mot de passe",
-		},
-		confirmPassword: {
-			type: "string",
-			defaultValue: "",
-			valueProp: "confirmPassword",
-			onChangeProp: "onConfirmPasswordChange",
-		},
-		passwordInfoText: {
-			type: "string",
-			defaultValue:
-				"Utilisez 8 caractères ou plus en mélangeant lettres, chiffres et symboles.",
-		},
-		eyeIconColor: {
-			type: "string",
-			defaultValue: "#666",
-			description: "Couleur de l'icône d'œil",
-		},
+    // Phone
+    phoneLabel: {
+      type: "string",
+      defaultValue: "Téléphone",
+      description: "Label du champ téléphone",
+    },
+    placeholderPhone: {
+      type: "string",
+      defaultValue: "060606060606",
+      description: "Placeholder du champ téléphone",
+    },
+    phone: {
+      type: "string",
+      defaultValue: "",
+      valueProp: "phone",
+      onChangeProp: "onPhoneChange"
+    },
+    countryCode: {
+      type: "string",
+      defaultValue: "+33",
+      valueProp: "countryCode",
+      onChangeProp: "onCountryCodeChange",
+      description: "Code pays pour le numéro de téléphone"
+    },
 
-		// Gestion des alertes
-		alertPosition: {
-			type: "choice",
-			options: ["top", "bottom", "inline"],
-			defaultValue: "top",
-			description: "Position des alertes dans le composant",
-		},
-		maxAlerts: {
-			type: "number",
-			defaultValue: 3,
-			description: "Nombre maximum d'alertes à afficher simultanément",
-		},
-		customErrorMessages: {
-			type: "object",
-			description: "Messages d'erreur personnalisés pour chaque type d'erreur",
-		},
+    // Password
+    passwordLabel: {
+      type: "string",
+      defaultValue: "Mot de passe",
+    },
+    placeholderPassword: {
+      type: "string",
+      defaultValue: "Entrez votre mot de passe",
+    },
+    password: {
+      type: "string",
+      defaultValue: "",
+      valueProp: "password",
+      onChangeProp: "onPasswordChange",
+    },
+    confirmPasswordLabel: {
+      type: "string",
+      defaultValue: "Répétez le mot de passe",
+    },
+    placeholderConfirmPassword: {
+      type: "string",
+      defaultValue: "Confirmez votre mot de passe",
+    },
+    confirmPassword: {
+      type: "string",
+      defaultValue: "",
+      valueProp: "confirmPassword",
+      onChangeProp: "onConfirmPasswordChange",
+    },
+    passwordInfoText: {
+      type: "string",
+      defaultValue: "Utilisez 8 caractères ou plus en mélangeant lettres, chiffres et symboles.",
+    },
+    eyeIconColor: {
+      type: "string",
+      defaultValue: "#666",
+      description: "Couleur de l'icône d'œil",
+    },
 
-		// Links
-		redirectAfterSignUp: {
-			type: "string",
-			defaultValue: "/",
-			description: "URL de redirection après inscription",
-		},
+    // Gestion des alertes
+    alertPosition: {
+      type: "choice",
+      options: ["top", "bottom", "inline"],
+      defaultValue: "top",
+      description: "Position des alertes dans le composant",
+    },
+    maxAlerts: {
+      type: "number",
+      defaultValue: 3,
+      description: "Nombre maximum d'alertes à afficher simultanément",
+    },
+    customErrorMessages: {
+      type: "object",
+      description: "Messages d'erreur personnalisés pour chaque type d'erreur",
+    },
 
-		// Propriétés pour la checkbox
-		privacyPolicyText: {
-			type: "string",
-			defaultValue: "J'accepte la politique de confidentialité",
-		},
-		privacyPolicyUrl: {
-			type: "string",
-			defaultValue: "",
-			description: "URL de la politique de confidentialité",
-		},
+    // Links
+    redirectAfterSignUp: {
+      type: "string",
+      defaultValue: "/",
+      description: "URL de redirection après inscription",
+    },
 
-		// Buttons
-		buttonStyle: {
-			type: "choice",
-			defaultValue: "primary",
-			options: ["primary", "secondary", "tertiary", "custom"],
-			description:
-				"Style du bouton de soumission. Choisissez 'custom' pour personnaliser les couleurs.",
-		},
-		submitButtonText: {
-			type: "string",
-			defaultValue: "S'inscrire",
-		},
-		buttonBackgroundColor: {
-			type: "string",
-			defaultValue: "#3B82F6",
-			description:
-				"Couleur de fond personnalisée pour le bouton (uniquement avec buttonStyle='custom')",
-			conditionallyHidden: {
-				path: "buttonStyle",
-				value: ["primary", "secondary", "tertiary"],
-			},
-		},
-		buttonTextColor: {
-			type: "string",
-			defaultValue: "#FFFFFF",
-			description:
-				"Couleur de texte personnalisée pour le bouton (uniquement avec buttonStyle='custom')",
-			conditionallyHidden: {
-				path: "buttonStyle",
-				value: ["primary", "secondary", "tertiary"],
-			},
-		},
-		buttonAbordStyle: {
-			type: "choice",
-			defaultValue: "tertiary",
-			options: ["primary", "secondary", "tertiary"],
-			description: "Style du bouton d'abandon",
-		},
-		googleButtonText: {
-			type: "string",
-			defaultValue: "GOOGLE",
-			description: "Texte du bouton Google",
-		},
-		appleButtonText: {
-			type: "string",
-			defaultValue: "APPLE",
-			description: "Texte du bouton Apple",
-		},
-		oAuthButtonsPosition: {
-			type: "choice",
-			options: ["top", "bottom"],
-			defaultValue: "bottom",
-			description: "Position des boutons OAuth",
-		},
-		oAuthSeparatorText: {
-			type: "string",
-			defaultValue: "ou",
-			description: "Texte du séparateur OAuth",
-		},
+    // Propriétés pour la checkbox
+    privacyPolicyText: {
+      type: "string",
+      defaultValue: "J'accepte la politique de confidentialité",
+    },
+    privacyPolicyUrl: {
+      type: "string",
+      defaultValue: "",
+      description: "URL de la politique de confidentialité",
+    },
 
-		// Show / hide
-		showLabels: {
-			type: "boolean",
-			defaultValue: true,
-			description: "Afficher les labels des champs",
-		},
-		showPhoneInput: {
-			type: "boolean",
-			defaultValue: false,
-			description: "Affiche ou non le champ téléphone",
-		},
-		showPasswordStrength: {
-			type: "boolean",
-			defaultValue: true,
-		},
-		showPasswordToggle: {
-			type: "boolean",
-			defaultValue: true,
-			description: "Affiche un bouton pour montrer/masquer le mot de passe",
-		},
-		showOAuthButtons: {
-			type: "boolean",
-			defaultValue: true,
-			description: "Montrer/masquer les boutons SSO",
-		},
-		showLoginLink: {
-			type: "boolean",
-			defaultValue: true,
-			description: "Afficher le lien vers la page de connexion",
-		},
-		showAlerts: {
-			type: "boolean",
-			defaultValue: true,
-			description: "Affiche des alertes pour les erreurs et succès",
-		},
+    // Buttons
+    buttonStyle: {
+      type: "choice",
+      defaultValue: "primary",
+      options: ["primary", "secondary", "tertiary"],
+      description: "Style du bouton de soumission",
+    },
+    submitButtonText: {
+      type: "string",
+      defaultValue: "S'inscrire",
+    },
+    buttonAbordStyle: {
+      type: "choice",
+      defaultValue: "tertiary",
+      options: ["primary", "secondary", "tertiary"],
+      description: "Style du bouton d'abandon",
+    },
+    googleButtonText: {
+      type: "string",
+      defaultValue: "GOOGLE",
+      description: "Texte du bouton Google",
+    },
+    appleButtonText: {
+      type: "string",
+      defaultValue: "APPLE",
+      description: "Texte du bouton Apple",
+    },
+    oAuthButtonsPosition: {
+      type: "choice",
+      options: ["top", "bottom"],
+      defaultValue: "bottom",
+      description: "Position des boutons OAuth",
+    },
+    oAuthSeparatorText: {
+      type: "string",
+      defaultValue: "ou",
+      description: "Texte du séparateur OAuth",
+    },
 
-		// Events handlers
-		onSubmit: {
-			type: "eventHandler",
-			argTypes: [{ name: "event", type: "object" }],
-		},
-		onFirstNameChange: {
-			type: "eventHandler",
-			argTypes: [{ name: "event", type: "object" }],
-		},
-		onLastNameChange: {
-			type: "eventHandler",
-			argTypes: [{ name: "event", type: "object" }],
-		},
-		onEmailChange: {
-			type: "eventHandler",
-			argTypes: [{ name: "event", type: "object" }],
-		},
-		onPhoneChange: {
-			type: "eventHandler",
-			argTypes: [{ name: "value", type: "string" }],
-			description:
-				"Fonction appelée lorsque le numéro de téléphone change (optionnel)",
-			required: false,
-		},
-		onCountryCodeChange: {
-			type: "eventHandler",
-			argTypes: [{ name: "value", type: "string" }],
-			description: "Fonction appelée lorsque le code pays change (optionnel)",
-			required: false,
-		},
-		onPasswordChange: {
-			type: "eventHandler",
-			argTypes: [{ name: "event", type: "object" }],
-		},
-		onConfirmPasswordChange: {
-			type: "eventHandler",
-			argTypes: [{ name: "value", type: "string" }],
-		},
-		onAlertClose: {
-			type: "eventHandler",
-			argTypes: [{ name: "id", type: "string" }],
-			description: "Fonction appelée lorsqu'une alerte est fermée",
-		},
-	},
+    // Show / hide
+    showLabels: {
+      type: "boolean",
+      defaultValue: true,
+      description: "Afficher les labels des champs",
+    },
+    showPhone: {
+      type: "boolean",
+      defaultValue: false,
+      description: "Affiche ou non le champ téléphone",
+    },
+    showPasswordStrength: {
+      type: "boolean",
+      defaultValue: true,
+    },
+    showPasswordToggle: {
+      type: "boolean",
+      defaultValue: true,
+      description: "Affiche un bouton pour montrer/masquer le mot de passe",
+    },
+    showOAuthButtons: {
+      type: "boolean",
+      defaultValue: true,
+      description: "Montrer/masquer les boutons SSO",
+    },
+    showPrivacyPolicy: {
+      type: "boolean",
+      defaultValue: true,
+    },
+    showLoginLink: {
+      type: "boolean",
+      defaultValue: true,
+      description: "Afficher le lien vers la page de connexion",
+    },
+    showAlerts: {
+      type: "boolean",
+      defaultValue: true,
+      description: "Affiche des alertes pour les erreurs et succès",
+    },
 
-	// States
-	states: {
-		email: {
-			type: "writable",
-			variableType: "text",
-			valueProp: "email",
-			onChangeProp: "onEmailChange",
-		},
-		firstName: {
-			type: "writable",
-			variableType: "text",
-			valueProp: "firstName",
-			onChangeProp: "onFirstNameChange",
-		},
-		lastName: {
-			type: "writable",
-			variableType: "text",
-			valueProp: "lastName",
-			onChangeProp: "onLastNameChange",
-		},
-		password: {
-			type: "writable",
-			variableType: "text",
-			valueProp: "password",
-			onChangeProp: "onPasswordChange",
-		},
-		confirmPassword: {
-			type: "writable",
-			variableType: "text",
-			valueProp: "confirmPassword",
-			onChangeProp: "onConfirmPasswordChange",
-		},
-		phone: {
-			type: "writable",
-			variableType: "text",
-			valueProp: "phone",
-			onChangeProp: "onPhoneChange",
-		},
-		countryCode: {
-			type: "writable",
-			variableType: "text",
-			valueProp: "countryCode",
-			onChangeProp: "onCountryCodeChange",
-			defaultValue: "+33",
-		},
-	},
+    // Events handlers
+    onSubmit: {
+      type: "eventHandler",
+      argTypes: [{ name: "event", type: "object" }],
+    },
+     onFirstNameChange: {
+      type: "eventHandler",
+      argTypes: [{ name: "event", type: "object" }],
+    },
+    onLastNameChange: {
+      type: "eventHandler",
+      argTypes: [{ name: "event", type: "object" }],
+    },
+    onEmailChange: {
+      type: "eventHandler",
+      argTypes: [{ name: "event", type: "object" }],
+    },
+    onPhoneChange: {
+      type: "eventHandler",
+      argTypes: [{ name: "value", type: "string" }],
+      description: "Fonction appelée lorsque le numéro de téléphone change (optionnel)",
+      required: false
+    },
+    onCountryCodeChange: {
+      type: "eventHandler",
+      argTypes: [{ name: "value", type: "string" }],
+      description: "Fonction appelée lorsque le code pays change (optionnel)",
+      required: false
+    },
+    onPasswordChange: {
+      type: "eventHandler",
+      argTypes: [{ name: "event", type: "object" }],
+    },
+    onConfirmPasswordChange: {
+      type: "eventHandler",
+      argTypes: [{ name: "value", type: "string" }],
+    },
+    onAlertClose: {
+      type: "eventHandler",
+      argTypes: [{ name: "id", type: "string" }],
+      description: "Fonction appelée lorsqu'une alerte est fermée",
+    },
+  },
 
-	importPath: "./plasmic-library/authentication/SignUp",
+  // States
+  states: {
+    email: {
+      type: 'writable',
+      variableType: 'text',
+      valueProp: 'email',
+      onChangeProp: 'onEmailChange'
+    },
+    firstName: {
+      type: 'writable',
+      variableType: 'text',
+      valueProp: 'firstName',
+      onChangeProp: 'onFirstNameChange'
+    },
+    lastName: {
+      type: 'writable',
+      variableType: 'text',
+      valueProp: 'lastName',
+      onChangeProp: 'onLastNameChange'
+    },
+    password: {
+      type: 'writable',
+      variableType: 'text',
+      valueProp: 'password',
+      onChangeProp: 'onPasswordChange'
+    },
+    confirmPassword: {
+      type: 'writable',
+      variableType: 'text',
+      valueProp: 'confirmPassword',
+      onChangeProp: 'onConfirmPasswordChange'
+    },
+    phone: {
+      type: 'writable',
+      variableType: 'text',
+      valueProp: 'phone',
+      onChangeProp: 'onPhoneChange'
+    },
+    countryCode: {
+      type: 'writable',
+      variableType: 'text',
+      valueProp: 'countryCode',
+      onChangeProp: 'onCountryCodeChange',
+      defaultValue: '+33'
+    }
+  },
+  
+  importPath: "./plasmic-library/authentication/SignUp",
 };
 
 export default SignUpMeta;
