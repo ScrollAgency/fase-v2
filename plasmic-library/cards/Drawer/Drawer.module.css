@@ -1,0 +1,43 @@
+.drawer_background {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.drawer {
+    position: absolute;
+    bottom: 0;
+    max-height: 80vh;
+    background-color: white;
+    transition: height 0.1s ease-out;
+    overflow: hidden;
+}
+
+.scrolling_content {
+    overflow-y: scroll;
+    max-height: 100%;
+    width: 100%;
+}
+
+.closing_bar_wrapper {
+    cursor: grab;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 8px;
+    touch-action: none;
+}
+
+.closing_bar {
+    width: 80px;
+    height: 2px;
+    border-radius: 8px;
+    background-color: grey;
+    margin: 0 auto;
+}
+
+.closing_bar_wrapper:active {
+    cursor: grabbing;
+}
