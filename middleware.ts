@@ -17,6 +17,7 @@ const publicRoutes = [
 	"/news",
 	"/news/[id]",
 	"/parcours/[id]",
+	"/test",
 
 	"/login",
 	"/signup",
