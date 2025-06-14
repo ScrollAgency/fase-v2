@@ -7,7 +7,13 @@ const DrawerMeta = {
     name: "DragCloseDrawer",
     props: {
         open: {
-            type: "string"
+            type: "boolean",
+            description: "si le drawer est ouvert ou fermé"
+        },
+        setOpen: {
+            type: "eventHandler",
+            displayName: "On close drawer",
+            description: "changer le state qui définit si le drawer est ouvert ou fermé"
         },
         children: 'slot',
         barColor: 'color',
