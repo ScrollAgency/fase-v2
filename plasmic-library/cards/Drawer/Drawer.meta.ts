@@ -13,7 +13,8 @@ const DrawerMeta = {
         setOpen: {
             type: "eventHandler",
             displayName: "On close drawer",
-            description: "changer le state qui définit si le drawer est ouvert ou fermé"
+            description: "changer le state qui définit si le drawer est ouvert ou fermé",
+            argTypes: []
         },
         children: 'slot',
         barColor: 'color',
