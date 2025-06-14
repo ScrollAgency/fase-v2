@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import { motion, useDragControls, useMotionValue, useAnimate } from 'framer-motion';
 import useMeasure from "react-use-measure"
@@ -24,7 +26,8 @@ export default function DragCloseDrawer(props: DragCloserDrawerProps) {
   controls.start
 
   const handleClose = async () => {
-    animate(scope.current, {
+    console.log(scope.current);
+    await animate(scope.current, {
       opacity: [1, 0]
     });
 
@@ -40,11 +43,12 @@ export default function DragCloseDrawer(props: DragCloserDrawerProps) {
     <>
       { open &&
         <motion.div
+          ref={scope}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.2 }}
           onClick={handleClose}
-          className={`${styles.drawer_background} ${className}`}
+          className={`${styles.drawer_background}`}
           style={{ backgroundColor: backgroundColor }}
         >
           <motion.div
