@@ -4,7 +4,7 @@ import { format, parseISO } from 'date-fns';
 import dynamic from 'next/dynamic';
 import styles from './DataGrid.module.css';
 
-interface Task {
+interface Row {
   [key: string]: string | null | undefined;
 }
 
@@ -16,6 +16,7 @@ interface ColumnFilter {
 
 interface ColumnStyle {
   width?: string;
+  minWidth?: string;
   align?: 'left' | 'center' | 'right';
   formatter?: (value: any) => React.ReactNode;
 }
@@ -48,14 +49,14 @@ interface ResponsiveConfig {
 }
 
 interface DataGridProps {
-  tasks: Task[];
+  data: Row[];
   containerClassName?: string;
   headerClassName?: string;
   rowClassName?: string;
-  onTaskClick?: (taskId: string) => void;
-  onEditClick?: (taskId: string) => void;
-  onDeleteClick?: (taskId: string) => void;
-  onCopyClick?: (taskId: string) => void;
+  onRowClick?: (rowId: string) => void;
+  onEditClick?: (rowId: string) => void;
+  onDeleteClick?: (rowId: string) => void;
+  onCopyClick?: (rowId: string) => void;
   columnLabels?: { [key: string]: string };
   visibleColumns?: string[];
   columnOrder?: string[];
@@ -66,6 +67,7 @@ interface DataGridProps {
   filters?: ColumnFilter[];
   onFilterChange?: (filters: ColumnFilter[]) => void;
   columnStyles?: { [key: string]: ColumnStyle };
+  minColumnWidth?: string;
   enableExport?: boolean;
   exportFormats?: 'csv' | 'excel';
   exportIcon?: React.ReactNode;
@@ -114,11 +116,11 @@ const DEFAULT_THEME: DataGridTheme = {
 const DEFAULT_PAGE_SIZE = 10;
 
 const DataGrid: React.FC<DataGridProps> = ({
-  tasks = [],
+  data = [],
   containerClassName = "",
   headerClassName = "",
   rowClassName = "",
-  onTaskClick,
+  onRowClick,
   onEditClick,
   onDeleteClick,
   onCopyClick,
@@ -132,6 +134,7 @@ const DataGrid: React.FC<DataGridProps> = ({
   filters = [],
   onFilterChange,
   columnStyles = {},
+  minColumnWidth = "150px",
   enableExport = false,
   exportFormats = 'csv',
   exportIcon,
@@ -159,23 +162,23 @@ const DataGrid: React.FC<DataGridProps> = ({
   }, []);
 
   const allColumns = useMemo(() => {
-    if (tasks.length === 0) return [];
-    const cols = Object.keys(tasks[0]);
+    if (data.length === 0) return [];
+    const cols = Object.keys(data[0]);
     if (columnOrder) {
       return columnOrder.filter(col => cols.includes(col));
     }
     return cols;
-  }, [tasks, columnOrder]);
+  }, [data, columnOrder]);
 
   const columns = useMemo(() => {
     if (!visibleColumns) return allColumns;
     return visibleColumns.filter(col => allColumns.includes(col));
   }, [allColumns, visibleColumns]);
 
-  const filteredTasks = useMemo(() => {
-    return tasks.filter(task => {
+  const filteredData = useMemo(() => {
+    return data.filter(row => {
       return localFilters.every(filter => {
-        const value = task[filter.field];
+        const value = row[filter.field];
         if (value === null || value === undefined) return false;
 
         switch (filter.operator) {
@@ -192,12 +195,12 @@ const DataGrid: React.FC<DataGridProps> = ({
         }
       });
     });
-  }, [tasks, localFilters]);
+  }, [data, localFilters]);
 
-  const sortedTasks = useMemo(() => {
-    if (!sort.direction) return filteredTasks;
+  const sortedData = useMemo(() => {
+    if (!sort.direction) return filteredData;
 
-    return [...filteredTasks].sort((a, b) => {
+    return [...filteredData].sort((a, b) => {
       const aValue = a[sort.field];
       const bValue = b[sort.field];
 
@@ -223,29 +226,29 @@ const DataGrid: React.FC<DataGridProps> = ({
 
       return 0;
     });
-  }, [filteredTasks, sort]);
+  }, [filteredData, sort]);
 
-  const paginatedTasks = useMemo(() => {
+  const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
-    return sortedTasks.slice(start, start + pageSize);
-  }, [sortedTasks, currentPage, pageSize]);
+    return sortedData.slice(start, start + pageSize);
+  }, [sortedData, currentPage, pageSize]);
 
-  const totalPages = Math.ceil((totalItems ?? sortedTasks.length) / pageSize);
+  const totalPages = Math.ceil((totalItems ?? sortedData.length) / pageSize);
 
   const handleExport = async (format: 'csv' | 'excel') => {
     if (!enableExport) return;
 
-    const data = sortedTasks.map(task => {
+    const dataToDisplay = sortedData.map(sortedRow => {
       const row: { [key: string]: any } = {};
       columns.forEach(col => {
-        row[columnLabels[col] || col] = task[col];
+        row[columnLabels[col] || col] = sortedRow[col];
       });
       return row;
     });
 
     if (format === 'csv') {
       const csv = columns.map(col => columnLabels[col] || col).join(',') + '\n' +
-        data.map(row => columns.map(col => `"${row[columnLabels[col] || col] || ''}"`).join(',')).join('\n');
+        dataToDisplay.map(row => columns.map(col => `"${row[columnLabels[col] || col] || ''}"`).join(',')).join('\n');
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
@@ -343,7 +346,7 @@ const DataGrid: React.FC<DataGridProps> = ({
     return null;
   };
 
-  const renderActionButtons = (task: Task) => {
+  const renderActionButtons = (row: Row) => {
     if (!mounted) return null;
     
     return (
@@ -359,12 +362,12 @@ const DataGrid: React.FC<DataGridProps> = ({
           className={styles.actionButton}
           onClick={(e) => {
             e.stopPropagation();
-            onEditClick?.(task.id as string);
+            onEditClick?.(row.id as string);
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.stopPropagation();
-              onEditClick?.(task.id as string);
+              onEditClick?.(row.id as string);
             }
           }}
           style={{
@@ -384,15 +387,15 @@ const DataGrid: React.FC<DataGridProps> = ({
           className={styles.actionButton}
           onClick={(e) => {
             e.stopPropagation();
-            if (task.id) {
-              onCopyClick?.(task.id as string);
+            if (row.id) {
+              onCopyClick?.(row.id as string);
             }
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.stopPropagation();
-              if (task.id) {
-                onCopyClick?.(task.id as string);
+              if (row.id) {
+                onCopyClick?.(row.id as string);
               }
             }
           }}
@@ -413,12 +416,12 @@ const DataGrid: React.FC<DataGridProps> = ({
           className={styles.actionButton}
           onClick={(e) => {
             e.stopPropagation();
-            onDeleteClick?.(task.id as string);
+            onDeleteClick?.(row.id as string);
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.stopPropagation();
-              onDeleteClick?.(task.id as string);
+              onDeleteClick?.(row.id as string);
             }
           }}
           style={{
@@ -498,7 +501,7 @@ const DataGrid: React.FC<DataGridProps> = ({
     );
   }
 
-  if (tasks.length === 0) {
+  if (data.length === 0) {
     return (
       <div className={styles.dataGridEmpty}>
         {emptyStateMessage}
@@ -514,6 +517,7 @@ const DataGrid: React.FC<DataGridProps> = ({
         maxHeight: responsive?.maxHeight,
         '--table-min-width': responsive?.minWidth,
         '--table-max-width': responsive?.maxWidth,
+        '--min-column-width': minColumnWidth
       } as React.CSSProperties}
       data-sticky-header={responsive?.stickyHeader}
       data-overflow-x={responsive?.horizontalOverflow}
@@ -575,7 +579,9 @@ const DataGrid: React.FC<DataGridProps> = ({
                 onClick={() => handleSort(column)}
                 style={{
                   borderColor: theme.borderColor,
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  width: columnStyles[column]?.width,
+                  minWidth: columnStyles[column]?.minWidth || minColumnWidth
                 }}
               >
                 <span className={styles.headerContent} style={{ justifyContent: 'center' }}>
@@ -584,21 +590,30 @@ const DataGrid: React.FC<DataGridProps> = ({
                 </span>
               </th>
             ))}
-            <th className={styles.headerCell} style={{ width: '120px', textAlign: 'center' }}>Actions</th>
+            <th 
+              className={styles.headerCell} 
+              style={{ 
+                width: '120px', 
+                minWidth: '120px',
+                textAlign: 'center' 
+              }}
+            >
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
-          {paginatedTasks.map((task: Task) => (
+          {paginatedData.map((row: Row) => (
             <tr
-              key={task.id as string}
+              key={row.id as string}
               className={`${styles.dataGridRow} ${rowClassName}`}
-              onClick={() => onTaskClick?.(task.id as string)}
+              onClick={() => onRowClick?.(row.id as string)}
               style={{
                 backgroundColor: theme.rowBgColor,
                 color: theme.textColor,
                 fontSize: theme.fontSize,
                 borderColor: theme.borderColor,
-                cursor: onTaskClick ? 'pointer' : 'default'
+                cursor: onRowClick ? 'pointer' : 'default'
               }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.backgroundColor = theme.hoverBgColor || '';
@@ -613,14 +628,25 @@ const DataGrid: React.FC<DataGridProps> = ({
                   className={styles.dataGridCell}
                   style={{ 
                     textAlign: columnStyles[column]?.align || 'left',
-                    borderColor: theme.borderColor
+                    borderColor: theme.borderColor,
+                    width: columnStyles[column]?.width,
+                    minWidth: columnStyles[column]?.minWidth || minColumnWidth
                   }}
                 >
-                  {renderCell(column, task[column])}
+                  <p>
+                    {renderCell(column, row[column])}
+                  </p>
                 </td>
               ))}
-              <td className={styles.dataGridCell} style={{ borderColor: theme.borderColor }}>
-                {renderActionButtons(task)}
+              <td 
+                className={styles.dataGridCell} 
+                style={{ 
+                  borderColor: theme.borderColor,
+                  width: '120px',
+                  minWidth: '120px'
+                }}
+              >
+                {renderActionButtons(row)}
               </td>
             </tr>
           ))}
