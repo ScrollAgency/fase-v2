@@ -6,27 +6,10 @@ const DataGridMeta = {
     thumbnailUrl: "https://static1.plasmic.app/insertables/table.svg",
     importPath: "./components/others/data_grid/data_grid",
     props: {
-        tasks: {
+        data: {
             type: "array",
             defaultValue: [],
-            description: "Array of data to display in the grid",
-            itemType: {
-                type: "object",
-                fields: {
-                    id: "string",
-                    title: "string",
-                    status: "string",
-                    type: "string",
-                    budget: "string",
-                    date_start: "string",
-                    date_end: "string",
-                    comments: "string",
-                    created_at: "string",
-                    updated_at: "string",
-                    last_updated_by: "string",
-                    model: "string"
-                }
-            }
+            description: "Array of data to display in the grid"
         },
         containerClassName: {
             type: "string",
