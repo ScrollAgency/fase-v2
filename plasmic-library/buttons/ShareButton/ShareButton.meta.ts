@@ -5,7 +5,7 @@ export const ShareButtonMeta = {
    props: {
       children: 'slot'
    },
-   importPath: "./components/buttons/ShareButton",
+   importPath: "./components/buttons/ShareButton/ShareButton",
 };
 
 export default ShareButtonMeta;
