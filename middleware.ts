@@ -7,6 +7,7 @@ const publicRoutes = [
 	"/plasmic-host",
 
 	"/",
+	"/get-started",
 	"/collections",
 	"/collections/[id]",
 	"/parcours-groupe/[id]",
