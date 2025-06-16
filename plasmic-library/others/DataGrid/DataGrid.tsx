@@ -67,7 +67,6 @@ interface DataGridProps {
   filters?: ColumnFilter[];
   onFilterChange?: (filters: ColumnFilter[]) => void;
   columnStyles?: { [key: string]: ColumnStyle };
-  minColumnWidth?: string;
   enableExport?: boolean;
   exportFormats?: 'csv' | 'excel';
   exportIcon?: React.ReactNode;
@@ -134,7 +133,6 @@ const DataGrid: React.FC<DataGridProps> = ({
   filters = [],
   onFilterChange,
   columnStyles = {},
-  minColumnWidth = "150px",
   enableExport = false,
   exportFormats = 'csv',
   exportIcon,
@@ -517,7 +515,6 @@ const DataGrid: React.FC<DataGridProps> = ({
         maxHeight: responsive?.maxHeight,
         '--table-min-width': responsive?.minWidth,
         '--table-max-width': responsive?.maxWidth,
-        '--min-column-width': minColumnWidth
       } as React.CSSProperties}
       data-sticky-header={responsive?.stickyHeader}
       data-overflow-x={responsive?.horizontalOverflow}
@@ -581,7 +578,7 @@ const DataGrid: React.FC<DataGridProps> = ({
                   borderColor: theme.borderColor,
                   textAlign: 'center',
                   width: columnStyles[column]?.width,
-                  minWidth: columnStyles[column]?.minWidth || minColumnWidth
+                  minWidth: columnStyles[column]?.minWidth
                 }}
               >
                 <span className={styles.headerContent} style={{ justifyContent: 'center' }}>
@@ -630,7 +627,7 @@ const DataGrid: React.FC<DataGridProps> = ({
                     textAlign: columnStyles[column]?.align || 'left',
                     borderColor: theme.borderColor,
                     width: columnStyles[column]?.width,
-                    minWidth: columnStyles[column]?.minWidth || minColumnWidth
+                    minWidth: columnStyles[column]?.minWidth
                   }}
                 >
                   <p>

@@ -50,6 +50,9 @@ export { default as JamButtonMeta } from "./buttons/JamButton/JamButton.meta";
 //       SitexButton
 export { default as SitexButton } from "./buttons/SitexButton/SitexButton";
 export { default as SitexButtonMeta } from "./buttons/SitexButton/SitexButton.meta";
+//       ShareButton
+export { default as ShareButton } from "./buttons/ShareButton/ShareButton";
+export { default as ShareButtonMeta } from "./buttons/ShareButton/ShareButton.meta";
 
 // Cards
 //       CardSimple

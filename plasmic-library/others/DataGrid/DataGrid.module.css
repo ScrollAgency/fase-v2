@@ -3,7 +3,6 @@
   overflow: auto;
   border: 1px solid var(--border-color, #d9cdbf);
   border-radius: 4px;
-  --min-column-width: 150px;
   /* background: white; */
   font-family: 'Manrope', sans-serif;
   font-size: 14px;
@@ -45,12 +44,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: var(--min-column-width);
-  color: #666666;
-  font-size: 14px;
-  cursor: pointer;
-  position: relative;
-  font-family: 'Manrope', sans-serif;
 }
 
 .headerContent {
@@ -75,10 +68,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: var(--min-column-width);
-  font-size: 14px;
-  color: #131013;
-  font-family: 'Manrope', sans-serif;
 }
 
 .dataGridCell p {
