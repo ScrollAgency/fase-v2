@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
 
 networks:
-  fase-network:
+  fase-v2-network:
     name: ${PROJECT_NAME}-network
     driver: bridge
     external: true
