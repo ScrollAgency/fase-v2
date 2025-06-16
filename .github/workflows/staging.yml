@@ -228,6 +228,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.SERVER_IP }} "
             echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          "
           
       # Étape 31 : Déployer la version de staging sur le vps
       - name: Deploy Staging on vps
