@@ -162,5 +162,5 @@ export { default as MapBoxMultiple } from "./MapBox/MapBoxMultiple/MapBoxMultipl
 export { default as MapBoxMultipleMeta } from "./MapBox/MapBoxMultiple/MapBoxMultiple.meta";
 
 // Drawer
-export { default as Drawer } from "./cards/Drawer/Drawer";
-export { default as DrawerMeta } from "./cards/Drawer/Drawer.meta";
+export { default as Drawer } from "./others/Drawer/Drawer";
+export { default as DrawerMeta } from "./others/Drawer/Drawer.meta";

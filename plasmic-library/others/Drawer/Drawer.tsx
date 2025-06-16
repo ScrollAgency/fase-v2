@@ -1,8 +1,7 @@
 'use client'
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useDragControls, useMotionValue, useAnimate } from 'framer-motion';
-import useMeasure from "react-use-measure"
 import styles from './Drawer.module.css';
 
 interface DragCloserDrawerProps {
@@ -16,12 +15,19 @@ interface DragCloserDrawerProps {
 
 export default function DragCloseDrawer(props: DragCloserDrawerProps) {
   const { open, setOpen, className, barColor, backgroundColor, children } = props;
+  const [useMeasure, setUseMeasure] = useState<any>(null);
+
+  useEffect(() => {
+    import('react-use-measure').then((module) => {
+      setUseMeasure(() => module.default);
+    });
+  }, []);
 
   const controls = useDragControls();
   const y = useMotionValue(0);
   const [scope, animate] = useAnimate();
 
-  const [drawerRef, {height}] = useMeasure();
+  const [drawerRef, {height}] = useMeasure ? useMeasure() : [{}, { height: 0 }];
 
   controls.start
 
