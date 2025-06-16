@@ -152,3 +152,7 @@ export { default as SmartLoaderMeta } from "./others/SmartLoader/SmartLoader.met
 //       MapBoxSimple
 export { default as MapBoxSimple } from "./MapBoxSimple/MapBoxSimple";
 export { default as MapBoxSimpleMeta } from "./MapBoxSimple/MapBoxSimple.meta";
+
+//       Share button
+export { default as ShareButton } from "./others/ShareButton/ShareButton";
+export { default as ShareButtonMeta } from "./others/ShareButton/ShareButton.meta";
