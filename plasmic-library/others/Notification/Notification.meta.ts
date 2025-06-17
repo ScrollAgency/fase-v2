@@ -24,6 +24,7 @@ const NotificationMeta = {
     onClose: {
       type: "eventHandler",
       description: "Fonction appelée lors de la fermeture de la notification",
+      argTypes: [],
     },
     className: {
       type: "string",
