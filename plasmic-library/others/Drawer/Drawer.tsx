@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useDragControls, useMotionValue, useAnimate } from 'framer-motion';
 import styles from './Drawer.module.css';
 
@@ -15,12 +15,18 @@ interface DragCloserDrawerProps {
 
 export default function DragCloseDrawer(props: DragCloserDrawerProps) {
   const { open, setOpen, className, barColor, backgroundColor, children } = props;
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const [drawerHeight, setDrawerHeight] = useState(0);
+
+  useEffect(() => {
+    if (drawerRef?.current) {
+      setDrawerHeight(drawerRef.current.clientHeight);
+    }
+  }, [drawerRef?.current]);
 
   const controls = useDragControls();
   const y = useMotionValue(0);
   const [scope, animate] = useAnimate();
-
-  controls.start;
 
   const handleClose = async () => {
     await animate(scope.current, {
@@ -30,7 +36,7 @@ export default function DragCloseDrawer(props: DragCloserDrawerProps) {
     const yStart = typeof y.get() === "number" ? y.get() : 0;
     
     await animate(".drag_close_drawer", {
-      y: [yStart, 200]
+      y: [yStart, drawerHeight]
     })
     setOpen(false);
   }
@@ -48,6 +54,7 @@ export default function DragCloseDrawer(props: DragCloserDrawerProps) {
           style={{ backgroundColor: backgroundColor }}
         >
           <motion.div
+            ref={drawerRef}
             onClick={(e) => e.stopPropagation()}
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
