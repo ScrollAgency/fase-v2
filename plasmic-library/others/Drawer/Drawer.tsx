@@ -15,24 +15,14 @@ interface DragCloserDrawerProps {
 
 export default function DragCloseDrawer(props: DragCloserDrawerProps) {
   const { open, setOpen, className, barColor, backgroundColor, children } = props;
-  const [useMeasure, setUseMeasure] = useState<any>(null);
-
-  useEffect(() => {
-    import('react-use-measure').then((module) => {
-      setUseMeasure(() => module.default);
-    });
-  }, []);
 
   const controls = useDragControls();
   const y = useMotionValue(0);
   const [scope, animate] = useAnimate();
 
-  const [drawerRef, {height}] = useMeasure ? useMeasure() : [{}, { height: 0 }];
-
-  controls.start
+  controls.start;
 
   const handleClose = async () => {
-    console.log(scope.current);
     await animate(scope.current, {
       opacity: [1, 0]
     });
@@ -40,7 +30,7 @@ export default function DragCloseDrawer(props: DragCloserDrawerProps) {
     const yStart = typeof y.get() === "number" ? y.get() : 0;
     
     await animate(".drag_close_drawer", {
-      y: [yStart, height]
+      y: [yStart, 200]
     })
     setOpen(false);
   }
@@ -58,7 +48,6 @@ export default function DragCloseDrawer(props: DragCloserDrawerProps) {
           style={{ backgroundColor: backgroundColor }}
         >
           <motion.div
-            ref={drawerRef}
             onClick={(e) => e.stopPropagation()}
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
