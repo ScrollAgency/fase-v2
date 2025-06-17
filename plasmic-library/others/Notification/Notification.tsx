@@ -3,7 +3,7 @@ import React from "react";
 export interface NotificationProps {
   title: string;
   description: string;
-  position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
+  position?: "top-right" | "top-left" | "bottom-right" | "bottom-left" | "top-center" | "bottom-center" | "center-center";
   onClose?: () => void;
   className?: string;
 }
@@ -13,6 +13,9 @@ const positionStyles: Record<string, React.CSSProperties> = {
   "top-left": { top: 24, left: 24, position: "fixed" },
   "bottom-right": { bottom: 24, right: 24, position: "fixed" },
   "bottom-left": { bottom: 24, left: 24, position: "fixed" },
+  "top-center": { top: 24, left: "50%", transform: "translateX(-50%)", position: "fixed" },
+  "bottom-center": { bottom: 24, left: "50%", transform: "translateX(-50%)", position: "fixed" },
+  "center-center": { top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "fixed" },
 };
 
 const Notification: React.FC<NotificationProps> = ({

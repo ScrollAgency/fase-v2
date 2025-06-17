@@ -17,7 +17,7 @@ const NotificationMeta = {
     },
     position: {
       type: "choice",
-      options: ["top-right", "top-left", "bottom-right", "bottom-left"],
+      options: ["top-right", "top-left", "bottom-right", "bottom-left", "top-center", "bottom-center", "center-center"],
       defaultValue: "top-right",
       description: "Position de la notification sur l'écran",
     },
