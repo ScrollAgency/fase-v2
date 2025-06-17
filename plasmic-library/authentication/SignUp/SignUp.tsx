@@ -223,8 +223,7 @@ function SignUp_(
     weakPassword: "Le mot de passe est trop faible. Utilisez au moins 8 caractères avec des lettres, chiffres et symboles.",
     passwordMismatch: "Les mots de passe ne correspondent pas",
     invalidPhone: "Veuillez entrer un numéro de téléphone valide",
-    networkError: "Une erreur réseau s'est produite. Veuillez réessayer.",
-    signupSuccess: "Votre compte a été créé avec succès! Veuillez vérifier vos emails pour confirmer votre compte."
+    networkError: "Une erreur réseau s'est produite. Veuillez réessayer."
   };
 
   // Définir les composants manquants
@@ -447,12 +446,6 @@ function SignUp_(
     if (onSubmit) {
       try {
         await onSubmit(e, formData);
-        addAlert('success', errorMessages.signupSuccess);
-
-        // Redirection après succès
-        setTimeout(() => {
-          router.push("/login");
-        }, 1500);
       } catch (error) {
         console.error("Erreur lors de l'inscription:", error);
         addAlert('error', errorMessages.networkError);
