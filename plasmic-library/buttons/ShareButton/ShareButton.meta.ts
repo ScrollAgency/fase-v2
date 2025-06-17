@@ -15,6 +15,10 @@ export const ShareButtonMeta = {
       image: {
          type: 'string',
          description: "image à afficher avec le lien"
+      },
+      url: {
+         type: 'string',
+         description: "url à partager, si vide lien vers la page actuelle"
       }
    },
    importPath: "./components/buttons/ShareButton/ShareButton",
