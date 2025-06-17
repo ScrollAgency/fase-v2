@@ -1,11 +1,12 @@
 import React from "react";
 
 interface ShareButtonProps {
-  className?: string; // Classe CSS pour personnaliser le bouton
-  children?: React.ReactNode; // Contenu pour le variant link
-  title?: string; // Titre personnalisé pour le partage
-  description?: string; // Description personnalisée pour le partage
-  image?: string; // URL de l'image à partager
+  className?: string;
+  children?: React.ReactNode;
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
 }
 
 const ShareButton: React.FC<ShareButtonProps> = ({
@@ -13,38 +14,41 @@ const ShareButton: React.FC<ShareButtonProps> = ({
   children,
   title,
   description,
-  image
+  image,
+  url
 }) => {
   const handleShare = async () => {
     if (typeof window !== "undefined" && navigator.share) {
       try {
         const shareData: ShareData = {
-          title: title || document.title,
-          text: description,
-          url: window.location.href,
+        //  title: title || document.title,
+        //  text: description,
+          url: url || window.location.href,
         };
-
+/*
         if (image) {
           const response = await fetch(image);
           const blob = await response.blob();
-          const file = new File([blob], 'shared-image.jpg', { type: blob.type });
-          shareData.files = [file];
-        }
+          const file = new File([blob], "shared-image.jpg", { type: blob.type });
 
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            shareData.files = [file];
+          } else {
+            console.warn("This browser cannot share images.");
+          }
+        }
+*/
         await navigator.share(shareData);
       } catch (err) {
-        console.error("Erreur lors du partage :", err);
+        console.error("Error during sharing:", err);
       }
     } else {
-      alert("Le partage n'est pas supporté sur ce navigateur");
+      alert("Sharing is not supported on this browser.");
     }
   };
 
   return (
-    <div 
-      onClick={handleShare}
-      className={`cursor-pointer ${className}`}
-    >
+    <div onClick={handleShare} className={`cursor-pointer ${className}`}>
       {children}
     </div>
   );
