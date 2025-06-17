@@ -1,27 +1,32 @@
-import type React from "react";
-import { type ButtonHTMLAttributes, forwardRef, useImperativeHandle, useRef } from "react";
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import { createClient } from '@supabase/supabase-js';
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import Image from "next/image";
-// import { supabase } from "../../../lib/supabase";
 
-type HTMLButtonProps = Pick<ButtonHTMLAttributes<HTMLButtonElement>, "onClick" | "disabled">;
+interface ButtonActions {
+    click: () => void;
+}
 
-interface ButtonProps extends HTMLButtonProps {
+interface ButtonProps {
     label?: string;
-    icon?: "start" | "end" | "only" | "none";
+    icon?: "none" | "left" | "right";
     destructive?: boolean;
-    hierarchy?: "primary" | "secondary";
-    size?: "small" | "large";
-    state?: "default" | "hover" | "focused" | "disabled";
+    hierarchy?: "primary" | "secondary" | "tertiary";
+    size?: "small" | "medium" | "large";
+    state?: "default" | "hover" | "active" | "disabled";
+    disabled?: boolean;
+    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     iconImage?: string;
     className?: string;
-    authProvider?: "google" | "none";
+    authProvider?: "google";
+    redirectTo?: string;
 }
 
-export interface ButtonActions {
-    click(): void;
-}
+const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+);
 
 const AuthButton = forwardRef<ButtonActions, ButtonProps>(
     (
@@ -37,6 +42,7 @@ const AuthButton = forwardRef<ButtonActions, ButtonProps>(
             iconImage,
             className,
             authProvider = "google",
+            redirectTo = "/home",
         },
         ref
     ) => {
@@ -49,27 +55,31 @@ const AuthButton = forwardRef<ButtonActions, ButtonProps>(
         }));
 
         const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
-            // if (authProvider === "google") {
-            //     event.preventDefault();
-            //     try {
-            //         const { data, error } = await supabase.auth.signInWithOAuth({
-            //             provider: "google",
-            //             options: {
-            //                 redirectTo: `${window.location.origin}/home`,
-            //             },
-            //         });
+            if (authProvider === "google") {
+                event.preventDefault();
+                try {
+                    const { data, error } = await supabase.auth.signInWithOAuth({
+                        provider: "google",
+                        options: {
+                            redirectTo: `${window.location.origin}${redirectTo}`,
+                            queryParams: {
+                                access_type: 'offline',
+                                prompt: 'consent',
+                            },
+                        },
+                    });
 
-            //         if (error) {
-            //             console.error("Login error:", error.message);
-            //         } else {
-            //             console.log("Login successful:", data);
-            //         }
-            //     } catch (err) {
-            //         console.error("Unexpected error:", err);
-            //     }
-            // } else if (onClick) {
-            //     onClick(event);
-            // }
+                    if (error) {
+                        console.error("Login error:", error.message);
+                    } else {
+                        console.log("Login successful:", data);
+                    }
+                } catch (err) {
+                    console.error("Unexpected error:", err);
+                }
+            } else if (onClick) {
+                onClick(event);
+            }
         };
 
         const variants = cva(
@@ -83,15 +93,17 @@ const AuthButton = forwardRef<ButtonActions, ButtonProps>(
                     hierarchy: {
                         primary: "bg-blue-500 text-white",
                         secondary: "bg-gray-300 text-black",
+                        tertiary: "bg-transparent text-blue-500",
                     },
                     size: {
                         small: "py-2 px-4 text-sm",
+                        medium: "py-2.5 px-5 text-base",
                         large: "py-3 px-6 text-lg",
                     },
                     state: {
                         default: "",
                         hover: "hover:opacity-90",
-                        focused: "focus:ring-2 focus:ring-blue-500",
+                        active: "active:opacity-80",
                         disabled: "opacity-50 cursor-not-allowed",
                     },
                 },
@@ -114,18 +126,67 @@ const AuthButton = forwardRef<ButtonActions, ButtonProps>(
             <button
                 ref={buttonRef}
                 onClick={handleClick}
-                disabled={disabled}
+                disabled={disabled || state === "disabled"}
                 className={cn(variants({ destructive, hierarchy, size, state }), className)}
-                type="button"
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "8px",
+                    padding: size === "small" ? "8px 16px" : size === "medium" ? "12px 24px" : "16px 32px",
+                    borderRadius: "4px",
+                    border: "none",
+                    cursor: disabled || state === "disabled" ? "not-allowed" : "pointer",
+                    opacity: disabled || state === "disabled" ? 0.5 : 1,
+                    backgroundColor: destructive 
+                        ? "#DC2626" 
+                        : hierarchy === "primary" 
+                            ? "#2563EB" 
+                            : hierarchy === "secondary" 
+                                ? "#E5E7EB" 
+                                : "transparent",
+                    color: destructive 
+                        ? "white" 
+                        : hierarchy === "primary" 
+                            ? "white" 
+                            : hierarchy === "secondary" 
+                                ? "#374151" 
+                                : "#2563EB",
+                    fontSize: size === "small" ? "14px" : size === "medium" ? "16px" : "18px",
+                    fontWeight: "500",
+                    transition: "all 0.2s ease-in-out",
+                    ...(state === "hover" && {
+                        backgroundColor: destructive 
+                            ? "#B91C1C" 
+                            : hierarchy === "primary" 
+                                ? "#1D4ED8" 
+                                : hierarchy === "secondary" 
+                                    ? "#D1D5DB" 
+                                    : "#EFF6FF",
+                    }),
+                    ...(state === "active" && {
+                        backgroundColor: destructive 
+                            ? "#991B1B" 
+                            : hierarchy === "primary" 
+                                ? "#1E40AF" 
+                                : hierarchy === "secondary" 
+                                    ? "#9CA3AF" 
+                                    : "#DBEAFE",
+                    }),
+                }}
             >
-                {iconImage && (icon === "start" || icon === "end" || icon === "only") && (
-                    <Image src={iconImage} alt="Icon" width={20} height={20} />
+                {icon === "left" && iconImage && (
+                    <img src={iconImage} alt="" style={{ width: "20px", height: "20px" }} />
                 )}
-                {icon !== "only" && <span>{label}</span>}
+                {label}
+                {icon === "right" && iconImage && (
+                    <img src={iconImage} alt="" style={{ width: "20px", height: "20px" }} />
+                )}
             </button>
         );
     }
 );
 
 AuthButton.displayName = "AuthButton";
+
 export default AuthButton;
