@@ -19,7 +19,7 @@ const NotificationMeta = {
       type: "choice",
       options: ["top-right", "top-left", "bottom-right", "bottom-left", "top-center", "bottom-center", "center-center"],
       defaultValue: "top-right",
-      description: "Position de la notification sur l'écran",
+      description: "Position de la notification sur l'écran (coins, centre haut/bas, ou centre absolu)",
     },
     onClose: {
       type: "eventHandler",
