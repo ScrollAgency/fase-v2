@@ -1,8 +1,8 @@
 const ButtonGoogleMeta = {
     name: "ButtonGoogle",
-    section: "🔖 Jam",
+    section: "Buttons",
     displayName: "Button Google",
-    description: "Google button used in Job Around Me project",
+    description: "Google authentication button",
     thumbnailUrl: "https://static1.plasmic.app/insertables/button.svg",
     props: {
       label: "string",
@@ -33,11 +33,11 @@ const ButtonGoogleMeta = {
       },
       iconImage: "imageUrl",
       className: "string",
-      onClick: {
-        type: "eventHandler",
-        description: "Fonction appelée lors du clic sur le bouton.",
-        argTypes: [],
-      },
+      redirectTo: {
+        type: "string",
+        description: "slug of the page to redirect the user after authentication (without first /)",
+        diplayName: "redirect slug"
+      }
     },
     importPath: "./components/forms/ButtonGoogle/ButtonGoogle",
   };

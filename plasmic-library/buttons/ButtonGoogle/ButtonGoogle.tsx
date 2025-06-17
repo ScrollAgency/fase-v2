@@ -16,10 +16,8 @@ interface ButtonProps {
     size?: "small" | "medium" | "large";
     state?: "default" | "hover" | "active" | "disabled";
     disabled?: boolean;
-    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     iconImage?: string;
     className?: string;
-    authProvider?: "google";
     redirectTo?: string;
 }
 
@@ -38,11 +36,9 @@ const AuthButton = forwardRef<ButtonActions, ButtonProps>(
             size = "large",
             state = "default",
             disabled,
-            onClick,
             iconImage,
             className,
-            authProvider = "google",
-            redirectTo = "/home",
+            redirectTo = "",
         },
         ref
     ) => {
@@ -55,30 +51,26 @@ const AuthButton = forwardRef<ButtonActions, ButtonProps>(
         }));
 
         const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
-            if (authProvider === "google") {
-                event.preventDefault();
-                try {
-                    const { data, error } = await supabase.auth.signInWithOAuth({
-                        provider: "google",
-                        options: {
-                            redirectTo: `${window.location.origin}${redirectTo}`,
-                            queryParams: {
-                                access_type: 'offline',
-                                prompt: 'consent',
-                            },
+            event.preventDefault();
+            try {
+                const { data, error } = await supabase.auth.signInWithOAuth({
+                    provider: "google",
+                    options: {
+                        redirectTo: `${window.location.origin}/${redirectTo}`,
+                        queryParams: {
+                            access_type: 'offline',
+                            prompt: 'consent',
                         },
-                    });
+                    },
+                });
 
-                    if (error) {
-                        console.error("Login error:", error.message);
-                    } else {
-                        console.log("Login successful:", data);
-                    }
-                } catch (err) {
-                    console.error("Unexpected error:", err);
+                if (error) {
+                    console.error("Login error:", error.message);
+                } else {
+                    console.log("Login successful:", data);
                 }
-            } else if (onClick) {
-                onClick(event);
+            } catch (err) {
+                console.error("Unexpected error:", err);
             }
         };
 
