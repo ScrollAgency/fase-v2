@@ -71,7 +71,7 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
     }, [centerCoordinates]);
 
     const handleMarkerClick = (slug: string) => {
-        router.push(slug);
+        if (slug && slug.length > 0) router.push(slug);
     };
 
     return (
@@ -102,7 +102,7 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
                             longitude={coord.longitude}
                         >
                             <div 
-                                className="cursor-pointer"
+                                className={coord.slug && coord.slug.length > 0 ? "cursor-pointer" : ""}
                                 onMouseEnter={() => setHoveredMarkerId(`${coord.address}-${index}`)}
                                 onMouseLeave={() => setHoveredMarkerId(null)}
                                 onClick={() => handleMarkerClick(coord.slug)}

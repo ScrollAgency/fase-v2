@@ -9,7 +9,8 @@ const MapBoxMultipleMeta = {
         locations: {
             type: "array",
             section: "general",
-            required: true
+            required: true,
+            description: 'object { "address" : "6 rue du Bac...", "title": "Event 12" (displayed on hover), "slug": "/events/12" (slug to add from the base url of the current page) }'
         },
         centerAddress: {
             type: "string",
