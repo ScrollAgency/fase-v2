@@ -115,7 +115,7 @@ const DataGrid: React.FC<DataGridProps> = ({
   visibleColumns,
   columnOrder,
   pageSize = DEFAULT_PAGE_SIZE,
-  currentPage = 1,
+  currentPage: externalCurrentPage = 1,
   onPageChange,
   totalItems,
   columnStyles = {},
@@ -133,6 +133,10 @@ const DataGrid: React.FC<DataGridProps> = ({
 }) => {
   const [mounted, setMounted] = useState(false);
   const [sort, setSort] = useState<SortState>({ field: 'id', direction: null });
+  const [internalCurrentPage, setInternalCurrentPage] = useState(externalCurrentPage);
+
+  // Use external currentPage if provided, otherwise use internal state
+  const currentPage = onPageChange ? externalCurrentPage : internalCurrentPage;
 
   const theme = useMemo(() => ({
     ...DEFAULT_THEME,
@@ -142,6 +146,21 @@ const DataGrid: React.FC<DataGridProps> = ({
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Update internal page when external page changes
+  useEffect(() => {
+    setInternalCurrentPage(externalCurrentPage);
+  }, [externalCurrentPage]);
+
+  const handlePageChange = (newPage: number) => {
+    if (onPageChange) {
+      // Use external handler if provided
+      onPageChange(newPage);
+    } else {
+      // Use internal state if no external handler
+      setInternalCurrentPage(newPage);
+    }
+  };
 
   const allColumns = useMemo(() => {
     if (data.length === 0) return [];
@@ -577,10 +596,10 @@ const DataGrid: React.FC<DataGridProps> = ({
               role="button"
               tabIndex={0}
               className={styles.paginationButton}
-              onClick={() => currentPage > 1 && onPageChange?.(currentPage - 1)}
+              onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
               onKeyDown={(e) => {
                 if ((e.key === 'Enter' || e.key === ' ') && currentPage > 1) {
-                  onPageChange?.(currentPage - 1);
+                  handlePageChange(currentPage - 1);
                 }
               }}
               aria-disabled={currentPage === 1}
@@ -591,10 +610,10 @@ const DataGrid: React.FC<DataGridProps> = ({
               role="button"
               tabIndex={0}
               className={styles.paginationButton}
-              onClick={() => currentPage < totalPages && onPageChange?.(currentPage + 1)}
+              onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
               onKeyDown={(e) => {
                 if ((e.key === 'Enter' || e.key === ' ') && currentPage < totalPages) {
-                  onPageChange?.(currentPage + 1);
+                  handlePageChange(currentPage + 1);
                 }
               }}
               aria-disabled={currentPage === totalPages}
