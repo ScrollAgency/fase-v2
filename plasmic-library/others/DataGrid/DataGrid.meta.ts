@@ -21,7 +21,14 @@ const DataGridMeta = {
         },
         showSearchBox: {
             type: "boolean",
-            displayName: "Afficher la barre de recherche"
+            displayName: "Afficher la barre de recherche",
+            defaultValue: false
+        },
+        searchPlaceholder: {
+            type: "string",
+            displayName: "Placeholder de la recherche",
+            defaultValue: "Rechercher...",
+            description: "Texte affiché dans la barre de recherche"
         },
         onRowClick: {
             type: "eventHandler",
@@ -29,7 +36,8 @@ const DataGridMeta = {
             argTypes: [
                 {
                     name: "rowId",
-                    type: "string"
+                    type: "string",
+                    description: "The ID of the clicked row"
                 }
             ]
         },
@@ -39,7 +47,8 @@ const DataGridMeta = {
             argTypes: [
                 {
                     name: "rowId",
-                    type: "string"
+                    type: "string",
+                    description: "The ID of the row to edit"
                 }
             ]
         },
@@ -49,7 +58,8 @@ const DataGridMeta = {
             argTypes: [
                 {
                     name: "rowId",
-                    type: "string"
+                    type: "string",
+                    description: "The ID of the row to delete"
                 }
             ]
         },
@@ -59,7 +69,8 @@ const DataGridMeta = {
             argTypes: [
                 {
                     name: "rowId",
-                    type: "string"
+                    type: "string",
+                    description: "The ID of the row to copy"
                 }
             ]
         },

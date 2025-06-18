@@ -18,19 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   console.log('Auth state:', { user, loading });
 
   return (
-    <PlasmicRootProvider
-      loader={PLASMIC}
-      globalContextsProps={
-        [
-          {
-            name: "SupabaseUser",
-            context: { user: user },
-          },
-        ]
-      }
-    >
       <Component {...pageProps} />
-    </PlasmicRootProvider>
   )
 }
 
