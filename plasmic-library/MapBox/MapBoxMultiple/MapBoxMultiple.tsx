@@ -25,10 +25,10 @@ interface MapBoxMultipleProps {
     pinColor?: string;
     initialZoom?: number;
     className?: string;
+    onMarkerClick?: (marker: { latitude: number; longitude: number; address: string; title: string; slug: string }) => void;
 }
 
 export default function MapBoxMultiple(props: MapBoxMultipleProps) {
-    const router = useRouter();
     const mapRef = useRef<MapRef>(null);
     const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
     const [coordinates, setCoordinates] = useState<Array<{ latitude: number; longitude: number; address: string; title: string; slug: string }>>([]);
@@ -70,10 +70,6 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
         }
     }, [centerCoordinates]);
 
-    const handleMarkerClick = (slug: string) => {
-        if (slug && slug.length > 0) router.push(slug);
-    };
-
     return (
         <main className={`${styles.mainStyle} ${props.className}`}>
             {centerCoordinates && (
@@ -102,10 +98,10 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
                             longitude={coord.longitude}
                         >
                             <div 
-                                className={coord.slug && coord.slug.length > 0 ? "cursor-pointer" : ""}
+                                className={props.onMarkerClick ? "cursor-pointer" : ""}
                                 onMouseEnter={() => setHoveredMarkerId(`${coord.address}-${index}`)}
                                 onMouseLeave={() => setHoveredMarkerId(null)}
-                                onClick={() => handleMarkerClick(coord.slug)}
+                                onClick={() => props.onMarkerClick && props.onMarkerClick(coord)}
                             >
                                 {props.pin ? (
                                     <img

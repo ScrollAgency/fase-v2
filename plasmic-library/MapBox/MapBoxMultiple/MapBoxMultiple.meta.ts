@@ -51,6 +51,20 @@ const MapBoxMultipleMeta = {
             section: "general",
             defaultValueHint: 10,
             required: false
+        },
+        onMarkerClick: {
+            type: "eventHandler",
+            displayName: "Action au clic sur un pin",
+            description: "Fonction appelée lors du clic sur un pin, reçoit l'objet du marker cliqué en argument.",
+            argTypes: [
+                {
+                    name: "marker",
+                    type: "object",
+                    description: '{ latitude: number; longitude: number; address: string; title: string; slug: string }'
+                }
+            ],
+            section: "events",
+            required: false
         }
     },
     importPath: "./components/MapBox/MapBoxMultiple/MapBoxMultiple",
