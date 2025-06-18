@@ -48,7 +48,6 @@ const DataGridMeta = {
                 {
                     name: "rowId",
                     type: "string",
-                    description: "The ID of the row to edit"
                 }
             ]
         },
@@ -94,13 +93,11 @@ const DataGridMeta = {
         },
         visibleColumns: {
             type: "array",
-            description: "Array of column keys to display",
-            itemType: "string"
+            description: 'Array of column : [{"label": column name}, ...]'
         },
         columnOrder: {
             type: "array",
-            description: "Order of columns to display",
-            itemType: "string"
+            description: "Order of columns to display"
         },
         pageSize: {
             type: "number",
