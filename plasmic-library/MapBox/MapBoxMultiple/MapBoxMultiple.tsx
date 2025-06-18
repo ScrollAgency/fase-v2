@@ -52,6 +52,7 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
     const [coordinates, setCoordinates] = useState<Array<{ latitude: number; longitude: number; address: string; title: string; slug: string }>>([]);
     const [centerCoordinates, setCenterCoordinates] = useState<{ latitude: number; longitude: number } | null>(null);
     const [hoveredMarkerId, setHoveredMarkerId] = useState<string | null>(null);
+    const [selectedMarkerId, setSelectedMarkerId] = useState<string | null>(null);
 
     const fetchCoordinates = async () => {
         try {
@@ -122,7 +123,10 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
                                 className={props.onMarkerClick ? "cursor-pointer" : ""}
                                 onMouseEnter={() => setHoveredMarkerId(`${coord.address}-${index}`)}
                                 onMouseLeave={() => setHoveredMarkerId(null)}
-                                onClick={() => props.onMarkerClick && props.onMarkerClick(coord)}
+                                onClick={() => {
+                                    setSelectedMarkerId(`${coord.address}-${index}`);
+                                    props.onMarkerClick && props.onMarkerClick(coord);
+                                }}
                             >
                                 {props.pin ? (
                                     <img
@@ -131,7 +135,10 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
                                         style={{width: props.pinSize || 30, height: props.pinSize || 30}}
                                     />
                                 ) : (
-                                    <IoMdPin size={props.pinSize || 30} color={props.pinColor || "tomato"} />
+                                    <IoMdPin 
+                                        size={props.pinSize || 30} 
+                                        color={selectedMarkerId === `${coord.address}-${index}` ? "#FCBF18" : (props.pinColor || "tomato")} 
+                                    />
                                 )}
                             </div>
                         </Marker>
