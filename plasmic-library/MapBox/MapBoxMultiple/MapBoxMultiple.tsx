@@ -134,20 +134,6 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
                                     <IoMdPin size={props.pinSize || 30} color={props.pinColor || "tomato"} />
                                 )}
                             </div>
-                            {hoveredMarkerId === `${coord.address}-${index}` && (
-                                <Popup
-                                    latitude={coord.latitude}
-                                    longitude={coord.longitude}
-                                    closeButton={false}
-                                    closeOnClick={false}
-                                    anchor="bottom"
-                                    offset={15}
-                                >
-                                    <div className="px-2 py-1 text-sm">
-                                        <div className="font-semibold">{coord.title}</div>
-                                    </div>
-                                </Popup>
-                            )}
                         </Marker>
                     ))}
                 </Map>
