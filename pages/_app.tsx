@@ -1,4 +1,6 @@
 import type { AppProps } from 'next/app';
+import { PlasmicRootProvider } from '@plasmicapp/loader-nextjs';
+import { PLASMIC } from '@/plasmic-init'; // adapte le chemin si nécessaire
 
 import "@uppy/core/dist/style.min.css";
 import "@uppy/dashboard/dist/style.min.css";
@@ -15,7 +17,21 @@ function MyApp({ Component, pageProps }: AppProps) {
   // This will run on every page load and automatically initialize the session
   console.log('Auth state:', { user, loading });
 
-  return <Component {...pageProps} />;
+  return (
+    <PlasmicRootProvider
+      loader={PLASMIC}
+      globalContextsProps={
+        [
+          {
+            name: "supabaseUser",
+            context: { user: user },
+          },
+        ]
+      }
+    >
+      <Component {...pageProps} />
+    </PlasmicRootProvider>
+  )
 }
 
 export default MyApp;

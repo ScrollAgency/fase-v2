@@ -15,6 +15,7 @@ export const useAuthInit = () => {
         if (sessionUser) {
           console.log('User authenticated:', sessionUser);
           setUser(sessionUser);
+          
         } else if (sessionError) {
           console.error('Authentication failed:', sessionError);
           setError(sessionError);

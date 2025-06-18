@@ -66,6 +66,8 @@ interface DataGridProps {
   columnHeaders?: { [key: string]: ColumnHeader };
   theme?: DataGridTheme;
   responsive?: ResponsiveConfig;
+  showSearchBox?: boolean;
+  searchPlaceholder?: string;
 }
 
 type SortField = string;
@@ -129,11 +131,14 @@ const DataGrid: React.FC<DataGridProps> = ({
   loadingComponent,
   columnHeaders = {},
   theme: customTheme,
-  responsive
+  responsive,
+  showSearchBox = false,
+  searchPlaceholder = 'Rechercher...'
 }) => {
   const [mounted, setMounted] = useState(false);
   const [sort, setSort] = useState<SortState>({ field: 'id', direction: null });
   const [internalCurrentPage, setInternalCurrentPage] = useState(externalCurrentPage);
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Use external currentPage if provided, otherwise use internal state
   const currentPage = onPageChange ? externalCurrentPage : internalCurrentPage;
@@ -152,6 +157,13 @@ const DataGrid: React.FC<DataGridProps> = ({
     setInternalCurrentPage(externalCurrentPage);
   }, [externalCurrentPage]);
 
+  // Reset to first page when search term changes
+  useEffect(() => {
+    if (searchTerm) {
+      handlePageChange(1);
+    }
+  }, [searchTerm]);
+
   const handlePageChange = (newPage: number) => {
     if (onPageChange) {
       // Use external handler if provided
@@ -160,6 +172,10 @@ const DataGrid: React.FC<DataGridProps> = ({
       // Use internal state if no external handler
       setInternalCurrentPage(newPage);
     }
+  };
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
   };
 
   const allColumns = useMemo(() => {
@@ -176,10 +192,23 @@ const DataGrid: React.FC<DataGridProps> = ({
     return visibleColumns.filter(col => allColumns.includes(col));
   }, [allColumns, visibleColumns]);
 
-  const sortedData = useMemo(() => {
-    if (!sort.direction) return data;
+  // Filter data based on search term
+  const filteredData = useMemo(() => {
+    if (!searchTerm.trim()) return data;
 
-    return [...data].sort((a, b) => {
+    const searchLower = searchTerm.toLowerCase();
+    return data.filter(row => {
+      return Object.values(row).some(value => {
+        if (value === null || value === undefined) return false;
+        return String(value).toLowerCase().includes(searchLower);
+      });
+    });
+  }, [data, searchTerm]);
+
+  const sortedData = useMemo(() => {
+    if (!sort.direction) return filteredData;
+
+    return [...filteredData].sort((a, b) => {
       const aValue = a[sort.field];
       const bValue = b[sort.field];
 
@@ -205,7 +234,7 @@ const DataGrid: React.FC<DataGridProps> = ({
 
       return 0;
     });
-  }, [data, sort]);
+  }, [filteredData, sort]);
 
   const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
@@ -457,6 +486,46 @@ const DataGrid: React.FC<DataGridProps> = ({
       data-overflow-y={responsive?.verticalOverflow}
       data-compact={responsive?.compactOnMobile}
     >
+      {/* Search Box */}
+      {showSearchBox && (
+        <div style={{
+          marginBottom: '16px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
+        }}>
+          <input
+            type="text"
+            placeholder={searchPlaceholder}
+            value={searchTerm}
+            onChange={handleSearch}
+            style={{
+              padding: '8px 12px',
+              border: `1px solid ${theme.borderColor}`,
+              borderRadius: '4px',
+              fontSize: theme.fontSize,
+              minWidth: '200px',
+              outline: 'none'
+            }}
+          />
+          {searchTerm && (
+            <button
+              onClick={() => setSearchTerm('')}
+              style={{
+                padding: '4px 8px',
+                border: 'none',
+                backgroundColor: '#f0f0f0',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '12px'
+              }}
+            >
+              Effacer
+            </button>
+          )}
+        </div>
+      )}
+
       {enableExport && mounted && (
         <div className={styles.dataGridToolbar} style={{
           position: 'static',
