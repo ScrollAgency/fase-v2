@@ -48,7 +48,7 @@ interface DataGridProps {
   onDeleteClick?: (rowId: string) => void;
   onCopyClick?: (rowId: string) => void;
   columnLabels?: { [key: string]: string };
-  visibleColumns?: string[];
+  visibleColumns?: ColumnHeader[];
   columnOrder?: string[];
   pageSize?: number;
   currentPage?: number;
@@ -188,8 +188,11 @@ const DataGrid: React.FC<DataGridProps> = ({
   }, [data, columnOrder]);
 
   const columns = useMemo(() => {
-    if (!visibleColumns) return allColumns;
-    return visibleColumns.filter(col => allColumns.includes(col));
+    if (!visibleColumns) {
+      // Filter out the 'id' column by default
+      return allColumns.filter(col => col !== 'id');
+    }
+    return visibleColumns.filter(col => allColumns.includes(col.label)).map((col) => col.label);
   }, [allColumns, visibleColumns]);
 
   // Filter data based on search term
@@ -327,6 +330,7 @@ const DataGrid: React.FC<DataGridProps> = ({
           className={styles.actionButton}
           onClick={(e) => {
             e.stopPropagation();
+            console.log(row.id);
             onEditClick?.(row.id as string);
           }}
           onKeyDown={(e) => {
