@@ -11,9 +11,15 @@ import { geocodeAddress } from '../geocoding';
 import styles from '../MapBox.module.css';
 
 interface Location {
+    id: string;
     address: string;
     title: string;
     slug: string;
+    description?: string;
+    image?: string;
+    startDate?: Date;
+    endDate?: Date;
+    price?: number;
 }
 
 interface MapBoxMultipleProps {
@@ -25,7 +31,19 @@ interface MapBoxMultipleProps {
     pinColor?: string;
     initialZoom?: number;
     className?: string;
-    onMarkerClick?: (marker: { latitude: number; longitude: number; address: string; title: string; slug: string }) => void;
+    onMarkerClick?: (marker: {
+        latitude: number;
+        longitude: number;
+        address: string;
+        title: string;
+        slug: string;
+        id?: string;
+        description?: string;
+        image?: string;
+        startDate?: Date;
+        endDate?: Date;
+        price?: number;
+    }) => void;
 }
 
 export default function MapBoxMultiple(props: MapBoxMultipleProps) {
@@ -40,7 +58,10 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
             const results = await Promise.all(
                 props.locations.map(async (location) => {
                     const coords = await geocodeAddress(location.address);
-                    return { ...coords, address: location.address, title: location.title, slug: location.slug };
+                    return { 
+                        ...coords, 
+                        ...location,
+                    };
                 })
             );
             setCoordinates(results);
