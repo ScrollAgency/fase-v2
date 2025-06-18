@@ -11,10 +11,6 @@ const DataGridMeta = {
             defaultValue: [],
             description: "Array of data to display in the grid"
         },
-        containerClassName: {
-            type: "string",
-            description: "Additional CSS class for the container"
-        },
         headerClassName: {
             type: "string",
             description: "Additional CSS class for the header"

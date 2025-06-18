@@ -1,6 +1,8 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { createClient } from '@supabase/supabase-js';
 import { cn } from "@/lib/utils";
+import {initSession} from '../../authentication/initSession';
+
 
 interface ButtonActions {
     click: () => void;
@@ -54,6 +56,16 @@ const AuthButton = forwardRef<ButtonActions, ButtonProps>(
                     console.error("Login error:", error.message);
                 } else {
                     console.log("Login successful:", data);
+
+                    // Initialize session after successful OAuth
+                    const { user, error: sessionError } = await initSession();
+                    
+                    if (user) {
+                        console.log('Session initialized successfully:', user);
+                        // The Supabase context should now be updated
+                    } else if (sessionError) {
+                        console.error('Session initialization failed:', sessionError);
+                    }
                 }
             } catch (err) {
                 console.error("Unexpected error:", err);
