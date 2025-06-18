@@ -1,8 +1,8 @@
 const DataGridMeta = {
     name: "DataGrid",
-    section: "🔖 Sitex",
+    section: "🔖 Tables",
     displayName: "Data Grid",
-    description: "Table view for task management with sorting, filtering, pagination, and export capabilities",
+    description: "Table view for displaying data",
     thumbnailUrl: "https://static1.plasmic.app/insertables/table.svg",
     importPath: "./components/others/data_grid/data_grid",
     props: {
@@ -23,12 +23,12 @@ const DataGridMeta = {
             type: "boolean",
             displayName: "Afficher la barre de recherche"
         },
-        onTaskClick: {
+        onRowClick: {
             type: "eventHandler",
             description: "Called when a row is clicked",
             argTypes: [
                 {
-                    name: "taskId",
+                    name: "rowId",
                     type: "string"
                 }
             ]
@@ -38,7 +38,7 @@ const DataGridMeta = {
             description: "Called when the edit button is clicked",
             argTypes: [
                 {
-                    name: "taskId",
+                    name: "rowId",
                     type: "string"
                 }
             ]
@@ -48,7 +48,7 @@ const DataGridMeta = {
             description: "Called when the delete button is clicked",
             argTypes: [
                 {
-                    name: "taskId",
+                    name: "rowId",
                     type: "string"
                 }
             ]
@@ -58,7 +58,7 @@ const DataGridMeta = {
             description: "Called when the copy button is clicked",
             argTypes: [
                 {
-                    name: "taskId",
+                    name: "rowId",
                     type: "string"
                 }
             ]
