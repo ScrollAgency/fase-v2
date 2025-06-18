@@ -8,23 +8,14 @@ interface Row {
   [key: string]: string | null | undefined;
 }
 
-interface ColumnFilter {
-  field: string;
-  value: string | number | boolean;
-  operator: 'equals' | 'contains' | 'greaterThan' | 'lessThan';
-}
-
 interface ColumnStyle {
   width?: string;
   minWidth?: string;
   align?: 'left' | 'center' | 'right';
-  formatter?: (value: any) => React.ReactNode;
 }
 
 interface ColumnHeader {
   label: string;
-  tooltip?: string;
-  icon?: React.ReactNode;
 }
 
 interface DataGridTheme {
@@ -45,12 +36,11 @@ interface ResponsiveConfig {
   verticalOverflow?: 'auto' | 'scroll' | 'hidden';
   stickyHeader?: boolean;
   compactOnMobile?: boolean;
-  breakpoint?: number;
 }
 
 interface DataGridProps {
   data: Row[];
-  containerClassName?: string;
+  className?: string;
   headerClassName?: string;
   rowClassName?: string;
   onRowClick?: (rowId: string) => void;
@@ -64,8 +54,6 @@ interface DataGridProps {
   currentPage?: number;
   onPageChange?: (page: number) => void;
   totalItems?: number;
-  filters?: ColumnFilter[];
-  onFilterChange?: (filters: ColumnFilter[]) => void;
   columnStyles?: { [key: string]: ColumnStyle };
   enableExport?: boolean;
   exportFormats?: 'csv' | 'excel';
@@ -116,7 +104,7 @@ const DEFAULT_PAGE_SIZE = 10;
 
 const DataGrid: React.FC<DataGridProps> = ({
   data = [],
-  containerClassName = "",
+  className = "",
   headerClassName = "",
   rowClassName = "",
   onRowClick,
@@ -130,8 +118,6 @@ const DataGrid: React.FC<DataGridProps> = ({
   currentPage = 1,
   onPageChange,
   totalItems,
-  filters = [],
-  onFilterChange,
   columnStyles = {},
   enableExport = false,
   exportFormats = 'csv',
@@ -147,8 +133,6 @@ const DataGrid: React.FC<DataGridProps> = ({
 }) => {
   const [mounted, setMounted] = useState(false);
   const [sort, setSort] = useState<SortState>({ field: 'id', direction: null });
-  const [localFilters, setLocalFilters] = useState<ColumnFilter[]>(filters);
-  const [filterOpen, setFilterOpen] = useState<string | null>(null);
 
   const theme = useMemo(() => ({
     ...DEFAULT_THEME,
@@ -173,32 +157,10 @@ const DataGrid: React.FC<DataGridProps> = ({
     return visibleColumns.filter(col => allColumns.includes(col));
   }, [allColumns, visibleColumns]);
 
-  const filteredData = useMemo(() => {
-    return data.filter(row => {
-      return localFilters.every(filter => {
-        const value = row[filter.field];
-        if (value === null || value === undefined) return false;
-
-        switch (filter.operator) {
-          case 'equals':
-            return value === filter.value;
-          case 'contains':
-            return String(value).toLowerCase().includes(String(filter.value).toLowerCase());
-          case 'greaterThan':
-            return Number(value) > Number(filter.value);
-          case 'lessThan':
-            return Number(value) < Number(filter.value);
-          default:
-            return true;
-        }
-      });
-    });
-  }, [data, localFilters]);
-
   const sortedData = useMemo(() => {
-    if (!sort.direction) return filteredData;
+    if (!sort.direction) return data;
 
-    return [...filteredData].sort((a, b) => {
+    return [...data].sort((a, b) => {
       const aValue = a[sort.field];
       const bValue = b[sort.field];
 
@@ -224,7 +186,7 @@ const DataGrid: React.FC<DataGridProps> = ({
 
       return 0;
     });
-  }, [filteredData, sort]);
+  }, [data, sort]);
 
   const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
@@ -271,49 +233,6 @@ const DataGrid: React.FC<DataGridProps> = ({
               : 'asc'
           : 'asc'
     }));
-  };
-
-  const getStatusStyle = (status: string) => {
-    const baseStyle = {
-      padding: '4px 8px',
-      borderRadius: '4px',
-      fontSize: '12px',
-      fontWeight: '500',
-      display: 'inline-block'
-    };
-
-    switch (status.toLowerCase()) {
-      case 'non catégorisé':
-        return {
-          ...baseStyle,
-          backgroundColor: '#eaeaec',
-          color: '#43454d'
-        };
-      case 'à planifier':
-        return {
-          ...baseStyle,
-          backgroundColor: '#fdf9eb',
-          color: '#ad5b2b'
-        };
-      case 'à engager':
-        return {
-          ...baseStyle,
-          backgroundColor: '#fcf1f1',
-          color: '#ab3832'
-        };
-      case 'en cours':
-        return {
-          ...baseStyle,
-          backgroundColor: '#f1fbf3',
-          color: '#387c39'
-        };
-      default:
-        return {
-          ...baseStyle,
-          backgroundColor: '#f5f0fd',
-          color: '#552a9b'
-        };
-    }
   };
 
   const SortIcon = ({ field }: { field: SortField }) => {
@@ -450,8 +369,6 @@ const DataGrid: React.FC<DataGridProps> = ({
   const renderCell = (column: string, value: string | null | undefined) => {
     if (value === null || value === undefined) return 'N/A';
 
-    const style = columnStyles[column];
-
     switch (column) {
       case 'date_start':
       case 'date_end':
@@ -508,7 +425,7 @@ const DataGrid: React.FC<DataGridProps> = ({
   }
 
   return (
-    <div className={`${styles.dataGridWrapper} ${containerClassName}`} 
+    <div className={`${styles.dataGridWrapper} ${className}`} 
       style={{ 
         position: 'relative',
         height: responsive?.height,
