@@ -19,6 +19,10 @@ const DataGridMeta = {
             type: "string",
             description: "Additional CSS class for each row"
         },
+        showSearchBox: {
+            type: "boolean",
+            displayName: "Afficher la barre de recherche"
+        },
         onTaskClick: {
             type: "eventHandler",
             description: "Called when a row is clicked",
