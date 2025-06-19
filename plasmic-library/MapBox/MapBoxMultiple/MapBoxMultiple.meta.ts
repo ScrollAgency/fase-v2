@@ -9,7 +9,8 @@ const MapBoxMultipleMeta = {
         locations: {
             type: "array",
             section: "general",
-            required: true
+            required: true,
+            description: 'object { "address" : "6 rue du Bac...", "title": "Event 12" (displayed on hover), "slug": "/events/12" (slug to add from the base url of the current page) }'
         },
         centerAddress: {
             type: "string",
@@ -49,6 +50,20 @@ const MapBoxMultipleMeta = {
             displayName: "initial zoom on the map",
             section: "general",
             defaultValueHint: 10,
+            required: false
+        },
+        onMarkerClick: {
+            type: "eventHandler",
+            displayName: "Action au clic sur un pin",
+            description: "Fonction appelée lors du clic sur un pin, reçoit l'objet du marker cliqué en argument.",
+            argTypes: [
+                {
+                    name: "marker",
+                    type: "object",
+                    description: '{ latitude: number; longitude: number; address: string; title: string; slug: string }'
+                }
+            ],
+            section: "events",
             required: false
         }
     },

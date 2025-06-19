@@ -11,9 +11,15 @@ import { geocodeAddress } from '../geocoding';
 import styles from '../MapBox.module.css';
 
 interface Location {
+    id: string;
     address: string;
     title: string;
     slug: string;
+    description?: string;
+    image?: string;
+    startDate?: Date;
+    endDate?: Date;
+    price?: number;
 }
 
 interface MapBoxMultipleProps {
@@ -25,22 +31,38 @@ interface MapBoxMultipleProps {
     pinColor?: string;
     initialZoom?: number;
     className?: string;
+    onMarkerClick?: (marker: {
+        latitude: number;
+        longitude: number;
+        address: string;
+        title: string;
+        slug: string;
+        id?: string;
+        description?: string;
+        image?: string;
+        startDate?: Date;
+        endDate?: Date;
+        price?: number;
+    }) => void;
 }
 
 export default function MapBoxMultiple(props: MapBoxMultipleProps) {
-    const router = useRouter();
     const mapRef = useRef<MapRef>(null);
     const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
     const [coordinates, setCoordinates] = useState<Array<{ latitude: number; longitude: number; address: string; title: string; slug: string }>>([]);
     const [centerCoordinates, setCenterCoordinates] = useState<{ latitude: number; longitude: number } | null>(null);
     const [hoveredMarkerId, setHoveredMarkerId] = useState<string | null>(null);
+    const [selectedMarkerId, setSelectedMarkerId] = useState<string | null>(null);
 
     const fetchCoordinates = async () => {
         try {
             const results = await Promise.all(
                 props.locations.map(async (location) => {
                     const coords = await geocodeAddress(location.address);
-                    return { ...coords, address: location.address, title: location.title, slug: location.slug };
+                    return { 
+                        ...coords, 
+                        ...location,
+                    };
                 })
             );
             setCoordinates(results);
@@ -70,10 +92,6 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
         }
     }, [centerCoordinates]);
 
-    const handleMarkerClick = (slug: string) => {
-        router.push(slug);
-    };
-
     return (
         <main className={`${styles.mainStyle} ${props.className}`}>
             {centerCoordinates && (
@@ -102,10 +120,13 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
                             longitude={coord.longitude}
                         >
                             <div 
-                                className="cursor-pointer"
+                                className={props.onMarkerClick ? "cursor-pointer" : ""}
                                 onMouseEnter={() => setHoveredMarkerId(`${coord.address}-${index}`)}
                                 onMouseLeave={() => setHoveredMarkerId(null)}
-                                onClick={() => handleMarkerClick(coord.slug)}
+                                onClick={() => {
+                                    setSelectedMarkerId(`${coord.address}-${index}`);
+                                    props.onMarkerClick && props.onMarkerClick(coord);
+                                }}
                             >
                                 {props.pin ? (
                                     <img
@@ -114,23 +135,12 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
                                         style={{width: props.pinSize || 30, height: props.pinSize || 30}}
                                     />
                                 ) : (
-                                    <IoMdPin size={props.pinSize || 30} color={props.pinColor || "tomato"} />
+                                    <IoMdPin 
+                                        size={props.pinSize || 30} 
+                                        color={selectedMarkerId === `${coord.address}-${index}` ? "#FCBF18" : (props.pinColor || "tomato")} 
+                                    />
                                 )}
                             </div>
-                            {hoveredMarkerId === `${coord.address}-${index}` && (
-                                <Popup
-                                    latitude={coord.latitude}
-                                    longitude={coord.longitude}
-                                    closeButton={false}
-                                    closeOnClick={false}
-                                    anchor="bottom"
-                                    offset={15}
-                                >
-                                    <div className="px-2 py-1 text-sm">
-                                        <div className="font-semibold">{coord.title}</div>
-                                    </div>
-                                </Popup>
-                            )}
                         </Marker>
                     ))}
                 </Map>

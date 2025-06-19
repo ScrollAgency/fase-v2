@@ -18,6 +18,7 @@ interface MapBoxSimpleProps {
     pinColor?: string;
     initialZoom?: number;
     className?: string;
+    hideLogo?: boolean;
 }
 
 export default function MapBoxSimple( props: MapBoxSimpleProps) {
@@ -45,6 +46,7 @@ export default function MapBoxSimple( props: MapBoxSimpleProps) {
                     initialViewState={{ latitude: coords.latitude, longitude: coords.longitude, zoom: props.initialZoom || 10 }}
                     maxZoom={20}
                     minZoom={3}
+                    attributionControl={!props.hideLogo}
                 >
                     <Marker latitude={coords.latitude} longitude={coords.longitude}>
                         <div
