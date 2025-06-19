@@ -1,11 +1,11 @@
 .dataGridWrapper {
   width: 100%;
-  overflow: hidden;
+  overflow: auto;
+  border: 1px solid var(--border-color, #d9cdbf);
+  border-radius: 4px;
   /* background: white; */
   font-family: 'Manrope', sans-serif;
   font-size: 14px;
-  border-radius: 12px;
-  /* border: 1px solid #E5E7EB; */
   position: relative;
 }
 
@@ -27,33 +27,30 @@
 
 .dataGridTable {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  min-width: var(--table-min-width, 100%);
-  max-width: var(--table-max-width, none);
+  border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .dataGridHeader {
   background-color: white;
-  border-bottom: 1px solid #E5E7EB;
+  border-bottom: 2px solid var(--border-color, #d9cdbf);
 }
 
 .headerCell {
   padding: 12px 16px;
+  font-weight: 600;
   text-align: left;
-  font-weight: 500;
-  color: #666666;
-  font-size: 14px;
-  cursor: pointer;
+  border-bottom: 2px solid var(--border-color, #d9cdbf);
   white-space: nowrap;
-  position: relative;
-  font-family: 'Manrope', sans-serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .headerContent {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  width: 100%;
 }
 
 .dataGridRow {
@@ -67,12 +64,17 @@
 
 .dataGridCell {
   padding: 12px 16px;
-  font-size: 14px;
-  color: #131013;
+  border-bottom: 1px solid var(--border-color, #d9cdbf);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: 'Manrope', sans-serif;
+}
+
+.dataGridCell p {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .statusTag {

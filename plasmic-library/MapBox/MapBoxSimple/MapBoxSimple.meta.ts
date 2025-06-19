@@ -47,6 +47,6 @@ const MapBoxSimpleMeta = {
             required: false
         }
     },
-    importPath: "./components/MapBoxSimple/MapBoxSimple",
+    importPath: "./components/MapBox/MapBoxSimple/MapBoxSimple",
 }
 export default MapBoxSimpleMeta;

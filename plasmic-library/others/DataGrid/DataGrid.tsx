@@ -4,26 +4,18 @@ import { format, parseISO } from 'date-fns';
 import dynamic from 'next/dynamic';
 import styles from './DataGrid.module.css';
 
-interface Task {
+interface Row {
   [key: string]: string | null | undefined;
-}
-
-interface ColumnFilter {
-  field: string;
-  value: string | number | boolean;
-  operator: 'equals' | 'contains' | 'greaterThan' | 'lessThan';
 }
 
 interface ColumnStyle {
   width?: string;
+  minWidth?: string;
   align?: 'left' | 'center' | 'right';
-  formatter?: (value: any) => React.ReactNode;
 }
 
 interface ColumnHeader {
   label: string;
-  tooltip?: string;
-  icon?: React.ReactNode;
 }
 
 interface DataGridTheme {
@@ -44,27 +36,24 @@ interface ResponsiveConfig {
   verticalOverflow?: 'auto' | 'scroll' | 'hidden';
   stickyHeader?: boolean;
   compactOnMobile?: boolean;
-  breakpoint?: number;
 }
 
 interface DataGridProps {
-  tasks: Task[];
-  containerClassName?: string;
+  data: Row[];
+  className?: string;
   headerClassName?: string;
   rowClassName?: string;
-  onTaskClick?: (taskId: string) => void;
-  onEditClick?: (taskId: string) => void;
-  onDeleteClick?: (taskId: string) => void;
-  onCopyClick?: (taskId: string) => void;
+  onRowClick?: (rowId: string) => void;
+  onEditClick?: (rowId: string) => void;
+  onDeleteClick?: (rowId: string) => void;
+  onCopyClick?: (rowId: string) => void;
   columnLabels?: { [key: string]: string };
-  visibleColumns?: string[];
+  visibleColumns?: ColumnHeader[];
   columnOrder?: string[];
   pageSize?: number;
   currentPage?: number;
   onPageChange?: (page: number) => void;
   totalItems?: number;
-  filters?: ColumnFilter[];
-  onFilterChange?: (filters: ColumnFilter[]) => void;
   columnStyles?: { [key: string]: ColumnStyle };
   enableExport?: boolean;
   exportFormats?: 'csv' | 'excel';
@@ -77,6 +66,8 @@ interface DataGridProps {
   columnHeaders?: { [key: string]: ColumnHeader };
   theme?: DataGridTheme;
   responsive?: ResponsiveConfig;
+  showSearchBox?: boolean;
+  searchPlaceholder?: string;
 }
 
 type SortField = string;
@@ -114,11 +105,11 @@ const DEFAULT_THEME: DataGridTheme = {
 const DEFAULT_PAGE_SIZE = 10;
 
 const DataGrid: React.FC<DataGridProps> = ({
-  tasks = [],
-  containerClassName = "",
+  data = [],
+  className = "",
   headerClassName = "",
   rowClassName = "",
-  onTaskClick,
+  onRowClick,
   onEditClick,
   onDeleteClick,
   onCopyClick,
@@ -126,11 +117,9 @@ const DataGrid: React.FC<DataGridProps> = ({
   visibleColumns,
   columnOrder,
   pageSize = DEFAULT_PAGE_SIZE,
-  currentPage = 1,
+  currentPage: externalCurrentPage = 1,
   onPageChange,
   totalItems,
-  filters = [],
-  onFilterChange,
   columnStyles = {},
   enableExport = false,
   exportFormats = 'csv',
@@ -142,12 +131,17 @@ const DataGrid: React.FC<DataGridProps> = ({
   loadingComponent,
   columnHeaders = {},
   theme: customTheme,
-  responsive
+  responsive,
+  showSearchBox = false,
+  searchPlaceholder = 'Rechercher...'
 }) => {
   const [mounted, setMounted] = useState(false);
   const [sort, setSort] = useState<SortState>({ field: 'id', direction: null });
-  const [localFilters, setLocalFilters] = useState<ColumnFilter[]>(filters);
-  const [filterOpen, setFilterOpen] = useState<string | null>(null);
+  const [internalCurrentPage, setInternalCurrentPage] = useState(externalCurrentPage);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Use external currentPage if provided, otherwise use internal state
+  const currentPage = onPageChange ? externalCurrentPage : internalCurrentPage;
 
   const theme = useMemo(() => ({
     ...DEFAULT_THEME,
@@ -158,46 +152,66 @@ const DataGrid: React.FC<DataGridProps> = ({
     setMounted(true);
   }, []);
 
+  // Update internal page when external page changes
+  useEffect(() => {
+    setInternalCurrentPage(externalCurrentPage);
+  }, [externalCurrentPage]);
+
+  // Reset to first page when search term changes
+  useEffect(() => {
+    if (searchTerm) {
+      handlePageChange(1);
+    }
+  }, [searchTerm]);
+
+  const handlePageChange = (newPage: number) => {
+    if (onPageChange) {
+      // Use external handler if provided
+      onPageChange(newPage);
+    } else {
+      // Use internal state if no external handler
+      setInternalCurrentPage(newPage);
+    }
+  };
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
   const allColumns = useMemo(() => {
-    if (tasks.length === 0) return [];
-    const cols = Object.keys(tasks[0]);
+    if (data.length === 0) return [];
+    const cols = Object.keys(data[0]);
     if (columnOrder) {
       return columnOrder.filter(col => cols.includes(col));
     }
     return cols;
-  }, [tasks, columnOrder]);
+  }, [data, columnOrder]);
 
   const columns = useMemo(() => {
-    if (!visibleColumns) return allColumns;
-    return visibleColumns.filter(col => allColumns.includes(col));
+    if (!visibleColumns) {
+      // Filter out the 'id' column by default
+      return allColumns.filter(col => col !== 'id');
+    }
+    return visibleColumns.filter(col => allColumns.includes(col.label)).map((col) => col.label);
   }, [allColumns, visibleColumns]);
 
-  const filteredTasks = useMemo(() => {
-    return tasks.filter(task => {
-      return localFilters.every(filter => {
-        const value = task[filter.field];
-        if (value === null || value === undefined) return false;
+  // Filter data based on search term
+  const filteredData = useMemo(() => {
+    if (!searchTerm.trim()) return data;
 
-        switch (filter.operator) {
-          case 'equals':
-            return value === filter.value;
-          case 'contains':
-            return String(value).toLowerCase().includes(String(filter.value).toLowerCase());
-          case 'greaterThan':
-            return Number(value) > Number(filter.value);
-          case 'lessThan':
-            return Number(value) < Number(filter.value);
-          default:
-            return true;
-        }
+    const searchLower = searchTerm.toLowerCase();
+    return data.filter(row => {
+      return Object.values(row).some(value => {
+        if (value === null || value === undefined) return false;
+        return String(value).toLowerCase().includes(searchLower);
       });
     });
-  }, [tasks, localFilters]);
+  }, [data, searchTerm]);
 
-  const sortedTasks = useMemo(() => {
-    if (!sort.direction) return filteredTasks;
+  const sortedData = useMemo(() => {
+    if (!sort.direction) return filteredData;
 
-    return [...filteredTasks].sort((a, b) => {
+    return [...filteredData].sort((a, b) => {
       const aValue = a[sort.field];
       const bValue = b[sort.field];
 
@@ -223,29 +237,29 @@ const DataGrid: React.FC<DataGridProps> = ({
 
       return 0;
     });
-  }, [filteredTasks, sort]);
+  }, [filteredData, sort]);
 
-  const paginatedTasks = useMemo(() => {
+  const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
-    return sortedTasks.slice(start, start + pageSize);
-  }, [sortedTasks, currentPage, pageSize]);
+    return sortedData.slice(start, start + pageSize);
+  }, [sortedData, currentPage, pageSize]);
 
-  const totalPages = Math.ceil((totalItems ?? sortedTasks.length) / pageSize);
+  const totalPages = Math.ceil((totalItems ?? sortedData.length) / pageSize);
 
   const handleExport = async (format: 'csv' | 'excel') => {
     if (!enableExport) return;
 
-    const data = sortedTasks.map(task => {
+    const dataToDisplay = sortedData.map(sortedRow => {
       const row: { [key: string]: any } = {};
       columns.forEach(col => {
-        row[columnLabels[col] || col] = task[col];
+        row[columnLabels[col] || col] = sortedRow[col];
       });
       return row;
     });
 
     if (format === 'csv') {
       const csv = columns.map(col => columnLabels[col] || col).join(',') + '\n' +
-        data.map(row => columns.map(col => `"${row[columnLabels[col] || col] || ''}"`).join(',')).join('\n');
+        dataToDisplay.map(row => columns.map(col => `"${row[columnLabels[col] || col] || ''}"`).join(',')).join('\n');
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
@@ -270,49 +284,6 @@ const DataGrid: React.FC<DataGridProps> = ({
               : 'asc'
           : 'asc'
     }));
-  };
-
-  const getStatusStyle = (status: string) => {
-    const baseStyle = {
-      padding: '4px 8px',
-      borderRadius: '4px',
-      fontSize: '12px',
-      fontWeight: '500',
-      display: 'inline-block'
-    };
-
-    switch (status.toLowerCase()) {
-      case 'non catégorisé':
-        return {
-          ...baseStyle,
-          backgroundColor: '#eaeaec',
-          color: '#43454d'
-        };
-      case 'à planifier':
-        return {
-          ...baseStyle,
-          backgroundColor: '#fdf9eb',
-          color: '#ad5b2b'
-        };
-      case 'à engager':
-        return {
-          ...baseStyle,
-          backgroundColor: '#fcf1f1',
-          color: '#ab3832'
-        };
-      case 'en cours':
-        return {
-          ...baseStyle,
-          backgroundColor: '#f1fbf3',
-          color: '#387c39'
-        };
-      default:
-        return {
-          ...baseStyle,
-          backgroundColor: '#f5f0fd',
-          color: '#552a9b'
-        };
-    }
   };
 
   const SortIcon = ({ field }: { field: SortField }) => {
@@ -343,7 +314,7 @@ const DataGrid: React.FC<DataGridProps> = ({
     return null;
   };
 
-  const renderActionButtons = (task: Task) => {
+  const renderActionButtons = (row: Row) => {
     if (!mounted) return null;
     
     return (
@@ -359,12 +330,13 @@ const DataGrid: React.FC<DataGridProps> = ({
           className={styles.actionButton}
           onClick={(e) => {
             e.stopPropagation();
-            onEditClick?.(task.id as string);
+            console.log(row.id);
+            onEditClick?.(row.id as string);
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.stopPropagation();
-              onEditClick?.(task.id as string);
+              onEditClick?.(row.id as string);
             }
           }}
           style={{
@@ -384,15 +356,15 @@ const DataGrid: React.FC<DataGridProps> = ({
           className={styles.actionButton}
           onClick={(e) => {
             e.stopPropagation();
-            if (task.id) {
-              onCopyClick?.(task.id as string);
+            if (row.id) {
+              onCopyClick?.(row.id as string);
             }
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.stopPropagation();
-              if (task.id) {
-                onCopyClick?.(task.id as string);
+              if (row.id) {
+                onCopyClick?.(row.id as string);
               }
             }
           }}
@@ -413,12 +385,12 @@ const DataGrid: React.FC<DataGridProps> = ({
           className={styles.actionButton}
           onClick={(e) => {
             e.stopPropagation();
-            onDeleteClick?.(task.id as string);
+            onDeleteClick?.(row.id as string);
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.stopPropagation();
-              onDeleteClick?.(task.id as string);
+              onDeleteClick?.(row.id as string);
             }
           }}
           style={{
@@ -448,8 +420,6 @@ const DataGrid: React.FC<DataGridProps> = ({
 
   const renderCell = (column: string, value: string | null | undefined) => {
     if (value === null || value === undefined) return 'N/A';
-
-    const style = columnStyles[column];
 
     switch (column) {
       case 'date_start':
@@ -498,7 +468,7 @@ const DataGrid: React.FC<DataGridProps> = ({
     );
   }
 
-  if (tasks.length === 0) {
+  if (data.length === 0) {
     return (
       <div className={styles.dataGridEmpty}>
         {emptyStateMessage}
@@ -507,7 +477,7 @@ const DataGrid: React.FC<DataGridProps> = ({
   }
 
   return (
-    <div className={`${styles.dataGridWrapper} ${containerClassName}`} 
+    <div className={`${styles.dataGridWrapper} ${className}`} 
       style={{ 
         position: 'relative',
         height: responsive?.height,
@@ -520,6 +490,46 @@ const DataGrid: React.FC<DataGridProps> = ({
       data-overflow-y={responsive?.verticalOverflow}
       data-compact={responsive?.compactOnMobile}
     >
+      {/* Search Box */}
+      {showSearchBox && (
+        <div style={{
+          marginBottom: '16px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
+        }}>
+          <input
+            type="text"
+            placeholder={searchPlaceholder}
+            value={searchTerm}
+            onChange={handleSearch}
+            style={{
+              padding: '8px 12px',
+              border: `1px solid ${theme.borderColor}`,
+              borderRadius: '4px',
+              fontSize: theme.fontSize,
+              minWidth: '200px',
+              outline: 'none'
+            }}
+          />
+          {searchTerm && (
+            <button
+              onClick={() => setSearchTerm('')}
+              style={{
+                padding: '4px 8px',
+                border: 'none',
+                backgroundColor: '#f0f0f0',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '12px'
+              }}
+            >
+              Effacer
+            </button>
+          )}
+        </div>
+      )}
+
       {enableExport && mounted && (
         <div className={styles.dataGridToolbar} style={{
           position: 'static',
@@ -575,7 +585,9 @@ const DataGrid: React.FC<DataGridProps> = ({
                 onClick={() => handleSort(column)}
                 style={{
                   borderColor: theme.borderColor,
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  width: columnStyles[column]?.width,
+                  minWidth: columnStyles[column]?.minWidth
                 }}
               >
                 <span className={styles.headerContent} style={{ justifyContent: 'center' }}>
@@ -584,21 +596,30 @@ const DataGrid: React.FC<DataGridProps> = ({
                 </span>
               </th>
             ))}
-            <th className={styles.headerCell} style={{ width: '120px', textAlign: 'center' }}>Actions</th>
+            <th 
+              className={styles.headerCell} 
+              style={{ 
+                width: '120px', 
+                minWidth: '120px',
+                textAlign: 'center' 
+              }}
+            >
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
-          {paginatedTasks.map((task: Task) => (
+          {paginatedData.map((row: Row) => (
             <tr
-              key={task.id as string}
+              key={row.id as string}
               className={`${styles.dataGridRow} ${rowClassName}`}
-              onClick={() => onTaskClick?.(task.id as string)}
+              onClick={() => onRowClick?.(row.id as string)}
               style={{
                 backgroundColor: theme.rowBgColor,
                 color: theme.textColor,
                 fontSize: theme.fontSize,
                 borderColor: theme.borderColor,
-                cursor: onTaskClick ? 'pointer' : 'default'
+                cursor: onRowClick ? 'pointer' : 'default'
               }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.backgroundColor = theme.hoverBgColor || '';
@@ -613,14 +634,25 @@ const DataGrid: React.FC<DataGridProps> = ({
                   className={styles.dataGridCell}
                   style={{ 
                     textAlign: columnStyles[column]?.align || 'left',
-                    borderColor: theme.borderColor
+                    borderColor: theme.borderColor,
+                    width: columnStyles[column]?.width,
+                    minWidth: columnStyles[column]?.minWidth
                   }}
                 >
-                  {renderCell(column, task[column])}
+                  <p>
+                    {renderCell(column, row[column])}
+                  </p>
                 </td>
               ))}
-              <td className={styles.dataGridCell} style={{ borderColor: theme.borderColor }}>
-                {renderActionButtons(task)}
+              <td 
+                className={styles.dataGridCell} 
+                style={{ 
+                  borderColor: theme.borderColor,
+                  width: '120px',
+                  minWidth: '120px'
+                }}
+              >
+                {renderActionButtons(row)}
               </td>
             </tr>
           ))}
@@ -637,10 +669,10 @@ const DataGrid: React.FC<DataGridProps> = ({
               role="button"
               tabIndex={0}
               className={styles.paginationButton}
-              onClick={() => currentPage > 1 && onPageChange?.(currentPage - 1)}
+              onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
               onKeyDown={(e) => {
                 if ((e.key === 'Enter' || e.key === ' ') && currentPage > 1) {
-                  onPageChange?.(currentPage - 1);
+                  handlePageChange(currentPage - 1);
                 }
               }}
               aria-disabled={currentPage === 1}
@@ -651,10 +683,10 @@ const DataGrid: React.FC<DataGridProps> = ({
               role="button"
               tabIndex={0}
               className={styles.paginationButton}
-              onClick={() => currentPage < totalPages && onPageChange?.(currentPage + 1)}
+              onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
               onKeyDown={(e) => {
                 if ((e.key === 'Enter' || e.key === ' ') && currentPage < totalPages) {
-                  onPageChange?.(currentPage + 1);
+                  handlePageChange(currentPage + 1);
                 }
               }}
               aria-disabled={currentPage === totalPages}

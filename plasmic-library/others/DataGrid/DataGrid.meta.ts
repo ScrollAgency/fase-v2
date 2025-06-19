@@ -1,36 +1,15 @@
 const DataGridMeta = {
     name: "DataGrid",
-    section: "🔖 Sitex",
+    section: "🔖 Tables",
     displayName: "Data Grid",
-    description: "Table view for task management with sorting, filtering, pagination, and export capabilities",
+    description: "Table view for displaying data",
     thumbnailUrl: "https://static1.plasmic.app/insertables/table.svg",
     importPath: "./components/others/data_grid/data_grid",
     props: {
-        tasks: {
+        data: {
             type: "array",
             defaultValue: [],
-            description: "Array of data to display in the grid",
-            itemType: {
-                type: "object",
-                fields: {
-                    id: "string",
-                    title: "string",
-                    status: "string",
-                    type: "string",
-                    budget: "string",
-                    date_start: "string",
-                    date_end: "string",
-                    comments: "string",
-                    created_at: "string",
-                    updated_at: "string",
-                    last_updated_by: "string",
-                    model: "string"
-                }
-            }
-        },
-        containerClassName: {
-            type: "string",
-            description: "Additional CSS class for the container"
+            description: "Array of data to display in the grid"
         },
         headerClassName: {
             type: "string",
@@ -40,13 +19,25 @@ const DataGridMeta = {
             type: "string",
             description: "Additional CSS class for each row"
         },
-        onTaskClick: {
+        showSearchBox: {
+            type: "boolean",
+            displayName: "Afficher la barre de recherche",
+            defaultValue: false
+        },
+        searchPlaceholder: {
+            type: "string",
+            displayName: "Placeholder de la recherche",
+            defaultValue: "Rechercher...",
+            description: "Texte affiché dans la barre de recherche"
+        },
+        onRowClick: {
             type: "eventHandler",
             description: "Called when a row is clicked",
             argTypes: [
                 {
-                    name: "taskId",
-                    type: "string"
+                    name: "rowId",
+                    type: "string",
+                    description: "The ID of the clicked row"
                 }
             ]
         },
@@ -55,8 +46,8 @@ const DataGridMeta = {
             description: "Called when the edit button is clicked",
             argTypes: [
                 {
-                    name: "taskId",
-                    type: "string"
+                    name: "rowId",
+                    type: "string",
                 }
             ]
         },
@@ -65,8 +56,9 @@ const DataGridMeta = {
             description: "Called when the delete button is clicked",
             argTypes: [
                 {
-                    name: "taskId",
-                    type: "string"
+                    name: "rowId",
+                    type: "string",
+                    description: "The ID of the row to delete"
                 }
             ]
         },
@@ -75,8 +67,9 @@ const DataGridMeta = {
             description: "Called when the copy button is clicked",
             argTypes: [
                 {
-                    name: "taskId",
-                    type: "string"
+                    name: "rowId",
+                    type: "string",
+                    description: "The ID of the row to copy"
                 }
             ]
         },
@@ -100,13 +93,11 @@ const DataGridMeta = {
         },
         visibleColumns: {
             type: "array",
-            description: "Array of column keys to display",
-            itemType: "string"
+            description: 'Array of column : [{"label": column name}, ...]'
         },
         columnOrder: {
             type: "array",
-            description: "Order of columns to display",
-            itemType: "string"
+            description: "Order of columns to display"
         },
         pageSize: {
             type: "number",

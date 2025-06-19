@@ -1,0 +1,73 @@
+.drawer_background {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: end;
+  justify-content: center;
+}
+
+.drawer {
+    max-height: 80vh;
+    margin: 8px auto;
+    width: 100%;
+    max-width: 720px;
+    min-height: 320px;
+    padding: 32px 16px;
+    border-radius: 8px 8px 0 0;
+    background-color: white;
+    transition: height 0.1s ease-out;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.scrolling_content {
+    overflow-y: auto;
+    flex: 1;
+    width: 100%;
+    padding-right: 8px;
+}
+
+/* Scrollbar styles */
+.scrolling_content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scrolling_content::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 3px;
+}
+
+.scrolling_content::-webkit-scrollbar-thumb {
+    background: #e0e0e0;
+    border-radius: 3px;
+}
+
+.scrolling_content::-webkit-scrollbar-thumb:hover {
+    background: #d0d0d0;
+}
+
+.closing_bar_wrapper {
+    cursor: grab;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    touch-action: none;
+}
+
+.closing_bar {
+    width: 80px;
+    height: 2px;
+    border-radius: 8px;
+    background-color: grey;
+    margin: 0 auto;
+}
+
+.closing_bar_wrapper:active {
+    cursor: grabbing;
+}

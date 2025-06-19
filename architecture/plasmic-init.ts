@@ -1,4 +1,4 @@
-import * as PlasmicLibrary from "./plasmic-library/components"
+import * as PlasmicLibrary from "../plasmic-library/components"
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import { tokens } from "./styles/tokens-sitex";
 
