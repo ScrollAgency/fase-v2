@@ -45,6 +45,14 @@ const MapBoxSimpleMeta = {
             section: "general",
             defaultValueHint: 10,
             required: false
+        },
+            hideLogo: {
+            type: "boolean",
+            displayName: "Cacher le logo Mapbox",
+            description: "Permet de masquer le logo Mapbox en bas à droite",
+            section: "general",
+            defaultValueHint: false,
+            required: false
         }
     },
     importPath: "./components/MapBox/MapBoxSimple/MapBoxSimple",
