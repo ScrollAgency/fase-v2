@@ -48,8 +48,8 @@ const MapBoxSimpleMeta = {
         },
             hideLogo: {
             type: "boolean",
-            displayName: "Cacher le logo Mapbox",
-            description: "Permet de masquer le logo Mapbox en bas à droite",
+            displayName: "Hide Mapbox logo attribution",
+            description: "Allows you to hide the Mapbox logo in the bottom right corner",
             section: "general",
             defaultValueHint: false,
             required: false

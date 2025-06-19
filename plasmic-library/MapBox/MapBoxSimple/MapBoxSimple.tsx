@@ -18,7 +18,7 @@ interface MapBoxSimpleProps {
     pinColor?: string;
     initialZoom?: number;
     className?: string;
-     hideLogo?: boolean;
+    hideLogo?: boolean;
 }
 
 export default function MapBoxSimple( props: MapBoxSimpleProps) {
