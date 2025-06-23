@@ -108,7 +108,7 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
                     }}
                     maxZoom={20}
                     minZoom={3}
-                    attributionControl={!props.hideLogo}
+                    attributionControl={false}
                 >
                     <NavigationControl 
                         position="bottom-right"
