@@ -33,4 +33,5 @@ async function loadComponentsMeta(dir: string) {
 
 // Lancer le chargement des métadonnées des composants
 loadComponentsMeta(path.join(process.cwd(), 'components')).catch(console.error);
+
 export { components, componentsMeta };
