@@ -1,12 +1,17 @@
-import { Html, Head, Main, NextScript } from 'next/document';
+import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
-  return (
-    <Html>
-      <Head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+	return (
+		<Html>
+			<Head>
+				<meta name="format-detection" content="address=no" />
+				<meta
+					name="viewport"
+					content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+				/>
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `
               !function(t,e){var o,n,p,r;e.__SV=1,window.posthog=e,e._i=[],e.init=function(i,s,a){
                 function g(t,o){
                   var n=o.split(".");
@@ -24,13 +29,13 @@ export default function Document() {
               }(document,window.posthog||[]);
               posthog.init('phc_nnZa0MUcqsgUN6lrwjTHEnmsBbCOdqmJgOC0Z5CAzbY', { api_host: 'https://app.posthog.com' });
             `,
-          }}
-        />
-      </Head>
-      <body>
-        <Main />
-        <NextScript />
-      </body>
-    </Html>
-  );
+					}}
+				/>
+			</Head>
+			<body>
+				<Main />
+				<NextScript />
+			</body>
+		</Html>
+	);
 }
