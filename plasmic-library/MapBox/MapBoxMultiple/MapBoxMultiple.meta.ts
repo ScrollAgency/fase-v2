@@ -65,7 +65,15 @@ const MapBoxMultipleMeta = {
             ],
             section: "events",
             required: false
-        }
+        },
+        hideLogo: {
+        type: "boolean",
+        displayName: "Hide Mapbox logo attribution",
+        description: "Allows you to hide the Mapbox logo in the bottom right corner",
+        section: "general",
+        defaultValueHint: false,
+        required: false
+    }
     },
     importPath: "./components/MapBox/MapBoxMultiple/MapBoxMultiple",
 }

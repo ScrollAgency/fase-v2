@@ -31,6 +31,7 @@ interface MapBoxMultipleProps {
     pinColor?: string;
     initialZoom?: number;
     className?: string;
+    hideLogo?: boolean;
     onMarkerClick?: (marker: {
         latitude: number;
         longitude: number;
@@ -107,6 +108,7 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
                     }}
                     maxZoom={20}
                     minZoom={3}
+                    attributionControl={!props.hideLogo}
                 >
                     <NavigationControl 
                         position="bottom-right"
