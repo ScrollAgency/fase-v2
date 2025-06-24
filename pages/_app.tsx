@@ -22,8 +22,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 	const [loading, setLoading] = useState(false);
 	const [shouldShowLoader, setShouldShowLoader] = useState(false);
 
-  const ROUTES_WITH_LOADER = ["/events","/events/[slug]"];
-useEffect(() => {
+  const ROUTES_WITH_LOADER = ["/news/[slug]","/events/[slug]","/collections/[id]"];
+
+  useEffect(() => {
   const matchRoute = (url: string) => {
     // Gère les routes dynamiques comme /events/[slug]
     return ROUTES_WITH_LOADER.some((routePattern) => {
