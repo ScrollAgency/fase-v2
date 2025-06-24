@@ -11,7 +11,7 @@ const publicRoutes = [
 	"/collections",
 	"/collections/[id]",
 	"/parcours-groupe/[id]",
-	"/events/[id]",
+	"/events/[slug]",
 	"/events",
 	"/explorer",
 	"/actualites",
