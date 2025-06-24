@@ -21,29 +21,39 @@ function MyApp({ Component, pageProps }: AppProps) {
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 	const [shouldShowLoader, setShouldShowLoader] = useState(false);
-  
-	useEffect(() => {
-		const handleStart = () => {
-			setShouldShowLoader(true);
-			setLoading(true);
-		};
 
-		const handleStop = () => {
-			setLoading(false);
-			// attend que l’animation finisse avant de retirer le loader
-			setTimeout(() => setShouldShowLoader(false), 500); // 500ms = durée de l'animation CSS
-		};
+  const ROUTES_WITH_LOADER = ["/events","/events/[slug]"];
+useEffect(() => {
+  const matchRoute = (url: string) => {
+    // Gère les routes dynamiques comme /events/[slug]
+    return ROUTES_WITH_LOADER.some((routePattern) => {
+      const routeRegex = new RegExp("^" + routePattern.replace(/\[.*?\]/g, "[^/]+") + "$");
+      return routeRegex.test(url.split("?")[0]);
+    });
+  };
 
-		router.events.on("routeChangeStart", handleStart);
-		router.events.on("routeChangeComplete", handleStop);
-		router.events.on("routeChangeError", handleStop);
+  const handleStart = (url: string) => {
+    if (matchRoute(url)) {
+      setShouldShowLoader(true);
+      setLoading(true);
+    }
+  };
 
-		return () => {
-			router.events.off("routeChangeStart", handleStart);
-			router.events.off("routeChangeComplete", handleStop);
-			router.events.off("routeChangeError", handleStop);
-		};
-	}, []);
+  const handleStop = () => {
+    setLoading(false);
+    setTimeout(() => setShouldShowLoader(false), 500);
+  };
+
+  router.events.on("routeChangeStart", handleStart);
+  router.events.on("routeChangeComplete", handleStop);
+  router.events.on("routeChangeError", handleStop);
+
+  return () => {
+    router.events.off("routeChangeStart", handleStart);
+    router.events.off("routeChangeComplete", handleStop);
+    router.events.off("routeChangeError", handleStop);
+  };
+}, []);
 
 	return (
 		<PlasmicRootProvider loader={PLASMIC}>
