@@ -27,7 +27,8 @@ useEffect(() => {
   const matchRoute = (url: string) => {
     // Gère les routes dynamiques comme /events/[slug]
     return ROUTES_WITH_LOADER.some((routePattern) => {
-      const routeRegex = new RegExp("^" + routePattern.replace(/\[.*?\]/g, "[^/]+") + "$");
+    const routeRegex = new RegExp("^" + routePattern.replace(/\[.*?\]/g, "[^/]+").replace(/\/$/, "") + "/?$");
+
       return routeRegex.test(url.split("?")[0]);
     });
   };
