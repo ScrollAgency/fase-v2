@@ -11,57 +11,87 @@ import {
 	PlasmicRootProvider,
 	PlasmicComponent,
 } from "@plasmicapp/loader-nextjs";
-import { PLASMIC } from "../plasmic-init"; 
+import { PLASMIC } from "../plasmic-init";
 
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 function MyApp({ Component, pageProps }: AppProps) {
-
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 	const [shouldShowLoader, setShouldShowLoader] = useState(false);
 
-  const ROUTES_WITH_LOADER = ["/news/[slug]","/events/[slug]","/collections/[id]"];
+	const ROUTES_WITH_LOADER = [
+		"/news/[slug]",
+		"/events/[slug]",
+		"/collections/[id]",
+	];
 
-  useEffect(() => {
-  const matchRoute = (url: string) => {
-    // Gère les routes dynamiques comme /events/[slug]
-    return ROUTES_WITH_LOADER.some((routePattern) => {
-    const routeRegex = new RegExp("^" + routePattern.replace(/\[.*?\]/g, "[^/]+").replace(/\/$/, "") + "/?$");
+	useEffect(() => {
+		const matchRoute = (url: string) => {
+			return ROUTES_WITH_LOADER.some((routePattern) => {
+				const routeRegex = new RegExp(
+					"^" +
+						routePattern.replace(/\[.*?\]/g, "[^/]+").replace(/\/$/, "") +
+						"/?$"
+				);
+				return routeRegex.test(url.split("?")[0]);
+			});
+		};
 
-      return routeRegex.test(url.split("?")[0]);
-    });
-  };
+		const handleStart = (url: string) => {
+			if (matchRoute(url)) {
+				setShouldShowLoader(true);
+				setLoading(true);
+			}
+		};
 
-  const handleStart = (url: string) => {
-    if (matchRoute(url)) {
-      setShouldShowLoader(true);
-      setLoading(true);
-    }
-  };
+		const handleStop = () => {
+			// Attend que la page soit VRAIMENT rendue (Plasmic compris)
+			requestAnimationFrame(() => {
+				requestAnimationFrame(() => {
+					setLoading(false); // Commence la disparition
+				});
+			});
+		};
 
-  const handleStop = () => {
-    setLoading(false);
-    setTimeout(() => setShouldShowLoader(false), 500);
-  };
+		router.events.on("routeChangeStart", handleStart);
+		router.events.on("routeChangeComplete", handleStop);
+		router.events.on("routeChangeError", handleStop);
 
-  router.events.on("routeChangeStart", handleStart);
-  router.events.on("routeChangeComplete", handleStop);
-  router.events.on("routeChangeError", handleStop);
+		return () => {
+			router.events.off("routeChangeStart", handleStart);
+			router.events.off("routeChangeComplete", handleStop);
+			router.events.off("routeChangeError", handleStop);
+		};
+	}, []);
+	useEffect(() => {
+		if (!loading && shouldShowLoader) {
+			const timeout = setTimeout(() => {
+				setShouldShowLoader(false);
+			}, 500); // Temps de transition du loader
 
-  return () => {
-    router.events.off("routeChangeStart", handleStart);
-    router.events.off("routeChangeComplete", handleStop);
-    router.events.off("routeChangeError", handleStop);
-  };
-}, []);
+			return () => clearTimeout(timeout);
+		}
+	}, [loading]);
+	useEffect(() => {
+		if (shouldShowLoader) {
+			const maxWait = setTimeout(() => {
+				setLoading(false);
+				setShouldShowLoader(false);
+			}, 8000); // Max 8 secondes
 
+			return () => clearTimeout(maxWait);
+		}
+	}, [shouldShowLoader]);
 	return (
 		<PlasmicRootProvider loader={PLASMIC}>
 			{/* Loader Plasmic */}
 			{shouldShowLoader && (
 				<div
+					role="status"
+					aria-live="polite"
+					aria-busy={loading}
 					style={{
 						position: "fixed",
 						top: 0,
