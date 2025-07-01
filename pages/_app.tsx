@@ -22,6 +22,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 	const [shouldShowLoader, setShouldShowLoader] = useState(false);
 
 	const ROUTES_WITH_LOADER = [
+		"/",
+		"/favoris",
 		"/news/[slug]",
 		"/events/[slug]",
 		"/collections/[id]",
