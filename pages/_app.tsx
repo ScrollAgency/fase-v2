@@ -1,17 +1,123 @@
-import type { AppProps } from 'next/app';
+import type { AppProps } from "next/app";
 
 import "@uppy/core/dist/style.min.css";
 import "@uppy/dashboard/dist/style.min.css";
-import '@/styles/globals.css';
+import "@/styles/globals.css";
 import "@/styles/fonts.css";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import {
+	PlasmicRootProvider,
+	PlasmicComponent,
+} from "@plasmicapp/loader-nextjs";
+import { PLASMIC } from "../plasmic-init";
 
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <Component {...pageProps} />
-  )
+	const router = useRouter();
+	const [loading, setLoading] = useState(false);
+	const [shouldShowLoader, setShouldShowLoader] = useState(false);
+
+	const ROUTES_WITH_LOADER = [
+		"/",
+		"/favoris",
+		"/news/[slug]",
+		"/events/[slug]",
+		"/collections/[id]",
+	];
+
+	useEffect(() => {
+		const matchRoute = (url: string) => {
+			return ROUTES_WITH_LOADER.some((routePattern) => {
+				const routeRegex = new RegExp(
+					"^" +
+						routePattern.replace(/\[.*?\]/g, "[^/]+").replace(/\/$/, "") +
+						"/?$"
+				);
+				return routeRegex.test(url.split("?")[0]);
+			});
+		};
+
+		const handleStart = (url: string) => {
+			if (matchRoute(url)) {
+				setShouldShowLoader(true);
+				setLoading(true);
+			}
+		};
+
+		const handleStop = () => {
+			// Attend que la page soit VRAIMENT rendue (Plasmic compris)
+			requestAnimationFrame(() => {
+				requestAnimationFrame(() => {
+					setLoading(false); // Commence la disparition
+				});
+			});
+		};
+
+		router.events.on("routeChangeStart", handleStart);
+		router.events.on("routeChangeComplete", handleStop);
+		router.events.on("routeChangeError", handleStop);
+
+		return () => {
+			router.events.off("routeChangeStart", handleStart);
+			router.events.off("routeChangeComplete", handleStop);
+			router.events.off("routeChangeError", handleStop);
+		};
+	}, []);
+	useEffect(() => {
+		if (!loading && shouldShowLoader) {
+			const timeout = setTimeout(() => {
+				setShouldShowLoader(false);
+			}, 500); // Temps de transition du loader
+
+			return () => clearTimeout(timeout);
+		}
+	}, [loading]);
+	useEffect(() => {
+		if (shouldShowLoader) {
+			const maxWait = setTimeout(() => {
+				setLoading(false);
+				setShouldShowLoader(false);
+			}, 8000); // Max 8 secondes
+
+			return () => clearTimeout(maxWait);
+		}
+	}, [shouldShowLoader]);
+	return (
+		<PlasmicRootProvider loader={PLASMIC}>
+			{/* Loader Plasmic */}
+			{shouldShowLoader && (
+				<div
+					role="status"
+					aria-live="polite"
+					aria-busy={loading}
+					style={{
+						position: "fixed",
+						top: 0,
+						left: 0,
+						width: "100vw",
+						height: "100vh",
+						backgroundColor: "white",
+						zIndex: 9999,
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						opacity: loading ? 1 : 0,
+						transition: "opacity 0.5s ease-in-out",
+						pointerEvents: loading ? "auto" : "none",
+					}}
+				>
+					<PlasmicComponent component="PageLoaderCustom" />
+				</div>
+			)}
+
+			{/* Contenu principal */}
+			<Component {...pageProps} />
+		</PlasmicRootProvider>
+	);
 }
 
 export default MyApp;
