@@ -9,8 +9,9 @@ interface Item {
 interface DraggableListProps {
   listItems: Item[],
   className: string,
-  children: ReactNode,
+  iconSlot: ReactNode,
   itemClassName: string,
+  itemDraggedClassName: string,
   onDropFunction: (items: Item[]) => void;
 }
 
@@ -54,8 +55,7 @@ function DraggableList(props: DraggableListProps) {
           className={`
             ${ styles.item }
             ${ props.itemClassName } 
-            ${draggingIndex === index ? styles.dragging : ''} 
-            ${hoverIndex === index ? styles.hovered : ''}
+            ${draggingIndex === index ? props.itemDraggedClassName : ''} 
           `}
           key={ item.id }
           draggable
@@ -65,7 +65,7 @@ function DraggableList(props: DraggableListProps) {
           onDragOver={(event) => event.preventDefault()}
           onDrop={() => onDrop()}
         >
-          { props.children }
+          { props.iconSlot }
           <div className={ styles.itemText }>
             { item.content }
           </div>
