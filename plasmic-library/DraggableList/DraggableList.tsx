@@ -35,6 +35,7 @@ function DraggableList(props: DraggableListProps) {
 
   const onDrop = () => {
     const startIndex = draggingIndex;
+    console.log("start : " + startIndex + ", hover : " + hoverIndex);
     if (hoverIndex && startIndex && startIndex !== hoverIndex) {
       const updatedItems = [...items];
       const [reorderedItem] = updatedItems.splice(startIndex, 1);
