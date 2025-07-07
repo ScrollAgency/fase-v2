@@ -7,7 +7,9 @@ const MapBoxSimpleMeta = {
     name: "MapBoxSimple",
     props: {
         address: {
-            type: "string",
+            type: "object",
+            displayName: "address",
+            description: "object { 'address' : '6 rue du Bac...', 'latitude': 48.8566, 'longitude': 2.3522 }",
             section: "general",
             required: true
         },
@@ -46,7 +48,12 @@ const MapBoxSimpleMeta = {
             defaultValueHint: 10,
             required: false
         },
-            hideLogo: {
+        apiTableAndParams: {
+            type: "string",
+            displayName: "Table name and params to update the row",
+            description: "example : 'locations?location=eq.3 rue du bac, 75008 Filou-sur-Indre'"
+        },
+        hideLogo: {
             type: "boolean",
             displayName: "Hide Mapbox logo attribution",
             description: "Allows you to hide the Mapbox logo in the bottom right corner",
