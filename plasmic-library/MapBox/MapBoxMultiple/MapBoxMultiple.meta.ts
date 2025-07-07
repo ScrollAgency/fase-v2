@@ -54,8 +54,8 @@ const MapBoxMultipleMeta = {
         },
         apiTableAndParams: {
             type: "string",
-            displayName: "Table name and params to update the row",
-            description: "example : 'locations?location=eq.3 rue du bac, 75008 Filou-sur-Indre'"
+            displayName: "Table name and params to update the row (found by checking the column address)",
+            description: "example : 'locations?location=eq.' (and then we passed the address to the query to fund the row)"
         },
         onMarkerClick: {
             type: "eventHandler",

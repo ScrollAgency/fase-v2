@@ -1,5 +1,5 @@
 const DraggableListMeta = {
-    name: "Draggable List",
+    name: "DraggableList",
     section: "Other",
     displayName: "Draggable List",
     description: "Draggable List to reorder items",
