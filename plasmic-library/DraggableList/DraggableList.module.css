@@ -5,11 +5,17 @@
     border-radius: 5px;
     border: 1px solid #ddd;
     cursor: grab;
+    display: flex;
+    flex-direction: row;
 }
 
 .item:hover {
     background-color: #38b1da;
     color: white;
+}
+
+.itemText {
+    width: max-content;
 }
 
 .dragging {

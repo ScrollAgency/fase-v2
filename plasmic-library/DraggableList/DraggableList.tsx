@@ -10,7 +10,8 @@ interface DraggableListProps {
   listItems: Item[],
   className: string,
   children: ReactNode,
-  itemClassName: string
+  itemClassName: string,
+  onDropFunction: (items: Item[]) => void;
 }
 
 function DraggableList(props: DraggableListProps) {
@@ -38,6 +39,8 @@ function DraggableList(props: DraggableListProps) {
       const [reorderedItem] = updatedItems.splice(startIndex, 1);
       updatedItems.splice(hoverIndex, 0, reorderedItem);
       setItems(updatedItems);
+
+      props.onDropFunction(items);
     }
 
     setDraggingIndex(null);
@@ -49,6 +52,7 @@ function DraggableList(props: DraggableListProps) {
       { items.map((item, index) => (
         <div 
           className={`
+            ${ styles.item }
             ${ props.itemClassName } 
             ${draggingIndex === index ? styles.dragging : ''} 
             ${hoverIndex === index ? styles.hovered : ''}
@@ -62,6 +66,9 @@ function DraggableList(props: DraggableListProps) {
           onDrop={() => onDrop()}
         >
           { props.children }
+          <div className={ styles.itemText }>
+            { item.content }
+          </div>
         </div>
       ))}
     </div>
