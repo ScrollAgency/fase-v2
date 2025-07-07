@@ -22,7 +22,20 @@ const DraggableListMeta = {
                   label: 'Hovered'
                 },
             ]
-        }
+        },
+        onDropFunction: {
+            type: "eventHandler",
+            displayName: "Action au drop pour réorganiser la liste",
+            argTypes: [
+                {
+                    name: "items",
+                    type: "array",
+                    description: '[{ "id": 2; "content": "text 2"}, { "id": 1, "content": "text 1" }, ...]'
+                }
+            ],
+            section: "events",
+            required: true
+        },
     },
     importPath: "./components/DraggableList/DraggableList",
   };
