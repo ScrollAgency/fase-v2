@@ -36,7 +36,7 @@ function DraggableList(props: DraggableListProps) {
   const onDrop = () => {
     const startIndex = draggingIndex;
     console.log("start : " + startIndex + ", hover : " + hoverIndex);
-    if (hoverIndex && startIndex && startIndex !== hoverIndex) {
+    if (hoverIndex !== null && startIndex !== null && startIndex !== hoverIndex) {
       const updatedItems = [...items];
       console.log("updated : " + updatedItems);
 
