@@ -38,15 +38,15 @@ function DraggableList(props: DraggableListProps) {
     console.log("start : " + startIndex + ", hover : " + hoverIndex);
     if (hoverIndex !== null && startIndex !== null && startIndex !== hoverIndex) {
       const updatedItems = [...items];
-      console.log("updated : " + updatedItems);
+      console.log("updated : " + JSON.stringify(updatedItems));
 
       const [reorderedItem] = updatedItems.splice(startIndex, 1);
-      console.log("reordered : " + reorderedItem);
+      console.log("reordered : " + JSON.stringify(reorderedItem));
       
       updatedItems.splice(hoverIndex, 0, reorderedItem);
       setItems(updatedItems);
-      console.log("updated 2 : " + updatedItems);
-      console.log("items : " + items);
+      console.log("updated 2 : " + JSON.stringify(updatedItems));
+      console.log("items : " + JSON.stringify(items));
 
       props.onDropFunction(updatedItems);
     }
