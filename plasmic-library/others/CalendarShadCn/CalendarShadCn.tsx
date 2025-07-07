@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { HTMLElementRefOf } from "@plasmicapp/react-web";
-import { parseISO, addDays, isAfter, isBefore, isEqual } from "date-fns";
+import { parseISO, addDays, isBefore } from "date-fns";
 import { type DateRange, DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { fr } from "date-fns/locale";
@@ -48,7 +48,7 @@ function CalendarShadCn_(
 		disabledTextColor = "#d1d5db",
 		todayBorderColor = "#000",
 		todayTextColor = "#000",
-		monthLabelClass = "text-center text-[18px] font-semibold",
+		monthLabelClass = "items-center text-center text-black font-poppins text-[16px] not-italic font-semibold leading-6",
 		dayLabelClass = "",
 		navButtonClass = "text-black hover:text-gray-800",
 		showOutsideDays = false,
@@ -116,10 +116,20 @@ function CalendarShadCn_(
         background: ${selectedColor} !important;
         color: ${selectedTextColor} !important;
         border-radius: 9999px !important;
-        margin: 0 !important;
-        padding: 0 !important;
         z-index: 2 !important;
         position: relative;
+      }
+      .calendar-range-start {
+        box-shadow: 20px 0px 0 10px ${innerRangeBackgroundColor} !important;
+      }
+      .calendar-range-end {
+        box-shadow: -20px 0px 0 10px ${innerRangeBackgroundColor} !important;
+      }
+      .calendar-range-start.calendar-range-end {
+        box-shadow: 0px 0px 0 0px ${innerRangeBackgroundColor} !important;
+      }
+      .calendar-today.calendar-selected {
+        color: #fff !important;
       }
       .calendar-range-middle {
         background: ${
@@ -133,15 +143,13 @@ function CalendarShadCn_(
 						: rangeTextColor
 				} !important;
         border-radius: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
         z-index: 1 !important;
         position: relative;
-        outline: 1px solid green !important; /* TEST: pour voir la zone */
       }
       .calendar-selected {
-        background: ${rangeColor} !important;
-        color: ${rangeTextColor} !important;
+        background: ${selectedColor};
+        color: ${selectedTextColor};
+        border: 0px solid ${innerRangeBackgroundColor} !important;
       }
       .calendar-today {
         border: 1.5px solid ${todayBorderColor} !important;
@@ -150,6 +158,33 @@ function CalendarShadCn_(
       .calendar-disabled {
         color: ${disabledTextColor} !important;
       }
+      .calendar-selected,
+      .calendar-range-start,
+      .calendar-range-end,
+      .calendar-range-middle {
+        border: none !important;
+        outline: none !important;
+      }
+
+	.rdp-month_caption{
+		align-items: center !important ;
+		color: #000 !important;
+		text-align: center !important;
+		font-family: Poppins !important;
+		font-size: 16px !important;
+		font-style: normal !important;
+		font-weight: 600 !important;
+		line-height: 24px !important;
+	}
+	 .rdp-button_next svg{
+		fill : #000 !important;
+		stroke-width: 0.5 !important;
+	 }
+		.rdp-button_previous svg{
+		fill : #000 !important;
+		stroke-width: 0.5 !important;
+	 }
+      
     `}</style>
 	);
 
@@ -161,7 +196,9 @@ function CalendarShadCn_(
 				selected={selectedRange}
 				onSelect={handleSelect}
 				numberOfMonths={1}
+				navLayout="around"
 				fixedWeeks
+				animate
 				pagedNavigation
 				locale={fr}
 				showOutsideDays={showOutsideDays}
@@ -169,7 +206,7 @@ function CalendarShadCn_(
 				modifiers={modifiers}
 				modifiersClassNames={modifiersClassNames}
 				classNames={{
-					caption_label: monthLabelClass,
+					/*caption_label: monthLabelClass,*/
 					nav_button: navButtonClass,
 					day: dayLabelClass,
 				}}
