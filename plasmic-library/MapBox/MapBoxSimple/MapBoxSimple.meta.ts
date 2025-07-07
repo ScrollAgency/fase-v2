@@ -6,7 +6,7 @@ const MapBoxSimpleMeta = {
     type: "component",
     name: "MapBoxSimple",
     props: {
-        address: {
+        location: {
             type: "object",
             displayName: "address",
             description: "object { 'address' : '6 rue du Bac...', 'latitude': 48.8566, 'longitude': 2.3522 }",
