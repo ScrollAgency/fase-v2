@@ -65,10 +65,11 @@ export default function MapBoxSimple( props: MapBoxSimpleProps) {
                 <MapDynamic
                     mapboxAccessToken={mapboxToken}
                     mapStyle={props.mapStyle || "mapbox://styles/mapbox/streets-v12"}
-                    style={{width: "100%", height: "100%"}}
+                    style={{width: "100%", height: "100%",borderRadius:"8px"}}
                     initialViewState={{ latitude: coords.latitude, longitude: coords.longitude, zoom: props.initialZoom || 10 }}
                     maxZoom={20}
                     minZoom={3}
+                    attributionControl={!props.hideLogo}
                 >
                     <MarkerDynamic latitude={coords.latitude} longitude={coords.longitude}>
                         <div
