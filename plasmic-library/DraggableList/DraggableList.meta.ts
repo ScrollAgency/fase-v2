@@ -9,7 +9,7 @@ const DraggableListMeta = {
             required: true,
             description: '[{"id": 1, "content": "text to displayed"},{...}]'
         },
-        children: {
+        iconSlot: {
             type: 'slot',
         },
         itemClassName: {
