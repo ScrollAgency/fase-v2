@@ -7,14 +7,10 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { IoMdPin } from "react-icons/io";
 
 import { geocodeAddress } from '../geocoding';
+import { coordToSupabase } from '../coordToSupabase';
+import { Location } from '../interface';
 
 import styles from '../MapBox.module.css';
-
-interface Location {
-    address: string;
-    title: string;
-    slug: string;
-}
 
 interface MapBoxMultipleProps {
     locations: Location[];
@@ -25,6 +21,7 @@ interface MapBoxMultipleProps {
     pinColor?: string;
     initialZoom?: number;
     className?: string;
+    apiTableAndParams?: string;
 }
 
 export default function MapBoxMultiple(props: MapBoxMultipleProps) {
@@ -39,17 +36,45 @@ export default function MapBoxMultiple(props: MapBoxMultipleProps) {
         try {
             const results = await Promise.all(
                 props.locations.map(async (location) => {
-                    const coords = await geocodeAddress(location.address);
+                    let coords = { latitude: 0, longitude: 0};
+
+                    if (
+                        typeof location.latitude === 'number' &&
+                        typeof location.longitude === 'number'
+                    ) {
+                        coords = {
+                            latitude: location.latitude,
+                            longitude: location.longitude
+                        };
+                    } else {
+                        try {
+                            const result = await geocodeAddress(location.address.toString());
+                            coords = result;
+
+                            if (props.apiTableAndParams) {
+                                await coordToSupabase({
+                                    api_table_and_params: `${props.apiTableAndParams}${location.address}`,
+                                    latitude: result.latitude,
+                                    longitude: result.longitude
+                                });
+                            }
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }
+                    
                     return { ...coords, address: location.address, title: location.title, slug: location.slug };
                 })
             );
+            
+            // Set the coordinates state with the results
             setCoordinates(results);
 
             if (props.centerAddress) {
                 const centerCoords = await geocodeAddress(props.centerAddress);
                 setCenterCoordinates(centerCoords);
             } else if (results.length > 0) {
-                setCenterCoordinates({ latitude: results[0].latitude, longitude: results[0].longitude });
+                setCenterCoordinates({ latitude: results[0].latitude!, longitude: results[0].longitude! });
             }
         } catch (error) {
             console.error(error);
