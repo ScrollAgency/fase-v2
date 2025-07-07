@@ -23,6 +23,7 @@ interface MapBoxSimpleProps {
     initialZoom?: number;
     className?: string;
     apiTableAndParams?: string;
+    hideLogo?: boolean;
 }
 
 export default function MapBoxSimple( props: MapBoxSimpleProps) {

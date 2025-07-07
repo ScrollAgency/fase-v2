@@ -52,6 +52,14 @@ const MapBoxSimpleMeta = {
             type: "string",
             displayName: "Table name and params to update the row",
             description: "example : 'locations?location=eq.3 rue du bac, 75008 Filou-sur-Indre'"
+        },
+        hideLogo: {
+            type: "boolean",
+            displayName: "Hide Mapbox logo attribution",
+            description: "Allows you to hide the Mapbox logo in the bottom right corner",
+            section: "general",
+            defaultValueHint: false,
+            required: false
         }
     },
     importPath: "./components/MapBox/MapBoxSimple/MapBoxSimple",

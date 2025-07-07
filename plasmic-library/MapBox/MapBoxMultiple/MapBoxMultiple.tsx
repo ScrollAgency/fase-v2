@@ -22,6 +22,20 @@ interface MapBoxMultipleProps {
     initialZoom?: number;
     className?: string;
     apiTableAndParams?: string;
+    hideLogo?: boolean;
+    onMarkerClick?: (marker: {
+        latitude: number;
+        longitude: number;
+        address: string;
+        title: string;
+        slug: string;
+        id?: string;
+        description?: string;
+        image?: string;
+        startDate?: Date;
+        endDate?: Date;
+        price?: number;
+    }) => void;
 }
 
 export default function MapBoxMultiple(props: MapBoxMultipleProps) {
