@@ -1,5 +1,5 @@
 import styles from "./DraggableList.module.css";
-import { ReactEventHandler, useState } from "react";
+import { ReactEventHandler, ReactNode, useState } from "react";
 
 interface Item {
   id: number,
@@ -7,7 +7,10 @@ interface Item {
 }
 
 interface DraggableListProps {
-  listItems: Item[]
+  listItems: Item[],
+  className: string,
+  children: ReactNode,
+  itemClassName: string
 }
 
 function DraggableList(props: DraggableListProps) {
@@ -42,12 +45,11 @@ function DraggableList(props: DraggableListProps) {
   };  
 
   return (
-    <div className={ styles.container }>
-      <h2>Draggable list</h2>
+    <div className={ `${props.className}` }>
       { items.map((item, index) => (
         <div 
           className={`
-            ${styles.item} 
+            ${ props.itemClassName } 
             ${draggingIndex === index ? styles.dragging : ''} 
             ${hoverIndex === index ? styles.hovered : ''}
           `}
@@ -58,7 +60,9 @@ function DraggableList(props: DraggableListProps) {
           onDragEnter={(event) => onDragEnter(event, index)}
           onDragOver={(event) => event.preventDefault()}
           onDrop={() => onDrop()}
-        >{ item.content }</div>
+        >
+          { props.children }
+        </div>
       ))}
     </div>
   )
