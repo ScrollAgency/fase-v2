@@ -10,7 +10,7 @@ const MapBoxMultipleMeta = {
             type: "array",
             section: "general",
             required: true,
-            description: 'object { "address" : "6 rue du Bac...", "title": "Event 12" (displayed on hover), "slug": "/events/12" (slug to add from the base url of the current page) }'
+            description: 'object { "address" : "6 rue du Bac...", "latitude": 48.8566, "longitude": 2.3522, "title": "Event 12" (displayed on hover), "slug": "/events/12" (slug to add from the base url of the current page) }'
         },
         centerAddress: {
             type: "string",
@@ -52,6 +52,11 @@ const MapBoxMultipleMeta = {
             defaultValueHint: 10,
             required: false
         },
+        apiTableAndParams: {
+            type: "string",
+            displayName: "Table name and params to update the row",
+            description: "example : 'locations?location=eq.3 rue du bac, 75008 Filou-sur-Indre'"
+        },
         onMarkerClick: {
             type: "eventHandler",
             displayName: "Action au clic sur un pin",
@@ -64,6 +69,14 @@ const MapBoxMultipleMeta = {
                 }
             ],
             section: "events",
+            required: false
+        },
+        hideLogo: {
+            type: "boolean",
+            displayName: "Hide Mapbox logo attribution",
+            description: "Allows you to hide the Mapbox logo in the bottom right corner",
+            section: "general",
+            defaultValueHint: false,
             required: false
         }
     },
