@@ -112,13 +112,17 @@ function CalendarShadCn_(
 
 	const style = (
 		<style>{`
+			.rdp-day_button{
+			font-size:16px !important;
+			}
+			.rdp-range_start{
+				background: linear-gradient(90deg, transparent 50%, ${innerRangeBackgroundColor}  50%) !important;
+			}
 			.rdp-range_start .rdp-day_button{
 				background:#000 !important;
 			}
 
-			.rdp-range_start{
-				background: linear-gradient(90deg, transparent 50%, ${innerRangeBackgroundColor}  50%) !important;
-			}
+			
 
 			.calendar-range-end .rdp-day_button{
 				background:#000 !important;
