@@ -112,6 +112,12 @@ function CalendarShadCn_(
 
 	const style = (
 		<style>{`
+			.rdp-root{
+			  width:100%
+			}
+			.rdp-month_grid{
+			   witdh:100%;
+			}
 			.rdp-day_button{
 			font-size:16px !important;
 			}
@@ -120,6 +126,9 @@ function CalendarShadCn_(
 			}
 			.rdp-range_start .rdp-day_button{
 				background:#000 !important;
+			}
+			.rdp-day_button{
+				padding:20px;
 			}
 
 			
