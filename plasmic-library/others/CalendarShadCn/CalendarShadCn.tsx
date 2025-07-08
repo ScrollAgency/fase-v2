@@ -130,8 +130,8 @@ function CalendarShadCn_(
 			.rdp-day_button{
 				padding:20px;
 			}
-
-			
+		
+						
 
 			.calendar-range-end .rdp-day_button{
 				background:#000 !important;
@@ -152,10 +152,10 @@ function CalendarShadCn_(
 		    .calendar-selected.calendar-range-end.rdp-range_start {
 				background:linear-gradient(0deg, transparent 100%) !important;
 			}
-	  .calendar-today {
+	/* .calendar-today {
         border: 1.5px solid ${todayBorderColor} !important;
         color: ${todayTextColor} !important;
-      }
+      }*/
 	.rdp-caption_label{
 		align-items: center !important ;
 		color: #000 !important;
