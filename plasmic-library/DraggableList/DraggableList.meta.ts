@@ -14,14 +14,21 @@ const DraggableListMeta = {
         },
         itemClassName: {
             type: 'class',
+            description: 'generic class',
             selectors: [
-                // Plasmic Studio user can also in addition style the button's
-                // hovered and pressed state
                 {
                   selector: ':hover',
                   label: 'Hovered'
                 },
             ]
+        },
+        itemDraggedClassName: {
+            type: 'class',
+            description: 'class when item dragged'
+        },
+        itemHoveredClassName: {
+            type: 'class',
+            description: 'class displayed while an other item is dragged over the concerned one'
         },
         onDropFunction: {
             type: "eventHandler",

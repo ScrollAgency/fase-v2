@@ -1,8 +1,8 @@
 export interface Location {
   id: string;
   address: string;
-  latitude?: number;
-  longitude?: number;
+  latitude?: number | null;
+  longitude?: number | null;
   title: string;
   slug: string;
   description?: string;

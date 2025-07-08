@@ -12,6 +12,7 @@ interface DraggableListProps {
   iconSlot: ReactNode,
   itemClassName: string,
   itemDraggedClassName: string,
+  itemHoveredClassName: string,
   onDropFunction: (items: Item[]) => void;
 }
 
@@ -62,7 +63,8 @@ function DraggableList(props: DraggableListProps) {
           className={`
             ${ styles.item }
             ${ props.itemClassName } 
-            ${draggingIndex === index ? props.itemDraggedClassName : ''} 
+            ${ draggingIndex === index ? props.itemDraggedClassName : '' } 
+            ${ hoverIndex === index ? props.itemHoveredClassName : '' }
           `}
           key={ item.id }
           draggable
