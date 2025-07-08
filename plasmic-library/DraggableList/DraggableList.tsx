@@ -9,11 +9,12 @@ interface Item {
 interface DraggableListProps {
   listItems: Item[],
   className: string,
-  iconSlot: ReactNode,
+  dragIconSlot: ReactNode,
+  removeIconSlot: ReactNode,
   itemClassName: string,
   itemDraggedClassName: string,
   itemHoveredClassName: string,
-  onDropFunction: (items: Item[]) => void;
+  onListChange: (items: Item[]) => void;
 }
 
 function DraggableList(props: DraggableListProps) {
@@ -49,12 +50,19 @@ function DraggableList(props: DraggableListProps) {
       console.log("updated 2 : " + JSON.stringify(updatedItems));
       console.log("items : " + JSON.stringify(items));
 
-      props.onDropFunction(updatedItems);
+      props.onListChange(updatedItems);
     }
 
     setDraggingIndex(null);
     setHoverIndex(null);
-  };  
+  };
+
+  const removeItem = (event: React.MouseEvent<HTMLDivElement>, index: number) => {
+    const updatedItems = [...items];
+    const [removedItem] = updatedItems.splice(index, 1);
+    setItems(updatedItems)
+    props.onListChange(updatedItems)
+  }
 
   return (
     <div className={ `${props.className}` }>
@@ -74,9 +82,17 @@ function DraggableList(props: DraggableListProps) {
           onDragOver={(event) => event.preventDefault()}
           onDrop={() => onDrop()}
         >
-          { props.iconSlot }
+          <div className={styles.iconWrapper}>
+            { props.dragIconSlot }
+          </div>
           <div className={ styles.itemText }>
             { item.content }
+          </div>
+          <div
+            className={styles.iconWrapper}
+            onClick={(event) => removeItem(event, index)}
+          >
+            { props.removeIconSlot }
           </div>
         </div>
       ))}
