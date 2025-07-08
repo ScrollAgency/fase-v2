@@ -4,24 +4,15 @@
     gap: 8px;
 }
 
-.item:hover {
-    background-color: #38b1da;
-    color: white;
-}
-
 .itemText {
     width: 100%;
     display: flex;
     justify-content: center;
-    align-content: center;
+    align-items: center;
 }
 
-.dragging {
-    opacity: 0.7;
-    transform: rotate(-3deg);
-    border: 2px dashed red;
-}
-
-.hovered {
-    background-color: red;
+.iconWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

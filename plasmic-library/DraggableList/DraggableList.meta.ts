@@ -9,7 +9,10 @@ const DraggableListMeta = {
             required: true,
             description: '[{"id": 1, "content": "text to displayed"},{...}]'
         },
-        iconSlot: {
+        dragIconSlot: {
+            type: 'slot',
+        },
+        removeIconSlot: {
             type: 'slot',
         },
         itemClassName: {
@@ -30,9 +33,9 @@ const DraggableListMeta = {
             type: 'class',
             description: 'class displayed while an other item is dragged over the concerned one'
         },
-        onDropFunction: {
+        onListChange: {
             type: "eventHandler",
-            displayName: "Action au drop pour réorganiser la liste",
+            displayName: "Action to update the list in plasmic studio",
             argTypes: [
                 {
                     name: "items",
