@@ -209,7 +209,7 @@ function CalendarShadCn_(
 	);
 
 	return (
-		<div ref={ref} className={className ?? "inline-block w-full"}>
+		<div ref={ref} className={className ?? "w-full overflow-x-hidden"}>
 			{style}
 			<DayPicker
 				mode="range"
