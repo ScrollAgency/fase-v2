@@ -109,76 +109,114 @@ function CalendarShadCn_(
 			onDateChange?.(null);
 		}
 	}
+function handleTodayClick() {
+	const today = new Date();
+	const range = { from: today, to: today };
+	setSelectedRange(range);
+	onDateChange?.({
+		start: today.toISOString().split("T")[0],
+		end: today.toISOString().split("T")[0],
+	});
+}
+
+function handleWeekendClick() {
+	const today = new Date();
+	const day = today.getDay(); // 0 (dimanche) à 6 (samedi)
+	const saturday = new Date(today);
+	const sunday = new Date(today);
+
+	if (day === 6) {
+		// aujourd’hui samedi
+		sunday.setDate(today.getDate() + 1);
+	} else if (day === 0) {
+		// aujourd’hui dimanche
+		saturday.setDate(today.getDate() - 1);
+	} else {
+		saturday.setDate(today.getDate() + (6 - day));
+		sunday.setDate(today.getDate() + (7 - day));
+	}
+
+	const range = { from: saturday, to: sunday };
+	setSelectedRange(range);
+	onDateChange?.({
+		start: saturday.toISOString().split("T")[0],
+		end: sunday.toISOString().split("T")[0],
+	});
+}
 
 	const style = (
 		<style>{`
-			.rdp-root{
-			  width:100%
-			}
-			.rdp-month_grid{
-			   witdh:100%;
-			}
-			.rdp-day_button{
-			font-size:16px !important;
-			}
-			.rdp-range_start{
-				background: linear-gradient(90deg, transparent 50%, ${innerRangeBackgroundColor}  50%) !important;
-			}
-			.rdp-range_start .rdp-day_button{
-				background:#000 !important;
-			}
-			.rdp-day_button{
-				padding:20px;
-			}
-		
-						
+				.rdp-root {
+					width: 100%;
+				}
 
-			.calendar-range-end .rdp-day_button{
-				background:#000 !important;
-				color:#fff;
-			}
+				.rdp-month_grid {
+				  width: 100%;
+				}
 
-			.calendar-range-end {
-				background: linear-gradient(-90deg, transparent 50%, ${innerRangeBackgroundColor}  50%) !important;
-			}
-			.rdp-range_middle{
-			background:${innerRangeBackgroundColor} !important;
-			color: ${
+				.rdp-day_button {
+				font-size: 16px !important;
+				  padding: 20px;
+				}
+
+				.rdp-range_start {
+				   background: linear-gradient(90deg, transparent 50%, ${innerRangeBackgroundColor} 50%) !important;
+				}
+
+				.rdp-range_start .rdp-day_button {
+				   background: #000 !important;
+				}
+
+				.calendar-range-end .rdp-day_button {
+					background: #000 !important;
+					color: #fff;
+				}
+
+				.calendar-range-end {
+				  background: linear-gradient(-90deg, transparent 50%, ${innerRangeBackgroundColor} 50%) !important;
+				}
+				
+
+				.rdp-range_middle {
+				background: ${innerRangeBackgroundColor} !important;
+				color: ${
 					typeof innerRangeTextColor === "string"
-						? innerRangeTextColor
-						: rangeTextColor
+					? innerRangeTextColor
+					: rangeTextColor
 				} !important;
-			}
-		    .calendar-selected.calendar-range-end.rdp-range_start {
-				background:linear-gradient(0deg, transparent 100%) !important;
-			}
-	/* .calendar-today {
-        border: 1.5px solid ${todayBorderColor} !important;
-        color: ${todayTextColor} !important;
-      }*/
-	.rdp-caption_label{
-		align-items: center !important ;
-		color: #000 !important;
-		text-align: center !important;
-		font-family: Poppins !important;
-		font-size: 16px !important;
-		font-style: normal !important;
-		font-weight: 600 !important;
-		line-height: 24px !important;
-	}
-	 .rdp-button_next svg{
-	    width:16px;
-		height:16px;
-		fill : #000 !important;
-		stroke-width: 0.5 !important;
-	 }
-		.rdp-button_previous svg{
-		 width:16px;
-		 height:16px;
-		fill : #000 !important;
-		stroke-width: 0.5 !important;
-	 }
-      
+				}
+
+				.calendar-selected.calendar-range-end.rdp-range_start {
+				  background: none !important;
+				}
+
+				/* .calendar-today {
+				border: 1.5px solid ${todayBorderColor} !important;
+				border-radius: 100%;
+				background: #fff;
+				color: ${todayTextColor} !important;
+				}*/
+
+				.rdp-caption_label {
+				align-items: center !important;
+				color: #000 !important;
+				text-align: center !important;
+				font-family: Poppins !important;
+				font-size: 16px !important;
+				font-style: normal !important;
+				font-weight: 600 !important;
+				line-height: 24px !important;
+				}
+
+				.rdp-button_next svg,
+				.rdp-button_previous svg {
+				width: 16px;
+				height: 16px;
+				fill: #000 !important;
+				stroke-width: 0.5 !important;
+				}
+
+		}   
     `}</style>
 	);
 
@@ -211,7 +249,8 @@ function CalendarShadCn_(
 					<button
 						type="button"
 						className="font-medium text-[12px] leading-[18px] align-middle text-[#414651] hover:underline "
-						onClick={onTodayClick}
+						onClick={handleTodayClick}
+
 					>
 						{labelToday}
 					</button>
@@ -221,7 +260,7 @@ function CalendarShadCn_(
 					<button
 						type="button"
 						className="font-medium text-[12px] leading-[18px] align-middle text-[#414651] hover:underline"
-						onClick={onWeekendClick}
+						onClick={handleWeekendClick}
 					>
 						{labelWeekend}
 					</button>
