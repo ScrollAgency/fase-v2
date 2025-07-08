@@ -112,6 +112,22 @@ function CalendarShadCn_(
 
 	const style = (
 		<style>{`
+
+
+.rdp {
+    width: 100% !important;
+  }
+
+  .rdp-table {
+    width: 100% !important;
+    table-layout: fixed !important;
+  }
+
+  .rdp-day {
+    width: 100% !important;
+  }
+
+
       .calendar-range-start, .calendar-range-end {
         background: ${selectedColor} !important;
         color: ${selectedTextColor} !important;
@@ -193,7 +209,7 @@ function CalendarShadCn_(
 	);
 
 	return (
-		<div ref={ref} className={className ?? "inline-block w-fit"}>
+		<div ref={ref} className={className ?? "inline-block w-full"}>
 			{style}
 			<DayPicker
 				mode="range"
@@ -204,6 +220,7 @@ function CalendarShadCn_(
 				fixedWeeks
 				animate
 				pagedNavigation
+				className="w-full"
 				locale={fr}
 				showOutsideDays={showOutsideDays}
 				disabled={{ before: new Date() }}
