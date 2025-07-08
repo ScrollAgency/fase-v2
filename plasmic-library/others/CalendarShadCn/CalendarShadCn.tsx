@@ -91,9 +91,9 @@ function CalendarShadCn_(
 
 	const modifiersClassNames = {
 		selected: "calendar-selected",
-		range_start: "calendar-range-start",
+		//range_start: "calendar-range-start",
 		range_end: "calendar-range-end",
-		range_middle: "calendar-range-middle",
+		//range_middle: "calendar-range-middle",
 		today: "calendar-today",
 		disabled: "calendar-disabled",
 	};
@@ -112,76 +112,37 @@ function CalendarShadCn_(
 
 	const style = (
 		<style>{`
+			.rdp-range_start .rdp-day_button{
+				background:#000 !important;
+			}
 
+			.rdp-range_start{
+				background: linear-gradient(90deg, transparent 50%, ${innerRangeBackgroundColor}  50%) !important;
+			}
 
-.rdp {
-    width: 100% !important;
-  }
+			.calendar-range-end .rdp-day_button{
+				background:#000 !important;
+				color:#fff;
+			}
 
-  .rdp-table {
-    width: 100% !important;
-    table-layout: fixed !important;
-  }
-
-  .rdp-day {
-    width: 100% !important;
-  }
-
-
-      .calendar-range-start, .calendar-range-end {
-        background: ${selectedColor} !important;
-        color: ${selectedTextColor} !important;
-        border-radius: 9999px !important;
-        z-index: 2 !important;
-        position: relative;
-      }
-      .calendar-range-start {
-        box-shadow: 20px 0px 0 10px ${innerRangeBackgroundColor} !important;
-      }
-      .calendar-range-end {
-        box-shadow: -20px 0px 0 10px ${innerRangeBackgroundColor} !important;
-      }
-      .calendar-range-start.calendar-range-end {
-        box-shadow: 0px 0px 0 0px ${innerRangeBackgroundColor} !important;
-      }
-      .calendar-today.calendar-selected {
-        color: #fff !important;
-      }
-      .calendar-range-middle {
-        background: ${
-					typeof innerRangeBackgroundColor === "string"
-						? innerRangeBackgroundColor
-						: rangeColor
-				} !important;
-        color: ${
+			.calendar-range-end {
+				background: linear-gradient(-90deg, transparent 50%, ${innerRangeBackgroundColor}  50%) !important;
+			}
+			.rdp-range_middle{
+			background:${innerRangeBackgroundColor} !important;
+			color: ${
 					typeof innerRangeTextColor === "string"
 						? innerRangeTextColor
 						: rangeTextColor
 				} !important;
-        border-radius: 0 !important;
-        z-index: 1 !important;
-        position: relative;
-      }
-      .calendar-selected {
-        background: ${selectedColor};
-        color: ${selectedTextColor};
-        border: 0px solid ${innerRangeBackgroundColor} !important;
-      }
-      .calendar-today {
+			}
+		    .calendar-selected.calendar-range-end.rdp-range_start {
+				background:linear-gradient(0deg, transparent 100%) !important;
+			}
+	  .calendar-today {
         border: 1.5px solid ${todayBorderColor} !important;
         color: ${todayTextColor} !important;
       }
-      .calendar-disabled {
-        color: ${disabledTextColor} !important;
-      }
-      .calendar-selected,
-      .calendar-range-start,
-      .calendar-range-end,
-      .calendar-range-middle {
-        border: none !important;
-        outline: none !important;
-      }
-
 	.rdp-caption_label{
 		align-items: center !important ;
 		color: #000 !important;
