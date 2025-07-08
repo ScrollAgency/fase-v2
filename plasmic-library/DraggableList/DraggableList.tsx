@@ -1,9 +1,9 @@
 import styles from "./DraggableList.module.css";
-import { ReactEventHandler, ReactNode, useState } from "react";
+import { ReactEventHandler, ReactNode, useEffect, useState } from "react";
 
 interface Item {
   id: number,
-  content: string
+  name: string
 }
 
 interface DraggableListProps {
@@ -64,6 +64,10 @@ function DraggableList(props: DraggableListProps) {
     props.onListChange(updatedItems)
   }
 
+  useEffect(() => {
+    setItems(props.listItems)
+  }, [props.listItems])
+
   return (
     <div className={ `${props.className}` }>
       { items.map((item, index) => (
@@ -86,7 +90,7 @@ function DraggableList(props: DraggableListProps) {
             { props.dragIconSlot }
           </div>
           <div className={ styles.itemText }>
-            { item.content }
+            { item.name }
           </div>
           <div
             className={styles.iconWrapper}

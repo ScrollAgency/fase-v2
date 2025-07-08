@@ -7,7 +7,7 @@ const DraggableListMeta = {
         listItems: {
             type: "array",
             required: true,
-            description: '[{"id": 1, "content": "text to displayed"},{...}]'
+            description: '[{"id": 1, "name": "text to displayed"},{...}]'
         },
         dragIconSlot: {
             type: 'slot',
