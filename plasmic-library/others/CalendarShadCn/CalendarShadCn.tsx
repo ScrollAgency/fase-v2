@@ -166,7 +166,7 @@ function CalendarShadCn_(
         outline: none !important;
       }
 
-	.rdp-month_caption{
+	.rdp-caption_label{
 		align-items: center !important ;
 		color: #000 !important;
 		text-align: center !important;
@@ -177,10 +177,14 @@ function CalendarShadCn_(
 		line-height: 24px !important;
 	}
 	 .rdp-button_next svg{
+	    width:16px;
+		height:16px;
 		fill : #000 !important;
 		stroke-width: 0.5 !important;
 	 }
 		.rdp-button_previous svg{
+		 width:16px;
+		 height:16px;
 		fill : #000 !important;
 		stroke-width: 0.5 !important;
 	 }
@@ -215,7 +219,7 @@ function CalendarShadCn_(
 				{showTodayButton && (
 					<button
 						type="button"
-						className="text-gray-500 hover:underline"
+						className="font-medium text-[12px] leading-[18px] align-middle text-[#414651] hover:underline "
 						onClick={onTodayClick}
 					>
 						{labelToday}
@@ -225,7 +229,7 @@ function CalendarShadCn_(
 				{showWeekendButton && (
 					<button
 						type="button"
-						className="text-gray-500 hover:underline"
+						className="font-medium text-[12px] leading-[18px] align-middle text-[#414651] hover:underline"
 						onClick={onWeekendClick}
 					>
 						{labelWeekend}
