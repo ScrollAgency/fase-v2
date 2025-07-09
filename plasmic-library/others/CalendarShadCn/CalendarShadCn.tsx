@@ -109,40 +109,40 @@ function CalendarShadCn_(
 			onDateChange?.(null);
 		}
 	}
-function handleTodayClick() {
-	const today = new Date();
-	const range = { from: today, to: today };
-	setSelectedRange(range);
-	onDateChange?.({
-		start: today.toISOString().split("T")[0],
-		end: today.toISOString().split("T")[0],
-	});
-}
-
-function handleWeekendClick() {
-	const today = new Date();
-	const day = today.getDay(); // 0 (dimanche) à 6 (samedi)
-	const saturday = new Date(today);
-	const sunday = new Date(today);
-
-	if (day === 6) {
-		// aujourd’hui samedi
-		sunday.setDate(today.getDate() + 1);
-	} else if (day === 0) {
-		// aujourd’hui dimanche
-		saturday.setDate(today.getDate() - 1);
-	} else {
-		saturday.setDate(today.getDate() + (6 - day));
-		sunday.setDate(today.getDate() + (7 - day));
+	function handleTodayClick() {
+		const today = new Date();
+		const range = { from: today, to: today };
+		setSelectedRange(range);
+		onDateChange?.({
+			start: today.toISOString().split("T")[0],
+			end: today.toISOString().split("T")[0],
+		});
 	}
 
-	const range = { from: saturday, to: sunday };
-	setSelectedRange(range);
-	onDateChange?.({
-		start: saturday.toISOString().split("T")[0],
-		end: sunday.toISOString().split("T")[0],
-	});
-}
+	function handleWeekendClick() {
+		const today = new Date();
+		const day = today.getDay(); // 0 (dimanche) à 6 (samedi)
+		const saturday = new Date(today);
+		const sunday = new Date(today);
+
+		if (day === 6) {
+			// aujourd’hui samedi
+			sunday.setDate(today.getDate() + 1);
+		} else if (day === 0) {
+			// aujourd’hui dimanche
+			saturday.setDate(today.getDate() - 1);
+		} else {
+			saturday.setDate(today.getDate() + (6 - day));
+			sunday.setDate(today.getDate() + (7 - day));
+		}
+
+		const range = { from: saturday, to: sunday };
+		setSelectedRange(range);
+		onDateChange?.({
+			start: saturday.toISOString().split("T")[0],
+			end: sunday.toISOString().split("T")[0],
+		});
+	}
 
 	const style = (
 		<style>{`
@@ -156,7 +156,7 @@ function handleWeekendClick() {
 
 				.rdp-day_button {
 				font-size: 16px !important;
-				  padding: 20px;
+				  padding: 27px;
 				}
 
 				.rdp-range_start {
@@ -181,8 +181,8 @@ function handleWeekendClick() {
 				background: ${innerRangeBackgroundColor} !important;
 				color: ${
 					typeof innerRangeTextColor === "string"
-					? innerRangeTextColor
-					: rangeTextColor
+						? innerRangeTextColor
+						: rangeTextColor
 				} !important;
 				}
 
@@ -250,7 +250,6 @@ function handleWeekendClick() {
 						type="button"
 						className="font-medium text-[12px] leading-[18px] align-middle text-[#414651] hover:underline "
 						onClick={handleTodayClick}
-
 					>
 						{labelToday}
 					</button>
